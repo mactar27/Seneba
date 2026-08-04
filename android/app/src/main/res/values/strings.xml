@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">Seneba</string>
+    <string name="title_activity_main">Seneba</string>
+    <string name="package_name">com.seneba.app</string>
+    <string name="custom_url_scheme">com.seneba.app</string>
+</resources>
