@@ -15,15 +15,15 @@ const ClientMap = dynamic(() => import("@/components/client/client-map").then(mo
 
 // --- Premium Vehicle SVGs ---
 function StandardCarSVG() {
-  return <img src="/images/real_vehicle.png" alt="Standard" className="w-20 h-10 object-contain" />
+  return <img src="https://www.pngall.com/wp-content/uploads/12/Hyundai-Tucson-PNG-Clipart.png" alt="Standard" className="w-20 h-10 object-contain" />
 }
 
 function ConfortCarSVG() {
-  return <img src="/images/vtc_illustration.png" alt="Confort" className="w-20 h-10 object-contain" />
+  return <img src="https://www.pngall.com/wp-content/uploads/2016/07/Mercedes-Benz-PNG-Image.png" alt="Confort" className="w-20 h-10 object-contain" />
 }
 
 function InterurbainVanSVG() {
-  return <img src="/images/real_vehicle.png" alt="Interurbain" className="w-20 h-10 object-contain grayscale" />
+  return <img src="https://www.pngall.com/wp-content/uploads/12/Van-PNG-HD-Image.png" alt="Interurbain" className="w-20 h-10 object-contain" />
 }
 
 export default function BookRidePage() {
