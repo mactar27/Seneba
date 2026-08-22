@@ -590,7 +590,13 @@ export default function BookRidePage() {
                       : "bg-white text-slate-600 border-slate-150 hover:bg-slate-50"
                   }`}
                 >
-                  <span>💵</span> Cash
+                  <svg viewBox="0 0 24 24" className="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                    <rect x="2" y="5" width="20" height="14" rx="2" />
+                    <line x1="2" y1="10" x2="22" y2="10" />
+                    <circle cx="7" cy="15" r="1" />
+                    <circle cx="17" cy="15" r="1" />
+                  </svg>
+                  Cash
                 </button>
 
                 {/* Wave */}
@@ -602,7 +608,14 @@ export default function BookRidePage() {
                       : "bg-white text-slate-600 border-slate-150 hover:bg-slate-50"
                   }`}
                 >
-                  <span>🐦</span> Wave
+                  <svg viewBox="0 0 24 24" className="w-6 h-6 flex-shrink-0">
+                    <circle cx="12" cy="12" r="11" fill="#1CC6FF" />
+                    <path d="M12 4C9 4 7 7 7 11c0 3.5 2.5 6 5 8 2.5-2 5-4.5 5-8 0-4-2-7-5-7z" fill="white" />
+                    <path d="M12 4C9.5 4 8 6.5 8 10c0 2.5 1.5 4 4 6 2.5-2 4-3.5 4-6 0-3.5-1.5-6-4-6z" fill="#004488" />
+                    <ellipse cx="12" cy="11" rx="2.5" ry="3.5" fill="white" />
+                    <polygon points="12,9 13.5,8 12,7.5" fill="#FF9900" />
+                  </svg>
+                  Wave
                 </button>
 
                 {/* Orange Money */}
@@ -614,7 +627,11 @@ export default function BookRidePage() {
                       : "bg-white text-slate-600 border-slate-150 hover:bg-slate-50"
                   }`}
                 >
-                  <span>🍊</span> Orange
+                  <svg viewBox="0 0 24 24" className="w-5 h-5 flex-shrink-0">
+                    <rect width="24" height="24" rx="4" fill="#FF6600" />
+                    <text x="3" y="15" fill="white" fontSize="6" fontWeight="bold" fontFamily="sans-serif">orange</text>
+                  </svg>
+                  Orange
                 </button>
               </div>
 
