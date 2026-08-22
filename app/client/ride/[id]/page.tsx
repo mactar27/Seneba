@@ -315,12 +315,13 @@ export default function RideTrackingPage({ params }: { params: Promise<{ id: str
         </div>
       </div>
 
-      <RatingModal
-        isOpen={showRating}
-        onClose={() => setShowRating(false)}
-        onSubmit={handleRatingSubmit}
-        driverName={ride.driver?.full_name || "Votre chauffeur"}
-      />
+      {showRating && (
+        <RatingModal
+          onClose={() => setShowRating(false)}
+          onSubmit={handleRatingSubmit}
+          driverName={ride.driver?.full_name || "Votre chauffeur"}
+        />
+      )}
     </div>
   )
 }

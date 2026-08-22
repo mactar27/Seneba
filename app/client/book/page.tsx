@@ -92,6 +92,11 @@ export default function BookRidePage() {
     setIsMapMode(true)
   }
 
+  const openBooking = (dest: string = "") => {
+    if (dest) setDestination(dest)
+    setIsMapMode(true)
+  }
+
   const handleBookRide = async () => {
     if (!client || !pickup || !destination) return
     setIsBooking(true)
