@@ -17,11 +17,11 @@ const ClientMap = dynamic(() => import("@/components/client/client-map").then(mo
 function StandardCarSVG() {
   return (
     <svg viewBox="0 0 100 40" className="w-20 h-10 object-contain">
-      <path d="M5 25 L10 18 L25 16 L38 8 L68 8 L80 16 L92 18 L95 25 L92 28 L85 28 C85 23, 75 23, 75 28 L25 28 C25 23, 15 23, 15 28 L5 28 Z" fill="#E2E8F0" stroke="#94A3B8" strokeWidth="1.5" />
-      <circle cx="20" cy="28" r="5" fill="#1E293B" stroke="#F8FAFC" strokeWidth="1.5" />
-      <circle cx="80" cy="28" r="5" fill="#1E293B" stroke="#F8FAFC" strokeWidth="1.5" />
-      <path d="M30 16 L42 10 L50 10 L50 16 Z" fill="#475569" />
-      <path d="M53 16 L53 10 L64 10 L72 16 Z" fill="#475569" />
+      <path d="M5 25 L10 18 L25 16 L38 8 L68 8 L80 16 L92 18 L95 25 L92 28 L85 28 C85 23, 75 23, 75 28 L25 28 C25 23, 15 23, 15 28 L5 28 Z" fill="#D1D5DB" stroke="#9CA3AF" strokeWidth="1.5" />
+      <circle cx="20" cy="28" r="5" fill="#111827" stroke="#F9FAFB" strokeWidth="1.5" />
+      <circle cx="80" cy="28" r="5" fill="#111827" stroke="#F9FAFB" strokeWidth="1.5" />
+      <path d="M30 16 L42 10 L50 10 L50 16 Z" fill="#374151" />
+      <path d="M53 16 L53 10 L64 10 L72 16 Z" fill="#374151" />
     </svg>
   )
 }
@@ -29,11 +29,11 @@ function StandardCarSVG() {
 function ConfortCarSVG() {
   return (
     <svg viewBox="0 0 100 40" className="w-20 h-10 object-contain">
-      <path d="M5 25 L10 18 L25 16 L38 8 L68 8 L80 16 L92 18 L95 25 L92 28 L85 28 C85 23, 75 23, 75 28 L25 28 C25 23, 15 23, 15 28 L5 28 Z" fill="#1E293B" stroke="#0F172A" strokeWidth="1.5" />
-      <circle cx="20" cy="28" r="5" fill="#334155" stroke="#F8FAFC" strokeWidth="1.5" />
-      <circle cx="80" cy="28" r="5" fill="#334155" stroke="#F8FAFC" strokeWidth="1.5" />
-      <path d="M30 16 L42 10 L50 10 L50 16 Z" fill="#94A3B8" />
-      <path d="M53 16 L53 10 L64 10 L72 16 Z" fill="#94A3B8" />
+      <path d="M5 25 L10 18 L25 16 L38 8 L68 8 L80 16 L92 18 L95 25 L92 28 L85 28 C85 23, 75 23, 75 28 L25 28 C25 23, 15 23, 15 28 L5 28 Z" fill="#1F2937" stroke="#111827" strokeWidth="1.5" />
+      <circle cx="20" cy="28" r="5" fill="#374151" stroke="#F9FAFB" strokeWidth="1.5" />
+      <circle cx="80" cy="28" r="5" fill="#374151" stroke="#F9FAFB" strokeWidth="1.5" />
+      <path d="M30 16 L42 10 L50 10 L50 16 Z" fill="#9CA3AF" />
+      <path d="M53 16 L53 10 L64 10 L72 16 Z" fill="#9CA3AF" />
     </svg>
   )
 }
@@ -41,13 +41,13 @@ function ConfortCarSVG() {
 function InterurbainVanSVG() {
   return (
     <svg viewBox="0 0 100 40" className="w-20 h-10 object-contain">
-      <path d="M5 28 L5 12 L20 8 L85 8 L95 18 L95 28 L85 28 C85 23, 75 23, 75 28 L25 28 C25 23, 15 23, 15 28 Z" fill="#F1F5F9" stroke="#CBD5E1" strokeWidth="1.5" />
-      <circle cx="20" cy="28" r="5" fill="#1E293B" stroke="#F8FAFC" strokeWidth="1.5" />
-      <circle cx="80" cy="28" r="5" fill="#1E293B" stroke="#F8FAFC" strokeWidth="1.5" />
-      <path d="M10 12 L20 12 L20 16 L10 16 Z" fill="#475569" />
-      <path d="M24 12 L45 12 L45 16 L24 16 Z" fill="#475569" />
-      <path d="M49 12 L70 12 L70 16 L49 16 Z" fill="#475569" />
-      <path d="M74 12 L88 12 L88 16 L74 16 Z" fill="#475569" />
+      <path d="M5 28 L5 12 L20 8 L85 8 L95 18 L95 28 L85 28 C85 23, 75 23, 75 28 L25 28 C25 23, 15 23, 15 28 Z" fill="#F3F4F6" stroke="#D1D5DB" strokeWidth="1.5" />
+      <circle cx="20" cy="28" r="5" fill="#111827" stroke="#F9FAFB" strokeWidth="1.5" />
+      <circle cx="80" cy="28" r="5" fill="#111827" stroke="#F9FAFB" strokeWidth="1.5" />
+      <path d="M10 12 L20 12 L20 16 L10 16 Z" fill="#374151" />
+      <path d="M24 12 L45 12 L45 16 L24 16 Z" fill="#374151" />
+      <path d="M49 12 L70 12 L70 16 L49 16 Z" fill="#374151" />
+      <path d="M74 12 L88 12 L88 16 L74 16 Z" fill="#374151" />
     </svg>
   )
 }
@@ -160,18 +160,18 @@ export default function BookRidePage() {
     )
   }
 
-  // --- Common Sidebar Component ---
+  // --- Common Sidebar Component (Screen 8) ---
   const SidebarContent = () => (
-    <div className="flex flex-col h-full pointer-events-auto">
+    <div className="flex flex-col h-full pointer-events-auto bg-white">
       <div className="p-6 border-b border-slate-50 flex items-center justify-between">
         <div className="flex items-center gap-2">
-          <img src="/images/seneba.png" alt="Seneba" className="h-7 object-contain" />
+          <img src="/images/seneba.png" alt="Seneba" className="h-8 object-contain" />
         </div>
-        <span className="text-[10px] font-black text-[#0066CC] bg-blue-50 px-2 py-0.5 rounded-full uppercase tracking-wider">Partenaire</span>
+        <span className="text-[10px] font-black text-slate-400">Partenaire</span>
       </div>
       <nav className="flex-1 px-4 py-4 space-y-1">
         <button onClick={() => { setIsMapMode(false); setIsSearchMode(false) }} className="w-full flex items-center gap-3.5 px-4.5 py-3 rounded-2xl bg-blue-50/50 text-[#0066CC] font-bold text-sm text-left">
-          <Compass className="w-5 h-5" /> Accueil
+          <Compass className="w-5 h-5 text-[#0066CC]" /> Accueil
         </button>
         <button onClick={() => openBooking()} className="w-full flex items-center gap-3.5 px-4.5 py-3 rounded-2xl text-slate-700 hover:bg-slate-50 font-bold text-sm text-left">
           <Car className="w-5 h-5 text-slate-400" /> Courses
@@ -195,8 +195,9 @@ export default function BookRidePage() {
         <button onClick={() => handleSoon("Promotions")} className="w-full flex items-center gap-3.5 px-4.5 py-3 rounded-2xl text-slate-700 hover:bg-slate-50 font-semibold text-sm text-left">
           <Tag className="w-5 h-5 text-slate-400" /> Promotions
         </button>
-        <button onClick={() => handleSoon("Notifications")} className="w-full flex items-center gap-3.5 px-4.5 py-3 rounded-2xl text-slate-700 hover:bg-slate-50 font-semibold text-sm text-left">
+        <button onClick={() => handleSoon("Notifications")} className="w-full flex items-center gap-3.5 px-4.5 py-3 rounded-2xl text-slate-700 hover:bg-slate-50 font-semibold text-sm text-left relative">
           <Bell className="w-5 h-5 text-slate-400" /> Notifications
+          <span className="absolute right-4 w-2.5 h-2.5 bg-blue-600 rounded-full" />
         </button>
         <Link href="/client/profile" className="w-full flex items-center gap-3.5 px-4.5 py-3 rounded-2xl text-slate-700 hover:bg-slate-50 font-semibold text-sm text-left">
           <Settings className="w-5 h-5 text-slate-400" /> Paramètres
@@ -205,7 +206,7 @@ export default function BookRidePage() {
           <HelpCircle className="w-5 h-5 text-slate-400" /> Aide & support
         </button>
       </nav>
-      <div className="p-6 border-t border-slate-50">
+      <div className="p-6 border-t border-slate-50 bg-white">
         <span className="text-xs text-slate-400 font-semibold">Version 1.0.0</span>
       </div>
     </div>
@@ -335,36 +336,36 @@ export default function BookRidePage() {
       {/* ─── STATE 1: HUB VIEW (HOME / SUPER APP) ─── */}
       {!isMapMode && !isSearchMode && (
         <main className="flex-1 px-5 pt-4 pb-20 animate-in fade-in duration-200">
-          {/* Header */}
-          <header className="flex items-center justify-between py-3 mb-6">
-            <div className="flex items-center gap-2">
-              <img src="/images/seneba.png" alt="Seneba" className="h-8 object-contain" />
-            </div>
-            <div className="flex items-center gap-3">
-              <button onClick={() => handleSoon("Notifications")} className="relative w-11 h-11 flex items-center justify-center rounded-full bg-white shadow-sm text-slate-700 hover:bg-slate-50 transition-colors">
-                <Bell className="w-5 h-5" />
-                <span className="absolute top-2.5 right-2.5 w-2 h-2 bg-[#0066CC] rounded-full" />
-              </button>
-              
-              <Sheet>
+          
+          {/* Header (No circular boxes around icons, matching Screen 1 header) */}
+          <Sheet>
+            <header className="flex items-center justify-between py-3 mb-6">
+              <div className="flex items-center gap-2">
+                <img src="/images/seneba.png" alt="Seneba" className="h-8 object-contain" />
+              </div>
+              <div className="flex items-center gap-4 text-slate-700">
+                <button onClick={() => handleSoon("Notifications")} className="relative active:scale-95 transition-transform">
+                  <Bell className="w-6 h-6" />
+                  <span className="absolute top-0.5 right-0.5 w-2 h-2 bg-blue-600 rounded-full" />
+                </button>
                 <SheetTrigger asChild>
-                  <button className="w-11 h-11 flex items-center justify-center rounded-full bg-white shadow-sm text-slate-700 hover:bg-slate-50 transition-colors">
-                    <Menu className="w-5 h-5" />
+                  <button className="active:scale-95 transition-transform">
+                    <Menu className="w-6 h-6" />
                   </button>
                 </SheetTrigger>
-                <SheetContent side="left" className="w-80 pointer-events-auto p-0 z-[200]">
-                  <SidebarContent />
-                </SheetContent>
-              </Sheet>
-            </div>
-          </header>
+              </div>
+            </header>
+            <SheetContent side="left" className="w-80 pointer-events-auto p-0 z-[200]">
+              <SidebarContent />
+            </SheetContent>
+          </Sheet>
 
           {/* Greet & Title */}
           <div className="mb-6">
-            <h2 className="text-2xl font-black text-slate-900 tracking-tight flex items-center gap-2">
+            <h2 className="text-xl font-semibold text-slate-900 flex items-center gap-2">
               Bonjour {client?.full_name?.split(" ")[0] || "Client"} 👋
             </h2>
-            <p className="text-slate-500 font-medium text-base mt-1">Où allez-vous aujourd'hui ?</p>
+            <h1 className="text-2xl font-black text-slate-900 tracking-tight mt-1">Où allez-vous aujourd'hui ?</h1>
           </div>
 
           {/* Rapid Address Card */}
@@ -373,13 +374,13 @@ export default function BookRidePage() {
               {/* Pickup Input representation */}
               <div className="flex items-center justify-between pb-3 border-b border-slate-50">
                 <div className="flex items-center gap-3.5">
-                  <div className="w-5 h-5 rounded-full bg-blue-50 flex items-center justify-center">
-                    <div className="w-2.5 h-2.5 rounded-full bg-[#0066CC]" />
+                  <div className="w-4 h-4 rounded-full bg-blue-600 flex items-center justify-center">
+                    <div className="w-1.5 h-1.5 rounded-full bg-white" />
                   </div>
                   <span className="font-bold text-slate-800 text-sm">{pickup}</span>
                 </div>
-                <button className="w-8 h-8 rounded-full bg-slate-50 flex items-center justify-center text-[#0066CC]">
-                  <Compass className="w-4 h-4" />
+                <button className="text-[#0066CC] hover:opacity-80">
+                  <Compass className="w-5 h-5" />
                 </button>
               </div>
 
@@ -388,9 +389,7 @@ export default function BookRidePage() {
                 onClick={openSearch}
                 className="flex items-center gap-3.5 pt-1 cursor-pointer hover:opacity-80"
               >
-                <div className="w-5 h-5 rounded-full bg-orange-50 flex items-center justify-center">
-                  <MapPin className="w-4 h-4 text-orange-500" />
-                </div>
+                <div className="w-4 h-4 rounded-full bg-orange-500 flex items-center justify-center" />
                 <span className="text-slate-400 font-medium text-sm">Où allez-vous ?</span>
               </div>
             </div>
@@ -401,7 +400,7 @@ export default function BookRidePage() {
             {/* Courses - Selected/Active */}
             <button 
               onClick={() => openBooking()}
-              className="flex-shrink-0 bg-gradient-to-b from-[#E6F0FF] to-blue-50/50 border border-blue-200/50 rounded-2xl p-4 flex flex-col items-center justify-center gap-2 w-24 aspect-square active:scale-95 transition-transform"
+              className="flex-shrink-0 bg-blue-50/50 border-2 border-blue-600/30 rounded-2xl p-4 flex flex-col items-center justify-center gap-2 w-24 aspect-square active:scale-95 transition-transform"
             >
               <Car className="w-7 h-7 text-[#0066CC]" />
               <span className="font-black text-slate-800 text-[11px]">Courses</span>
@@ -512,24 +511,24 @@ export default function BookRidePage() {
       {/* ─── STATE 2: MAP BOOKING VIEW (ACTIVE) ─── */}
       {isMapMode && !isSearchMode && (
         <div className="absolute inset-0 z-40 bg-white animate-in slide-in-from-right duration-300 flex flex-col">
-          {/* Floating Header */}
+          {/* Floating Header (Clean round buttons, matching Screen 2) */}
           <header className="absolute top-4 left-0 right-0 z-50 flex items-center justify-between px-4 pointer-events-none">
             <button 
               onClick={() => setIsMapMode(false)} 
-              className="w-11 h-11 bg-white rounded-full flex items-center justify-center shadow-lg border border-slate-100 pointer-events-auto active:scale-90 transition-transform"
+              className="w-11 h-11 bg-white rounded-full flex items-center justify-center shadow-lg border border-slate-100 pointer-events-auto active:scale-90 transition-transform text-slate-800"
             >
-              <ChevronRight className="w-6 h-6 text-slate-900 rotate-180" />
+              <ChevronLeft className="w-6 h-6" />
             </button>
-            <div className="flex items-center gap-2 bg-white px-5 py-2.5 rounded-full shadow-lg pointer-events-auto">
-              <img src="/images/seneba.png" alt="Seneba" className="h-6 object-contain" />
-            </div>
-            <button 
-              onClick={() => handleSoon("Notifications")} 
-              className="w-11 h-11 bg-white rounded-full flex items-center justify-center shadow-lg border border-slate-100 pointer-events-auto relative active:scale-90 transition-transform"
-            >
-              <Bell className="w-5 h-5 text-slate-700" />
-              <span className="absolute top-2.5 right-2.5 w-2 h-2 bg-[#0066CC] rounded-full" />
-            </button>
+            <Sheet>
+              <SheetTrigger asChild>
+                <button className="w-11 h-11 bg-white rounded-full flex items-center justify-center shadow-lg border border-slate-100 pointer-events-auto active:scale-90 transition-transform text-slate-800">
+                  <Menu className="w-5 h-5" />
+                </button>
+              </SheetTrigger>
+              <SheetContent side="left" className="w-80 pointer-events-auto p-0 z-[200]">
+                <SidebarContent />
+              </SheetContent>
+            </Sheet>
           </header>
           
           {/* Full Screen Map */}
@@ -540,7 +539,7 @@ export default function BookRidePage() {
           {/* Floating Current Location Info */}
           <div className="absolute top-[42vh] left-0 right-0 z-10 flex justify-center pointer-events-none">
             <div className="bg-white/95 backdrop-blur-md px-4 py-2 rounded-full shadow-md border border-slate-100 flex items-center gap-2 pointer-events-auto">
-              <Compass className="w-4 h-4 text-[#0066CC] animate-spin-slow" />
+              <Compass className="w-4 h-4 text-[#0066CC]" />
               <span className="text-xs font-bold text-slate-800">Ma position actuelle</span>
             </div>
           </div>
@@ -564,22 +563,24 @@ export default function BookRidePage() {
 
             <div className="px-5 pb-6 pt-1 flex-1 flex flex-col">
               {/* Double Address Input Card */}
-              <div className="bg-[#F8FAFC] rounded-3xl p-4 border border-slate-100 mb-4 relative">
+              <div className="bg-white rounded-3xl p-4 border border-slate-100 shadow-sm mb-4 relative">
                 <div className="flex flex-col gap-3 relative">
                   
                   {/* Start Point */}
-                  <div className="flex items-center gap-3">
-                    <div className="w-4 h-4 rounded-full bg-blue-50 flex items-center justify-center flex-shrink-0">
-                      <div className="w-2.5 h-2.5 rounded-full bg-[#0066CC]" />
+                  <div className="flex items-center gap-3 justify-between">
+                    <div className="flex items-center gap-3 flex-1">
+                      <div className="w-4 h-4 rounded-full bg-blue-600 flex items-center justify-center flex-shrink-0">
+                        <div className="w-1.5 h-1.5 rounded-full bg-white" />
+                      </div>
+                      <input 
+                        type="text" 
+                        value={pickup}
+                        onChange={(e) => setPickup(e.target.value)}
+                        className="flex-1 bg-transparent border-none outline-none text-slate-800 font-bold text-sm"
+                        placeholder="Lieu de départ"
+                      />
                     </div>
-                    <input 
-                      type="text" 
-                      value={pickup}
-                      onChange={(e) => setPickup(e.target.value)}
-                      className="flex-1 bg-transparent border-none outline-none text-slate-800 font-bold text-sm"
-                      placeholder="Lieu de départ"
-                    />
-                    <Compass className="w-4 h-4 text-slate-400 flex-shrink-0" />
+                    <Compass className="w-4 h-4 text-blue-600 flex-shrink-0 cursor-pointer" />
                   </div>
 
                   {/* Vertical dotted connector line */}
@@ -587,9 +588,7 @@ export default function BookRidePage() {
 
                   {/* Destination */}
                   <div className="flex items-center gap-3 pt-1">
-                    <div className="w-4 h-4 rounded-full bg-orange-50 flex items-center justify-center flex-shrink-0">
-                      <MapPin className="w-3.5 h-3.5 text-orange-500" />
-                    </div>
+                    <div className="w-4 h-4 rounded-full bg-orange-500 flex items-center justify-center flex-shrink-0" />
                     <input 
                       type="text" 
                       value={destination}
@@ -604,7 +603,7 @@ export default function BookRidePage() {
 
               {/* Service Categories Options */}
               <div className="flex items-center justify-between mb-2">
-                <span className="text-xs font-black text-slate-900">Type de course</span>
+                <span className="text-xs font-black text-slate-900 uppercase tracking-wider">Type de course</span>
                 <button onClick={() => handleSoon("Types")} className="text-[11px] font-black text-[#0066CC] hover:underline">Voir tout</button>
               </div>
 
@@ -660,7 +659,7 @@ export default function BookRidePage() {
 
               {/* Payment Methods buttons */}
               <div className="mb-2">
-                <span className="text-xs font-black text-slate-900">Méthode de paiement</span>
+                <span className="text-xs font-black text-slate-900 uppercase tracking-wider">Méthode de paiement</span>
               </div>
               <div className="grid grid-cols-3 gap-2 mb-5">
                 {/* Cash */}
@@ -684,7 +683,7 @@ export default function BookRidePage() {
                       : "bg-white text-slate-600 border-slate-150 hover:bg-slate-50"
                   }`}
                 >
-                  <span>🐧</span> Wave
+                  <span>🐦</span> Wave
                 </button>
 
                 {/* Orange Money */}
