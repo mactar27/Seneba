@@ -469,8 +469,8 @@ export default function BookRidePage() {
           </div>
 
           {/* Bottom Banner */}
-          <div className="w-full mt-2 mb-4 active:scale-95 transition-transform cursor-pointer" onClick={() => handleSoon("Infos de sécurité")}>
-            <img src="/images/real_vehicle.png" alt="SUV" className="w-full h-auto object-cover rounded-3xl" />
+          <div className="w-screen -mx-5 mt-4 active:scale-95 transition-transform cursor-pointer" onClick={() => handleSoon("Infos de sécurité")}>
+            <img src="/images/real_vehicle.png" alt="SUV" className="w-full h-auto object-cover" />
           </div>
         </main>
       )}
