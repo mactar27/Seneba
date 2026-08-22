@@ -90,7 +90,7 @@ export default function RideTrackingPage({ params }: { params: Promise<{ id: str
 
     // Pusher: subscribe to real-time ride events
     const pusher = getPusherClient()
-    let channel: ReturnType<typeof pusher.subscribe> | null = null
+    let channel: any = null
 
     if (pusher) {
       channel = pusher.subscribe(`ride-${id}`)

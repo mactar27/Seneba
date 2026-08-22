@@ -4,16 +4,53 @@ import { getClientProfile, createRide } from "@/lib/actions/client"
 import { useEffect, useState, useCallback } from "react"
 import { useRouter } from "next/navigation"
 import { Button } from "@/components/ui/button"
-import { SenebaLogoIcon } from "@/components/seneba-logo"
 import type { Client } from "@/lib/types"
 import dynamic from "next/dynamic"
-import { BottomNavClient } from "@/components/client/bottom-nav"
-import { Menu, MapPin, Car, CarFront, Building2, Trees, Waves, Bus, Navigation, Package, Utensils, Truck, Shield, ChevronRight, Briefcase, Plane } from "lucide-react"
+import { Menu, MapPin, Car, CarFront, Building2, Utensils, Navigation, Package, Truck, Shield, ChevronRight, Briefcase, Plane, Bell, Star, ArrowRight, Compass } from "lucide-react"
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet"
 import Link from "next/link"
-import { motion } from "framer-motion"
+import { motion, AnimatePresence } from "framer-motion"
 
 const ClientMap = dynamic(() => import("@/components/client/client-map").then(mod => mod.ClientMap), { ssr: false })
+
+// --- Premium Vehicle SVGs ---
+function StandardCarSVG() {
+  return (
+    <svg viewBox="0 0 100 40" className="w-20 h-10 object-contain">
+      <path d="M5 25 L10 18 L25 16 L38 8 L68 8 L80 16 L92 18 L95 25 L92 28 L85 28 C85 23, 75 23, 75 28 L25 28 C25 23, 15 23, 15 28 L5 28 Z" fill="#E2E8F0" stroke="#94A3B8" strokeWidth="1.5" />
+      <circle cx="20" cy="28" r="5" fill="#1E293B" stroke="#F8FAFC" strokeWidth="1.5" />
+      <circle cx="80" cy="28" r="5" fill="#1E293B" stroke="#F8FAFC" strokeWidth="1.5" />
+      <path d="M30 16 L42 10 L50 10 L50 16 Z" fill="#475569" />
+      <path d="M53 16 L53 10 L64 10 L72 16 Z" fill="#475569" />
+    </svg>
+  )
+}
+
+function ConfortCarSVG() {
+  return (
+    <svg viewBox="0 0 100 40" className="w-20 h-10 object-contain">
+      <path d="M5 25 L10 18 L25 16 L38 8 L68 8 L80 16 L92 18 L95 25 L92 28 L85 28 C85 23, 75 23, 75 28 L25 28 C25 23, 15 23, 15 28 L5 28 Z" fill="#1E293B" stroke="#0F172A" strokeWidth="1.5" />
+      <circle cx="20" cy="28" r="5" fill="#334155" stroke="#F8FAFC" strokeWidth="1.5" />
+      <circle cx="80" cy="28" r="5" fill="#334155" stroke="#F8FAFC" strokeWidth="1.5" />
+      <path d="M30 16 L42 10 L50 10 L50 16 Z" fill="#94A3B8" />
+      <path d="M53 16 L53 10 L64 10 L72 16 Z" fill="#94A3B8" />
+    </svg>
+  )
+}
+
+function InterurbainVanSVG() {
+  return (
+    <svg viewBox="0 0 100 40" className="w-20 h-10 object-contain">
+      <path d="M5 28 L5 12 L20 8 L85 8 L95 18 L95 28 L85 28 C85 23, 75 23, 75 28 L25 28 C25 23, 15 23, 15 28 Z" fill="#F1F5F9" stroke="#CBD5E1" strokeWidth="1.5" />
+      <circle cx="20" cy="28" r="5" fill="#1E293B" stroke="#F8FAFC" strokeWidth="1.5" />
+      <circle cx="80" cy="28" r="5" fill="#1E293B" stroke="#F8FAFC" strokeWidth="1.5" />
+      <path d="M10 12 L20 12 L20 16 L10 16 Z" fill="#475569" />
+      <path d="M24 12 L45 12 L45 16 L24 16 Z" fill="#475569" />
+      <path d="M49 12 L70 12 L70 16 L49 16 Z" fill="#475569" />
+      <path d="M74 12 L88 12 L88 16 L74 16 Z" fill="#475569" />
+    </svg>
+  )
+}
 
 export default function BookRidePage() {
   const router = useRouter()
@@ -22,13 +59,11 @@ export default function BookRidePage() {
   
   // UI State
   const [isMapMode, setIsMapMode] = useState(false)
-  const [showPickupSheet, setShowPickupSheet] = useState(false)
   const [pickup, setPickup] = useState("Ma position actuelle")
   const [destination, setDestination] = useState("")
   const [isBooking, setIsBooking] = useState(false)
   const [selectedService, setSelectedService] = useState<"standard" | "confort" | "interurbain">("standard")
   const [paymentMethod, setPaymentMethod] = useState<"cash" | "wave" | "orange_money">("cash")
-  const [panelY, setPanelY] = useState(0)
 
   const loadClient = useCallback(async () => {
     const clientData = await getClientProfile()
@@ -108,327 +143,440 @@ export default function BookRidePage() {
 
   if (loading) {
     return (
-      <div className="flex min-h-svh flex-col bg-white relative">
-        <div className="flex-1 flex items-center justify-center">
-          <div className="h-8 w-8 animate-spin rounded-full border-4 border-[#0066CC] border-t-transparent" />
-        </div>
-        <BottomNavClient active="book" />
+      <div className="flex min-h-svh items-center justify-center bg-white">
+        <div className="h-8 w-8 animate-spin rounded-full border-4 border-[#0066CC] border-t-transparent" />
       </div>
     )
   }
 
   return (
-    <div className="flex min-h-svh flex-col relative bg-white pb-24">
-      {/* ─── APP HEADER ─── */}
-      <header className="flex items-center justify-between px-4 py-4 safe-area-top sticky top-0 z-30 bg-white">
-        <div className="flex items-center gap-2">
-          <SenebaLogoIcon className="h-6 w-auto" />
-          <button onClick={() => setShowPickupSheet(true)} className="flex items-center gap-1 text-slate-800 hover:text-[#0066CC] transition-colors ml-2 group">
-            <Navigation className="w-3.5 h-3.5 text-[#0066CC] flex-shrink-0" />
-            <span className="font-bold text-[15px] max-w-[150px] truncate group-hover:text-[#0066CC] transition-colors">{pickup}</span>
-            <ChevronRight className="w-4 h-4 text-slate-400" />
-          </button>
-        </div>
-
-        <Sheet>
-          <SheetTrigger asChild>
-            <button className="w-10 h-10 flex items-center justify-center rounded-full bg-slate-50 hover:bg-slate-100 transition-colors">
-              <Menu className="h-5 w-5 text-slate-700" />
-            </button>
-          </SheetTrigger>
-          <SheetContent side="left" className="w-80 pointer-events-auto z-[200]">
-            <SheetHeader>
-              <SheetTitle className="flex items-center gap-3">
-                <div className="h-12 w-12 rounded-full bg-gradient-to-br from-[#E6F0FF] to-blue-100 flex items-center justify-center border-2 border-white shadow-sm">
-                  <span className="text-xl font-bold text-[#0066CC]">{client?.full_name?.charAt(0) || "U"}</span>
-                </div>
-                <div className="text-left">
-                  <p className="font-bold text-slate-900">{client?.full_name || "Utilisateur"}</p>
-                  <p className="text-sm text-slate-500 font-medium">{client?.phone}</p>
-                </div>
-              </SheetTitle>
-            </SheetHeader>
-            <nav className="mt-8 flex flex-col gap-2">
-              <Link href="/client/book" className="flex items-center gap-3 px-4 py-3 rounded-xl bg-blue-50 text-[#0066CC] font-bold">
-                <MapPin className="h-5 w-5" /> Réserver une course
-              </Link>
-              <Link href="/client/history" className="flex items-center gap-3 px-4 py-3 rounded-xl text-slate-700 hover:bg-slate-50 font-bold transition-colors">
-                <ClockIcon className="h-5 w-5 text-slate-400" /> Historique
-              </Link>
-              <Link href="/client/profile" className="flex items-center gap-3 px-4 py-3 rounded-xl text-slate-700 hover:bg-slate-50 font-bold transition-colors">
-                <UserIcon className="h-5 w-5 text-slate-400" /> Mon profil
-              </Link>
-            </nav>
-          </SheetContent>
-        </Sheet>
-      </header>
-
-      {/* ─── PICKUP LOCATION SHEET ─── */}
-      {showPickupSheet && (
-        <div className="fixed inset-0 z-[100] flex flex-col" onClick={(e) => { if (e.target === e.currentTarget) setShowPickupSheet(false) }}>
-          <div className="absolute inset-0 bg-black/40 backdrop-blur-sm" onClick={() => setShowPickupSheet(false)} />
-          <div className="absolute bottom-0 left-0 right-0 bg-white rounded-t-[32px] z-10 pb-safe">
-            <div className="w-12 h-1.5 bg-slate-200 rounded-full mx-auto mt-4 mb-4" />
-            <div className="px-5 pb-6">
-              <h2 className="text-lg font-black text-slate-900 mb-4">Votre position de départ</h2>
-              <div className="flex items-center gap-3 bg-[#F4F8FA] rounded-full h-12 px-4 mb-6">
-                <Navigation className="w-4 h-4 text-[#0066CC] flex-shrink-0" />
-                <input
-                  type="text"
-                  placeholder="Rechercher un lieu de départ..."
-                  autoFocus
-                  className="flex-1 bg-transparent outline-none text-slate-900 font-medium placeholder:text-slate-400 text-sm"
-                />
-              </div>
-              <div className="space-y-1">
-                {[
-                  { label: "Ma position actuelle", sub: "GPS activé", icon: "📍" },
-                  { label: "Hann Bel-Air", sub: "Rue HB-335, Dakar", icon: "🏠" },
-                  { label: "Plateau", sub: "Centre-ville, Dakar", icon: "🏢" },
-                  { label: "Aéroport AIBD", sub: "Diass, Sénégal", icon: "✈️" },
-                  { label: "Université UCAD", sub: "Fann, Dakar", icon: "🎓" },
-                ].map((place, idx) => (
-                  <button
-                    key={idx}
-                    onClick={() => { setPickup(place.label); setShowPickupSheet(false) }}
-                    className={`w-full flex items-center gap-4 p-3 rounded-2xl text-left transition-colors hover:bg-slate-50 active:bg-blue-50 ${
-                      pickup === place.label ? 'bg-blue-50' : ''
-                    }`}
-                  >
-                    <div className="w-10 h-10 bg-slate-100 rounded-full flex items-center justify-center text-lg flex-shrink-0">
-                      {place.icon}
-                    </div>
-                    <div className="flex-1">
-                      <h4 className={`font-bold text-[15px] ${pickup === place.label ? 'text-[#0066CC]' : 'text-slate-900'}`}>{place.label}</h4>
-                      <p className="text-xs text-slate-400 font-medium">{place.sub}</p>
-                    </div>
-                    {pickup === place.label && (
-                      <div className="w-5 h-5 rounded-full bg-[#0066CC] flex items-center justify-center">
-                        <svg className="w-3 h-3 text-white" fill="none" stroke="currentColor" strokeWidth={3} viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7"/></svg>
-                      </div>
-                    )}
-                  </button>
-                ))}
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {/* ─── HUB VIEW (SUPER APP) ─── */}
+    <div className="flex min-h-svh flex-col relative bg-[#F8FAFC] overflow-x-hidden pb-16">
+      
+      {/* ─── STATE 1: HUB VIEW (HOME / SUPER APP) ─── */}
       {!isMapMode && (
-        <main className="px-4 animate-in fade-in zoom-in-95 duration-200">
-          
-          {/* Services Grid */}
-          <div className="grid grid-cols-2 gap-3 mb-6">
-            <div className="space-y-3">
-              <button onClick={() => handleSoon("Livraison")} className="w-full bg-[#F4F8FA] rounded-[20px] p-4 flex flex-col items-center justify-center gap-2 aspect-[2/1] active:scale-95 transition-transform hover:shadow-md border border-slate-100/50">
-                <Package className="w-8 h-8 text-orange-500" />
-                <span className="font-bold text-slate-900 text-sm">Livraison</span>
+        <main className="flex-1 px-5 pt-4 pb-20 animate-in fade-in duration-200">
+          {/* Header */}
+          <header className="flex items-center justify-between py-3 mb-6">
+            <div className="flex items-center gap-2">
+              <img src="/images/seneba.png" alt="Seneba" className="h-8 object-contain" />
+            </div>
+            <div className="flex items-center gap-3">
+              <button onClick={() => handleSoon("Notifications")} className="relative w-11 h-11 flex items-center justify-center rounded-full bg-white shadow-sm text-slate-700 hover:bg-slate-50 transition-colors">
+                <Bell className="w-5 h-5" />
+                <span className="absolute top-2.5 right-2.5 w-2 h-2 bg-[#0066CC] rounded-full" />
               </button>
               
-              <div className="grid grid-cols-2 gap-3">
-                <button onClick={() => handleSoon("Navigateur")} className="bg-[#F4F8FA] rounded-[20px] p-3 flex flex-col items-center justify-center gap-1 aspect-square active:scale-95 transition-transform hover:shadow-md border border-slate-100/50">
-                  <Navigation className="w-7 h-7 text-emerald-500" />
-                  <span className="font-bold text-slate-900 text-[11px]">Navigateur</span>
-                </button>
-                <button onClick={() => handleSoon("Cargo")} className="bg-[#F4F8FA] rounded-[20px] p-3 flex flex-col items-center justify-center gap-1 aspect-square active:scale-95 transition-transform hover:shadow-md border border-slate-100/50">
-                  <Truck className="w-7 h-7 text-blue-500" />
-                  <span className="font-bold text-slate-900 text-[11px]">Cargo</span>
+              <Sheet>
+                <SheetTrigger asChild>
+                  <button className="w-11 h-11 flex items-center justify-center rounded-full bg-white shadow-sm text-slate-700 hover:bg-slate-50 transition-colors">
+                    <Menu className="w-5 h-5" />
+                  </button>
+                </SheetTrigger>
+                <SheetContent side="left" className="w-80 pointer-events-auto z-[200]">
+                  <SheetHeader>
+                    <SheetTitle className="flex items-center gap-3">
+                      <div className="h-12 w-12 rounded-full bg-gradient-to-br from-[#E6F0FF] to-blue-100 flex items-center justify-center border-2 border-white shadow-sm">
+                        <span className="text-xl font-bold text-[#0066CC]">{client?.full_name?.charAt(0) || "U"}</span>
+                      </div>
+                      <div className="text-left">
+                        <p className="font-bold text-slate-900">{client?.full_name || "Utilisateur"}</p>
+                        <p className="text-sm text-slate-500 font-medium">{client?.phone}</p>
+                      </div>
+                    </SheetTitle>
+                  </SheetHeader>
+                  <nav className="mt-8 flex flex-col gap-2">
+                    <Link href="/client/book" className="flex items-center gap-3 px-4 py-3 rounded-xl bg-blue-50 text-[#0066CC] font-bold">
+                      <MapPin className="h-5 w-5" /> Réserver une course
+                    </Link>
+                    <Link href="/client/history" className="flex items-center gap-3 px-4 py-3 rounded-xl text-slate-700 hover:bg-slate-50 font-bold transition-colors">
+                      <Compass className="h-5 w-5 text-slate-400" /> Historique
+                    </Link>
+                    <Link href="/client/profile" className="flex items-center gap-3 px-4 py-3 rounded-xl text-slate-700 hover:bg-slate-50 font-bold transition-colors">
+                      <Compass className="h-5 w-5 text-slate-400" /> Mon profil
+                    </Link>
+                  </nav>
+                </SheetContent>
+              </Sheet>
+            </div>
+          </header>
+
+          {/* Greet & Title */}
+          <div className="mb-6">
+            <h2 className="text-2xl font-black text-slate-900 tracking-tight flex items-center gap-2">
+              Bonjour {client?.full_name?.split(" ")[0] || "Client"} 👋
+            </h2>
+            <p className="text-slate-500 font-medium text-base mt-1">Où allez-vous aujourd'hui ?</p>
+          </div>
+
+          {/* Rapid Address Card */}
+          <div className="bg-white rounded-3xl p-5 shadow-sm border border-slate-100 mb-6">
+            <div className="flex flex-col gap-4 relative">
+              {/* Pickup Input representation */}
+              <div className="flex items-center justify-between pb-3 border-b border-slate-55">
+                <div className="flex items-center gap-3.5">
+                  <div className="w-5 h-5 rounded-full bg-blue-50 flex items-center justify-center">
+                    <div className="w-2.5 h-2.5 rounded-full bg-[#0066CC]" />
+                  </div>
+                  <span className="font-bold text-slate-800 text-sm">{pickup}</span>
+                </div>
+                <button className="w-8 h-8 rounded-full bg-slate-50 flex items-center justify-center text-[#0066CC]">
+                  <Compass className="w-4 h-4" />
                 </button>
               </div>
-            </div>
 
-            <div className="space-y-3">
-              <button onClick={() => handleSoon("Food")} className="w-full bg-[#F4F8FA] rounded-[20px] p-4 flex flex-col items-center justify-center gap-2 aspect-[2/1] active:scale-95 transition-transform hover:shadow-md border border-slate-100/50">
-                <Utensils className="w-8 h-8 text-red-500" />
-                <span className="font-bold text-slate-900 text-sm">Food</span>
-              </button>
-              <button onClick={() => openBooking()} className="w-full bg-gradient-to-br from-[#E6F0FF] to-blue-50 rounded-[20px] p-4 flex flex-col items-center justify-center gap-2 h-[calc(100%-4.5rem)] active:scale-95 transition-transform hover:shadow-md border border-[#0066CC]/10 relative overflow-hidden group">
-                <Car className="w-12 h-12 text-[#0066CC] z-10 group-hover:scale-110 transition-transform" />
-                <div className="z-10 text-center">
-                  <span className="font-black text-slate-900 text-lg block">Courses</span>
-                  <span className="text-[10px] font-bold text-slate-500">à partir de 4 min</span>
+              {/* Destination Input representation */}
+              <div 
+                onClick={() => openBooking()}
+                className="flex items-center gap-3.5 pt-1 cursor-pointer hover:opacity-80"
+              >
+                <div className="w-5 h-5 rounded-full bg-orange-50 flex items-center justify-center">
+                  <MapPin className="w-4 h-4 text-orange-500" />
                 </div>
-              </button>
+                <span className="text-slate-400 font-medium text-sm">Où allez-vous ?</span>
+              </div>
             </div>
           </div>
 
-          {/* Search Destination Button */}
-          <button onClick={() => openBooking()} className="w-full bg-[#F4F8FA] rounded-2xl h-14 flex items-center justify-between px-5 mb-6 active:scale-95 transition-transform hover:shadow-sm">
-            <div className="flex items-center gap-3">
-              <CarFront className="w-6 h-6 text-[#0066CC]" />
-              <span className="font-bold text-slate-900 text-[15px]">Où allons-nous ?</span>
+          {/* Horizontal Services Grid */}
+          <div className="flex gap-3 overflow-x-auto pb-2 scrollbar-none mb-6">
+            {/* Courses - Selected/Active */}
+            <button 
+              onClick={() => openBooking()}
+              className="flex-shrink-0 bg-gradient-to-b from-[#E6F0FF] to-blue-50/50 border border-blue-200/50 rounded-2xl p-4 flex flex-col items-center justify-center gap-2 w-24 aspect-square active:scale-95 transition-transform"
+            >
+              <Car className="w-7 h-7 text-[#0066CC]" />
+              <span className="font-black text-slate-800 text-[11px]">Courses</span>
+            </button>
+
+            {/* Livraison */}
+            <button 
+              onClick={() => handleSoon("Livraison")}
+              className="flex-shrink-0 bg-white border border-slate-100 rounded-2xl p-4 flex flex-col items-center justify-center gap-2 w-24 aspect-square active:scale-95 transition-transform"
+            >
+              <Package className="w-7 h-7 text-orange-500" />
+              <span className="font-black text-slate-800 text-[11px]">Livraison</span>
+            </button>
+
+            {/* Food */}
+            <button 
+              onClick={() => handleSoon("Food")}
+              className="flex-shrink-0 bg-white border border-slate-100 rounded-2xl p-4 flex flex-col items-center justify-center gap-2 w-24 aspect-square active:scale-95 transition-transform"
+            >
+              <Utensils className="w-7 h-7 text-red-500" />
+              <span className="font-black text-slate-800 text-[11px]">Food</span>
+            </button>
+
+            {/* Cargo */}
+            <button 
+              onClick={() => handleSoon("Cargo")}
+              className="flex-shrink-0 bg-white border border-slate-100 rounded-2xl p-4 flex flex-col items-center justify-center gap-2 w-24 aspect-square active:scale-95 transition-transform"
+            >
+              <Truck className="w-7 h-7 text-blue-500" />
+              <span className="font-black text-slate-800 text-[11px]">Cargo</span>
+            </button>
+
+            {/* Navigateur */}
+            <button 
+              onClick={() => handleSoon("Navigateur")}
+              className="flex-shrink-0 bg-white border border-slate-100 rounded-2xl p-4 flex flex-col items-center justify-center gap-2 w-24 aspect-square active:scale-95 transition-transform"
+            >
+              <Compass className="w-7 h-7 text-emerald-500" />
+              <span className="font-black text-slate-800 text-[11px]">Navigateur</span>
+            </button>
+          </div>
+
+          {/* Medium Banner */}
+          <button 
+            onClick={() => openBooking()} 
+            className="w-full bg-[#EBF3FF] rounded-[24px] p-5 text-left flex items-center justify-between mb-8 active:scale-95 transition-transform relative overflow-hidden group border border-blue-100"
+          >
+            <div className="z-10 w-2/3">
+              <h3 className="text-slate-900 font-black text-base mb-1 tracking-tight">Déplacez-vous facilement</h3>
+              <p className="text-slate-500 text-xs font-semibold">Des trajets rapides et sécurisés à tout moment</p>
             </div>
-            <div className="w-6 h-6 bg-white rounded-full flex items-center justify-center shadow-sm">
-              <ChevronRight className="w-4 h-4 text-slate-400" />
+            <div className="w-16 h-12 relative z-10 flex items-center justify-center">
+              <Car className="w-12 h-12 text-[#0066CC]" />
+            </div>
+            <div className="w-8 h-8 rounded-full bg-white flex items-center justify-center text-[#0066CC] shadow-sm ml-2">
+              <ChevronRight className="w-4 h-4" />
             </div>
           </button>
 
           {/* Recent Destinations */}
-          <div className="space-y-4 mb-8">
-            {[
-              { title: "Aéroport AIBD", sub: "Diass, Sénégal", icon: Plane },
-              { title: "Cité Elisabeth Diouf", sub: "Rue HB-335, Hann-Bel-Air", icon: Building2 },
-              { title: "Yum-Yum Ouakam", sub: "Rue OKM-99, 338", icon: Utensils },
-            ].map((place, idx) => (
-              <button key={idx} onClick={() => openBooking(place.title)} className="w-full flex items-center gap-4 text-left group">
-                <div className="w-12 h-12 bg-slate-50 rounded-2xl flex items-center justify-center group-hover:bg-blue-50 transition-colors">
-                  <place.icon className="w-5 h-5 text-slate-400 group-hover:text-[#0066CC] transition-colors" />
-                </div>
-                <div className="flex-1 border-b border-slate-100 pb-4 group-last:border-0">
-                  <h4 className="font-bold text-slate-900 text-[15px]">{place.title}</h4>
-                  <p className="text-xs text-slate-400 font-medium">{place.sub}</p>
-                </div>
-              </button>
-            ))}
-          </div>
+          <div className="mb-8">
+            <div className="flex items-center justify-between mb-4">
+              <h3 className="font-black text-slate-900 text-base">Destinations récentes</h3>
+              <button onClick={() => openBooking()} className="text-xs font-black text-[#0066CC] hover:underline">Voir tout</button>
+            </div>
 
-          {/* Banners */}
-          <div className="space-y-4">
-            <button onClick={() => handleSoon("Courses d'entreprise")} className="w-full bg-slate-900 rounded-[24px] p-6 text-left relative overflow-hidden active:scale-95 transition-transform shadow-lg">
-              <div className="relative z-10 w-2/3">
-                <h2 className="text-white font-black text-2xl leading-tight mb-2 uppercase tracking-tighter">Courses d'entreprise</h2>
-                <p className="text-slate-300 text-sm font-medium">Voyages d'affaires simplifiés</p>
-              </div>
-              <Briefcase className="absolute right-[-20px] bottom-[-20px] w-40 h-40 text-white opacity-10" />
-            </button>
-
-            <div className="grid grid-cols-2 gap-4">
-              <button onClick={() => handleSoon("Outils de sécurité")} className="bg-gradient-to-br from-blue-900 to-[#0066CC] rounded-[24px] p-5 text-left relative overflow-hidden active:scale-95 transition-transform shadow-lg">
-                <h3 className="text-white font-black text-lg leading-tight mb-2 uppercase">Outils de sécurité</h3>
-                <p className="text-blue-100 text-[11px] font-medium leading-relaxed max-w-[80%]">Restez en sécurité avec nous</p>
-                <Shield className="absolute right-[-10px] bottom-[-10px] w-24 h-24 text-white opacity-20" />
-              </button>
-              
-              <div className="flex flex-col gap-4">
-                <button onClick={() => handleSoon("Revenus passifs")} className="flex-1 bg-gradient-to-br from-[#8c52ff] to-[#5ce1e6] rounded-[24px] p-4 text-left relative overflow-hidden active:scale-95 transition-transform shadow-lg">
-                  <h3 className="text-white font-black text-sm leading-tight uppercase">Confiez votre voiture</h3>
-                  <p className="text-white/80 text-[10px] font-bold mt-1">Gagnez des revenus</p>
+            <div className="space-y-3">
+              {[
+                { title: "Aéroport AIBD", sub: "Diass, Sénégal", icon: Plane },
+                { title: "Cité Elisabeth Diouf", sub: "Rue HB-335, Hann-Bel-Air", icon: Building2 },
+                { title: "Yum-Yum Ouakam", sub: "Rue OKM-99, 338", icon: Utensils },
+              ].map((place, idx) => (
+                <button key={idx} onClick={() => openBooking(place.title)} className="w-full bg-white rounded-2xl p-4 flex items-center justify-between text-left shadow-sm border border-slate-50 hover:bg-slate-50 transition-colors group">
+                  <div className="flex items-center gap-4">
+                    <div className="w-11 h-11 bg-blue-50/50 rounded-xl flex items-center justify-center text-slate-400 group-hover:text-[#0066CC] transition-colors">
+                      <place.icon className="w-5 h-5 text-[#0066CC]" />
+                    </div>
+                    <div>
+                      <h4 className="font-bold text-slate-900 text-[14px]">{place.title}</h4>
+                      <p className="text-xs text-slate-400 font-medium">{place.sub}</p>
+                    </div>
+                  </div>
+                  <Star className="w-4 h-4 text-slate-300 hover:text-amber-400 cursor-pointer transition-colors" />
                 </button>
-                <button onClick={() => handleSoon("Seneba Pro")} className="flex-1 bg-gradient-to-br from-[#ff914d] to-[#ff5757] rounded-[24px] p-4 text-left relative overflow-hidden active:scale-95 transition-transform shadow-lg">
-                  <h3 className="text-white font-black text-sm leading-tight uppercase">Débute ta course</h3>
-                  <p className="text-white/80 text-[10px] font-bold mt-1">En quelques secondes</p>
-                </button>
-              </div>
+              ))}
             </div>
           </div>
+
+          {/* Bottom Banner */}
+          <button 
+            onClick={() => handleSoon("Infos de sécurité")} 
+            className="w-full bg-slate-900 rounded-[28px] p-6 text-left relative overflow-hidden active:scale-95 transition-transform shadow-md"
+          >
+            <div className="relative z-10 w-2/3">
+              <h2 className="text-white font-black text-lg leading-tight mb-2 tracking-tight uppercase">Des trajets sûrs, à chaque instant</h2>
+              <p className="text-slate-300 text-xs font-medium">Votre confort, notre priorité</p>
+            </div>
+            <Shield className="absolute right-[-10px] bottom-[-10px] w-28 h-28 text-white opacity-10" />
+          </button>
         </main>
       )}
 
-      {/* ─── MAP BOOKING VIEW ─── */}
+      {/* ─── STATE 2: MAP BOOKING VIEW (ACTIVE) ─── */}
       {isMapMode && (
-        <div className="absolute inset-0 z-40 bg-white animate-in slide-in-from-right duration-300">
-          <button onClick={() => setIsMapMode(false)} className="absolute top-4 left-4 z-50 w-10 h-10 bg-white rounded-full flex items-center justify-center shadow-lg border border-slate-100">
-            <ChevronLeftIcon className="w-6 h-6 text-slate-900" />
-          </button>
+        <div className="absolute inset-0 z-40 bg-white animate-in slide-in-from-right duration-300 flex flex-col">
+          {/* Floating Header */}
+          <header className="absolute top-4 left-0 right-0 z-50 flex items-center justify-between px-4 pointer-events-none">
+            <button 
+              onClick={() => setIsMapMode(false)} 
+              className="w-11 h-11 bg-white rounded-full flex items-center justify-center shadow-lg border border-slate-100 pointer-events-auto active:scale-90 transition-transform"
+            >
+              <ChevronRight className="w-6 h-6 text-slate-900 rotate-180" />
+            </button>
+            <div className="flex items-center gap-2 bg-white px-5 py-2.5 rounded-full shadow-lg pointer-events-auto">
+              <img src="/images/seneba.png" alt="Seneba" className="h-6 object-contain" />
+            </div>
+            <button 
+              onClick={() => handleSoon("Notifications")} 
+              className="w-11 h-11 bg-white rounded-full flex items-center justify-center shadow-lg border border-slate-100 pointer-events-auto relative active:scale-90 transition-transform"
+            >
+              <Bell className="w-5 h-5 text-slate-700" />
+              <span className="absolute top-2.5 right-2.5 w-2 h-2 bg-[#0066CC] rounded-full" />
+            </button>
+          </header>
           
-          <div className="absolute inset-0 z-0">
+          {/* Full Screen Map */}
+          <div className="absolute inset-0 z-0 h-[60vh]">
             <ClientMap className="w-full h-full" />
           </div>
 
-          <motion.div 
-            drag="y"
-            dragConstraints={{ top: 0, bottom: 250 }}
-            dragElastic={0.1}
-            animate={{ y: panelY }}
-            onDragEnd={(event, info) => {
-              if (info.offset.y > 50 || info.velocity.y > 300) setPanelY(250)
-              else if (info.offset.y < -50 || info.velocity.y < -300) setPanelY(0)
-              else setPanelY(info.offset.y > 125 ? 250 : 0)
-            }}
-            className="fixed bottom-0 left-0 right-0 z-50 bg-white rounded-t-[32px] shadow-[0_-10px_40px_rgba(0,0,0,0.12)] pb-safe"
-          >
-            <div className="w-12 h-1.5 bg-slate-200 rounded-full mx-auto mt-4 mb-3" />
+          {/* Floating Current Location Info */}
+          <div className="absolute top-[42vh] left-0 right-0 z-10 flex justify-center pointer-events-none">
+            <div className="bg-white/95 backdrop-blur-md px-4 py-2 rounded-full shadow-md border border-slate-100 flex items-center gap-2 pointer-events-auto">
+              <Compass className="w-4 h-4 text-[#0066CC] animate-spin-slow" />
+              <span className="text-xs font-bold text-slate-800">Ma position actuelle</span>
+            </div>
+          </div>
 
-            <div className="px-5 pb-6">
-              {/* Search Bar */}
-              <div className="flex items-center gap-3 bg-[#F4F8FA] rounded-full h-14 px-5 mb-5 focus-within:ring-2 focus-within:ring-[#0066CC] transition-all">
-                <div className="w-4 h-4 rounded-full bg-[#0066CC] flex-shrink-0 flex items-center justify-center">
-                  <div className="w-1.5 h-1.5 rounded-full bg-white" />
-                </div>
-                <input 
-                  type="text" 
-                  placeholder="Où allez-vous ?" 
-                  value={destination}
-                  onChange={(e) => setDestination(e.target.value)}
-                  className="flex-1 bg-transparent border-none outline-none text-slate-900 font-bold text-base placeholder:text-slate-400 placeholder:font-normal"
-                />
-                {destination && (
-                  <button onClick={() => setDestination("")}>
-                    <svg className="w-5 h-5 text-slate-400" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
-                  </button>
-                )}
-              </div>
+          {/* Floating GPS Target button */}
+          <div className="absolute top-[48vh] right-4 z-10 pointer-events-auto">
+            <button 
+              onClick={() => {
+                const btn = document.querySelector('[title="Centrer sur ma position"]') as HTMLButtonElement
+                if (btn) btn.click()
+              }}
+              className="w-11 h-11 bg-white rounded-full flex items-center justify-center shadow-lg text-[#0066CC] border border-slate-100 active:scale-90 transition-transform"
+            >
+              <Compass className="w-5 h-5" />
+            </button>
+          </div>
 
-              {/* Service Tiers */}
-              <div className="flex gap-2 mb-5">
-                <button onClick={() => setSelectedService("standard")} className={`flex-1 bg-white border rounded-[20px] p-3 flex flex-col items-start gap-2 shadow-sm transition-all ${selectedService === "standard" ? "border-[#0066CC] ring-1 ring-[#0066CC]/20" : "border-slate-100 opacity-60"}`}>
-                  <div className={`w-10 h-10 rounded-full flex items-center justify-center text-sm ${selectedService === "standard" ? "bg-blue-50 text-[#0066CC]" : "bg-slate-50 text-slate-400"}`}>
-                    <Car className="w-5 h-5" />
-                  </div>
-                  <div className="text-left w-full">
-                    <div className={`text-sm font-bold ${selectedService === "standard" ? "text-[#0066CC]" : "text-slate-700"}`}>Standard</div>
-                    <div className="text-[10px] text-slate-400 font-medium">Rapide & abordable</div>
-                  </div>
-                </button>
-                
-                <button onClick={() => setSelectedService("confort")} className={`flex-1 bg-white border rounded-[20px] p-3 flex flex-col items-start gap-2 shadow-sm transition-all ${selectedService === "confort" ? "border-[#0066CC] ring-1 ring-[#0066CC]/20" : "border-slate-100 opacity-60"}`}>
-                  <div className={`w-10 h-10 rounded-full flex items-center justify-center text-sm ${selectedService === "confort" ? "bg-blue-50 text-[#0066CC]" : "bg-slate-50 text-slate-400"}`}>
-                    <CarFront className="w-5 h-5" />
-                  </div>
-                  <div className="text-left w-full">
-                    <div className={`text-sm font-bold ${selectedService === "confort" ? "text-[#0066CC]" : "text-slate-700"}`}>Confort</div>
-                    <div className="text-[10px] text-slate-400 font-medium">Plus d'espace</div>
-                  </div>
-                </button>
+          {/* Sliding Booking Drawer / Sheet */}
+          <div className="mt-auto bg-white rounded-t-[32px] shadow-[0_-8px_30px_rgba(0,0,0,0.06)] border-t border-slate-100 z-40 relative flex flex-col max-h-[58vh] overflow-y-auto pb-safe">
+            <div className="w-12 h-1 bg-slate-200 rounded-full mx-auto mt-3 mb-2 flex-shrink-0" />
 
-                <button onClick={() => setSelectedService("interurbain")} className={`flex-1 bg-white border rounded-[20px] p-3 flex flex-col items-start gap-2 shadow-sm transition-all ${selectedService === "interurbain" ? "border-[#0066CC] ring-1 ring-[#0066CC]/20" : "border-slate-100 opacity-60"}`}>
-                  <div className={`w-10 h-10 rounded-full flex items-center justify-center text-sm ${selectedService === "interurbain" ? "bg-blue-50 text-[#0066CC]" : "bg-slate-50 text-slate-400"}`}>
-                    <Bus className="w-5 h-5" />
+            <div className="px-5 pb-6 pt-1 flex-1 flex flex-col">
+              {/* Double Address Input Card */}
+              <div className="bg-[#F8FAFC] rounded-3xl p-4 border border-slate-100 mb-4 relative">
+                <div className="flex flex-col gap-3 relative">
+                  
+                  {/* Start Point */}
+                  <div className="flex items-center gap-3">
+                    <div className="w-4 h-4 rounded-full bg-blue-50 flex items-center justify-center flex-shrink-0">
+                      <div className="w-2.5 h-2.5 rounded-full bg-[#0066CC]" />
+                    </div>
+                    <input 
+                      type="text" 
+                      value={pickup}
+                      onChange={(e) => setPickup(e.target.value)}
+                      className="flex-1 bg-transparent border-none outline-none text-slate-800 font-bold text-sm"
+                      placeholder="Lieu de départ"
+                    />
+                    <Compass className="w-4 h-4 text-slate-400 flex-shrink-0" />
                   </div>
-                  <div className="text-left w-full">
-                    <div className={`text-sm font-bold ${selectedService === "interurbain" ? "text-[#0066CC]" : "text-slate-700"}`}>Interurbain</div>
-                    <div className="text-[10px] text-slate-400 font-medium">Voyagez loin</div>
-                  </div>
-                </button>
-              </div>
 
-              {/* Payment Method Selector */}
-              <div className="mb-6">
-                <div className="flex gap-2">
-                  <button onClick={() => setPaymentMethod("cash")} className={`flex-1 flex items-center justify-center py-3 rounded-xl border text-xs font-bold transition-all ${paymentMethod === "cash" ? "bg-slate-900 text-white border-slate-900 shadow-md" : "bg-white text-slate-600 border-slate-200 hover:bg-slate-50"}`}>
-                    Cash
-                  </button>
-                  <button onClick={() => setPaymentMethod("wave")} className={`flex-1 flex items-center justify-center py-3 rounded-xl border text-xs font-bold transition-all ${paymentMethod === "wave" ? "bg-[#1cc6ff] text-white border-[#1cc6ff] shadow-md shadow-[#1cc6ff]/30" : "bg-white text-slate-600 border-slate-200 hover:bg-slate-50"}`}>
-                    Wave
-                  </button>
-                  <button onClick={() => setPaymentMethod("orange_money")} className={`flex-1 flex items-center justify-center py-3 rounded-xl border text-xs font-bold transition-all ${paymentMethod === "orange_money" ? "bg-[#ff6600] text-white border-[#ff6600] shadow-md shadow-[#ff6600]/30" : "bg-white text-slate-600 border-slate-200 hover:bg-slate-50"}`}>
-                    Orange Money
-                  </button>
+                  {/* Vertical dotted connector line */}
+                  <div className="absolute left-[7px] top-[18px] bottom-[18px] w-0.5 border-l-2 border-dashed border-slate-300" />
+
+                  {/* Destination */}
+                  <div className="flex items-center gap-3 pt-1">
+                    <div className="w-4 h-4 rounded-full bg-orange-50 flex items-center justify-center flex-shrink-0">
+                      <MapPin className="w-3.5 h-3.5 text-orange-500" />
+                    </div>
+                    <input 
+                      type="text" 
+                      value={destination}
+                      onChange={(e) => setDestination(e.target.value)}
+                      className="flex-1 bg-transparent border-none outline-none text-slate-800 font-bold text-sm placeholder:text-slate-400 placeholder:font-normal"
+                      placeholder="Où allez-vous ?"
+                      autoFocus
+                    />
+                  </div>
                 </div>
               </div>
 
-              {/* Action Button */}
-              <Button onClick={handleBookRide} disabled={!destination || isBooking} className="w-full h-14 text-base font-bold rounded-full shadow-[0_8px_20px_rgb(0,102,204,0.3)] bg-[#0066CC] hover:bg-[#0052A3] text-white flex items-center justify-center gap-2 disabled:opacity-50 disabled:shadow-none active:scale-95 transition-transform">
-                {isBooking ? "Création du trajet..." : "Commander Seneba"}
+              {/* Service Categories Options */}
+              <div className="flex gap-2.5 mb-4">
+                {/* Standard */}
+                <button 
+                  onClick={() => setSelectedService("standard")}
+                  className={`flex-1 bg-[#F8FAFC] rounded-2xl p-3 flex flex-col items-center gap-2 border transition-all ${
+                    selectedService === "standard" 
+                      ? "border-[#0066CC] bg-blue-50/20" 
+                      : "border-slate-100 opacity-60 hover:opacity-100"
+                  }`}
+                >
+                  <StandardCarSVG />
+                  <div className="text-center">
+                    <span className="block font-black text-slate-800 text-[13px]">Standard</span>
+                    <span className="block text-[9px] text-slate-400 font-medium">Rapide & abordable</span>
+                  </div>
+                </button>
+
+                {/* Confort */}
+                <button 
+                  onClick={() => setSelectedService("confort")}
+                  className={`flex-1 bg-[#F8FAFC] rounded-2xl p-3 flex flex-col items-center gap-2 border transition-all ${
+                    selectedService === "confort" 
+                      ? "border-[#0066CC] bg-blue-50/20" 
+                      : "border-slate-100 opacity-60 hover:opacity-100"
+                  }`}
+                >
+                  <ConfortCarSVG />
+                  <div className="text-center">
+                    <span className="block font-black text-slate-800 text-[13px]">Confort</span>
+                    <span className="block text-[9px] text-slate-400 font-medium">Plus d'espace</span>
+                  </div>
+                </button>
+
+                {/* Interurbain */}
+                <button 
+                  onClick={() => setSelectedService("interurbain")}
+                  className={`flex-1 bg-[#F8FAFC] rounded-2xl p-3 flex flex-col items-center gap-2 border transition-all ${
+                    selectedService === "interurbain" 
+                      ? "border-[#0066CC] bg-blue-50/20" 
+                      : "border-slate-100 opacity-60 hover:opacity-100"
+                  }`}
+                >
+                  <InterurbainVanSVG />
+                  <div className="text-center">
+                    <span className="block font-black text-slate-800 text-[13px]">Interurbain</span>
+                    <span className="block text-[9px] text-slate-400 font-medium">Voyagez loin</span>
+                  </div>
+                </button>
+              </div>
+
+              {/* Payment Methods buttons */}
+              <div className="grid grid-cols-3 gap-2 mb-5">
+                {/* Cash */}
+                <button 
+                  onClick={() => setPaymentMethod("cash")}
+                  className={`py-3 rounded-2xl border text-xs font-bold transition-all flex items-center justify-center gap-2 ${
+                    paymentMethod === "cash" 
+                      ? "bg-slate-900 text-white border-slate-900 shadow-sm" 
+                      : "bg-white text-slate-600 border-slate-150 hover:bg-slate-50"
+                  }`}
+                >
+                  <span>💵</span> Cash
+                </button>
+
+                {/* Wave */}
+                <button 
+                  onClick={() => setPaymentMethod("wave")}
+                  className={`py-3 rounded-2xl border text-xs font-bold transition-all flex items-center justify-center gap-2 ${
+                    paymentMethod === "wave" 
+                      ? "bg-[#1cc6ff] text-white border-[#1cc6ff] shadow-sm" 
+                      : "bg-white text-slate-600 border-slate-150 hover:bg-slate-50"
+                  }`}
+                >
+                  <span>🐧</span> Wave
+                </button>
+
+                {/* Orange Money */}
+                <button 
+                  onClick={() => setPaymentMethod("orange_money")}
+                  className={`py-3 rounded-2xl border text-xs font-bold transition-all flex items-center justify-center gap-2 ${
+                    paymentMethod === "orange_money" 
+                      ? "bg-[#ff6600] text-white border-[#ff6600] shadow-sm" 
+                      : "bg-white text-slate-600 border-slate-150 hover:bg-slate-50"
+                  }`}
+                >
+                  <span>🍊</span> Orange
+                </button>
+              </div>
+
+              {/* Order Seneba trigger button */}
+              <Button 
+                onClick={handleBookRide} 
+                disabled={!destination || isBooking} 
+                className="w-full h-13 text-sm font-bold rounded-2xl bg-[#0066CC] hover:bg-[#0052A3] text-white flex items-center justify-center gap-2 disabled:opacity-50 active:scale-95 transition-transform"
+              >
+                {isBooking ? "Création du trajet..." : "Commander Seneba"} <ArrowRight className="w-4 h-4" />
               </Button>
             </div>
-          </motion.div>
+          </div>
         </div>
       )}
 
-      {!isMapMode && <BottomNavClient active="book" />}
+      {/* ─── BOTTOM NAVIGATION BAR ─── */}
+      <nav 
+        className="fixed bottom-0 left-0 right-0 z-50 bg-white border-t border-slate-100 safe-area-bottom h-16"
+      >
+        <div className="flex items-center justify-around h-full px-2">
+          {/* Tab 1: Réserver */}
+          <button 
+            onClick={() => setIsMapMode(false)}
+            className={`flex flex-col items-center justify-center flex-1 h-full gap-1 transition-all ${
+              !isMapMode ? "text-[#0066CC]" : "text-slate-400 hover:text-slate-600"
+            }`}
+          >
+            <Car className="w-5 h-5" />
+            <span className="text-[10px] font-bold">Réserver</span>
+          </button>
+
+          {/* Tab 2: Historique */}
+          <Link 
+            href="/client/history"
+            className="flex flex-col items-center justify-center flex-1 h-full gap-1 text-slate-400 hover:text-slate-600 transition-all"
+          >
+            <Compass className="w-5 h-5" />
+            <span className="text-[10px] font-medium">Historique</span>
+          </Link>
+
+          {/* Tab 3: Profil */}
+          <Link 
+            href="/client/profile"
+            className="flex flex-col items-center justify-center flex-1 h-full gap-1 text-slate-400 hover:text-slate-600 transition-all"
+          >
+            <Compass className="w-5 h-5" />
+            <span className="text-[10px] font-medium">Profil</span>
+          </Link>
+        </div>
+      </nav>
+
     </div>
   )
-}
-
-function ClockIcon(props: any) {
-  return <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} {...props}><path strokeLinecap="round" strokeLinejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
-}
-function UserIcon(props: any) {
-  return <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} {...props}><path strokeLinecap="round" strokeLinejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" /></svg>
-}
-function ChevronLeftIcon(props: any) {
-  return <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} {...props}><path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" /></svg>
 }

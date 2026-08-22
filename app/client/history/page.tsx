@@ -64,7 +64,7 @@ export default function ClientHistoryPage() {
     if (!acc[group]) acc[group] = []
     acc[group].push(ride)
     return acc
-  }, {} as Record<string, typeof mockRides>)
+  }, {} as Record<string, any[]>)
 
   return (
     <div className="flex min-h-svh flex-col bg-[#F4F8FA] pb-10">
