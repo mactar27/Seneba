@@ -369,58 +369,6 @@ export default function BookRidePage() {
             </div>
           </div>
 
-          {/* Horizontal Services Grid */}
-          <div className="flex gap-3 overflow-x-auto pb-2 scrollbar-none mb-6">
-            {/* Courses - Selected/Active */}
-            <button 
-              onClick={() => openBooking()}
-              className="flex-shrink-0 bg-blue-50/50 border-2 border-blue-600/30 rounded-2xl p-4 flex flex-col items-center justify-center gap-2 w-24 aspect-square active:scale-95 transition-transform"
-            >
-              <Car className="w-7 h-7 text-[#0066CC]" />
-              <span className="font-black text-slate-800 text-[11px]">Courses</span>
-              <span className="text-[8px] text-slate-400 font-medium leading-none">à partir de 5 min</span>
-            </button>
-
-            {/* Livraison */}
-            <Link 
-              href="/client/delivery"
-              className="flex-shrink-0 bg-white border border-slate-100 rounded-2xl p-4 flex flex-col items-center justify-center gap-2 w-24 aspect-square active:scale-95 transition-transform"
-            >
-              <Package className="w-7 h-7 text-orange-500" />
-              <span className="font-black text-slate-800 text-[11px]">Livraison</span>
-              <span className="text-[8px] text-slate-400 font-medium leading-none">Envoyer un colis</span>
-            </Link>
-
-            {/* Food */}
-            <button 
-              onClick={() => handleSoon("Food")}
-              className="flex-shrink-0 bg-white border border-slate-100 rounded-2xl p-4 flex flex-col items-center justify-center gap-2 w-24 aspect-square active:scale-95 transition-transform"
-            >
-              <Utensils className="w-7 h-7 text-red-500" />
-              <span className="font-black text-slate-800 text-[11px]">Food</span>
-              <span className="text-[8px] text-slate-400 font-medium leading-none">Commander</span>
-            </button>
-
-            {/* Cargo */}
-            <button 
-              onClick={() => handleSoon("Cargo")}
-              className="flex-shrink-0 bg-white border border-slate-100 rounded-2xl p-4 flex flex-col items-center justify-center gap-2 w-24 aspect-square active:scale-95 transition-transform"
-            >
-              <Truck className="w-7 h-7 text-blue-500" />
-              <span className="font-black text-slate-800 text-[11px]">Cargo</span>
-              <span className="text-[8px] text-slate-400 font-medium leading-none">Transporter</span>
-            </button>
-
-            {/* Navigateur */}
-            <button 
-              onClick={() => handleSoon("Navigateur")}
-              className="flex-shrink-0 bg-white border border-slate-100 rounded-2xl p-4 flex flex-col items-center justify-center gap-2 w-24 aspect-square active:scale-95 transition-transform"
-            >
-              <Compass className="w-7 h-7 text-emerald-500" />
-              <span className="font-black text-slate-800 text-[11px]">Navigateur</span>
-              <span className="text-[8px] text-slate-400 font-medium leading-none">Explorer</span>
-            </button>
-          </div>
 
           {/* Medium Banner */}
           <button 
