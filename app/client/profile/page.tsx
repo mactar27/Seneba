@@ -66,8 +66,8 @@ export default function ClientProfilePage() {
       <header className="px-5 pt-8 pb-6 safe-area-top sticky top-0 z-20 bg-[#F8FAFC]">
         <div className="flex items-center justify-between bg-white rounded-3xl p-5 border border-slate-100 shadow-sm">
           <div className="flex items-center gap-4">
-            <div className="w-14 h-14 bg-gradient-to-br from-[#E6F0FF] to-blue-100 rounded-full flex items-center justify-center border-2 border-white shadow-sm overflow-hidden text-[#0066CC] font-black text-xl">
-              {initial}
+            <div className="w-14 h-14 rounded-full overflow-hidden border-2 border-white shadow-sm shrink-0">
+              <img src="/images/mactar-profile.png" alt="Profile" className="w-full h-full object-cover" />
             </div>
             <div>
               <h1 className="text-lg font-black text-slate-900 leading-tight">

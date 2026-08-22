@@ -15,41 +15,15 @@ const ClientMap = dynamic(() => import("@/components/client/client-map").then(mo
 
 // --- Premium Vehicle SVGs ---
 function StandardCarSVG() {
-  return (
-    <svg viewBox="0 0 100 40" className="w-20 h-10 object-contain">
-      <path d="M5 25 L10 18 L25 16 L38 8 L68 8 L80 16 L92 18 L95 25 L92 28 L85 28 C85 23, 75 23, 75 28 L25 28 C25 23, 15 23, 15 28 L5 28 Z" fill="#D1D5DB" stroke="#9CA3AF" strokeWidth="1.5" />
-      <circle cx="20" cy="28" r="5" fill="#111827" stroke="#F9FAFB" strokeWidth="1.5" />
-      <circle cx="80" cy="28" r="5" fill="#111827" stroke="#F9FAFB" strokeWidth="1.5" />
-      <path d="M30 16 L42 10 L50 10 L50 16 Z" fill="#374151" />
-      <path d="M53 16 L53 10 L64 10 L72 16 Z" fill="#374151" />
-    </svg>
-  )
+  return <img src="/images/real_vehicle.png" alt="Standard" className="w-20 h-10 object-contain" />
 }
 
 function ConfortCarSVG() {
-  return (
-    <svg viewBox="0 0 100 40" className="w-20 h-10 object-contain">
-      <path d="M5 25 L10 18 L25 16 L38 8 L68 8 L80 16 L92 18 L95 25 L92 28 L85 28 C85 23, 75 23, 75 28 L25 28 C25 23, 15 23, 15 28 L5 28 Z" fill="#1F2937" stroke="#111827" strokeWidth="1.5" />
-      <circle cx="20" cy="28" r="5" fill="#374151" stroke="#F9FAFB" strokeWidth="1.5" />
-      <circle cx="80" cy="28" r="5" fill="#374151" stroke="#F9FAFB" strokeWidth="1.5" />
-      <path d="M30 16 L42 10 L50 10 L50 16 Z" fill="#9CA3AF" />
-      <path d="M53 16 L53 10 L64 10 L72 16 Z" fill="#9CA3AF" />
-    </svg>
-  )
+  return <img src="/images/vtc_illustration.png" alt="Confort" className="w-20 h-10 object-contain" />
 }
 
 function InterurbainVanSVG() {
-  return (
-    <svg viewBox="0 0 100 40" className="w-20 h-10 object-contain">
-      <path d="M5 28 L5 12 L20 8 L85 8 L95 18 L95 28 L85 28 C85 23, 75 23, 75 28 L25 28 C25 23, 15 23, 15 28 Z" fill="#F3F4F6" stroke="#D1D5DB" strokeWidth="1.5" />
-      <circle cx="20" cy="28" r="5" fill="#111827" stroke="#F9FAFB" strokeWidth="1.5" />
-      <circle cx="80" cy="28" r="5" fill="#111827" stroke="#F9FAFB" strokeWidth="1.5" />
-      <path d="M10 12 L20 12 L20 16 L10 16 Z" fill="#374151" />
-      <path d="M24 12 L45 12 L45 16 L24 16 Z" fill="#374151" />
-      <path d="M49 12 L70 12 L70 16 L49 16 Z" fill="#374151" />
-      <path d="M74 12 L88 12 L88 16 L74 16 Z" fill="#374151" />
-    </svg>
-  )
+  return <img src="/images/real_vehicle.png" alt="Interurbain" className="w-20 h-10 object-contain grayscale" />
 }
 
 export default function BookRidePage() {
@@ -457,8 +431,8 @@ export default function BookRidePage() {
               <h3 className="text-slate-900 font-black text-base mb-1 tracking-tight">Déplacez-vous facilement</h3>
               <p className="text-slate-500 text-xs font-semibold">Des trajets rapides et sécurisés à tout moment</p>
             </div>
-            <div className="w-16 h-12 relative z-10 flex items-center justify-center">
-              <Car className="w-12 h-12 text-[#0066CC]" />
+            <div className="w-20 h-12 relative z-10 flex items-center justify-center">
+              <img src="/images/real_vehicle.png" alt="Car" className="w-full h-full object-contain" />
             </div>
             <div className="w-8 h-8 rounded-full bg-white flex items-center justify-center text-[#0066CC] shadow-sm ml-2">
               <ChevronRight className="w-4 h-4" />
@@ -503,7 +477,9 @@ export default function BookRidePage() {
               <h2 className="text-white font-black text-lg leading-tight mb-2 tracking-tight uppercase">Des trajets sûrs, à chaque instant</h2>
               <p className="text-slate-300 text-xs font-medium">Votre confort, notre priorité</p>
             </div>
-            <Shield className="absolute right-[-10px] bottom-[-10px] w-28 h-28 text-white opacity-10" />
+            <div className="absolute right-2 bottom-2 w-32 h-20 z-0 opacity-90">
+              <img src="/images/real_vehicle.png" alt="SUV" className="w-full h-full object-contain" />
+            </div>
           </button>
         </main>
       )}

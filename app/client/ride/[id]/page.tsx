@@ -225,8 +225,8 @@ export default function RideTrackingPage({ params }: { params: Promise<{ id: str
           {/* Driver details Card */}
           <div className="flex items-center justify-between mb-5">
             <div className="flex items-center gap-3.5">
-              <div className="w-12 h-12 rounded-full bg-slate-100 flex items-center justify-center font-black text-slate-800 text-lg border-2 border-white shadow-sm shrink-0">
-                {ride.driver?.full_name?.charAt(0) || "D"}
+              <div className="w-12 h-12 rounded-full overflow-hidden border-2 border-white shadow-sm shrink-0">
+                <img src="/images/mactar-profile.png" alt="Driver" className="w-full h-full object-cover" />
               </div>
               <div>
                 <h4 className="font-bold text-slate-900 text-[15px]">{ride.driver?.full_name || "Mamadou Fall"}</h4>
