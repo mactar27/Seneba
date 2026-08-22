@@ -608,12 +608,10 @@ export default function BookRidePage() {
                       : "bg-white text-slate-600 border-slate-150 hover:bg-slate-50"
                   }`}
                 >
-                  <svg viewBox="0 0 24 24" className="w-6 h-6 flex-shrink-0">
-                    <circle cx="12" cy="12" r="11" fill="#1CC6FF" />
-                    <path d="M12 4C9 4 7 7 7 11c0 3.5 2.5 6 5 8 2.5-2 5-4.5 5-8 0-4-2-7-5-7z" fill="white" />
-                    <path d="M12 4C9.5 4 8 6.5 8 10c0 2.5 1.5 4 4 6 2.5-2 4-3.5 4-6 0-3.5-1.5-6-4-6z" fill="#004488" />
-                    <ellipse cx="12" cy="11" rx="2.5" ry="3.5" fill="white" />
-                    <polygon points="12,9 13.5,8 12,7.5" fill="#FF9900" />
+                  <svg viewBox="0 0 100 100" className="w-6 h-6 flex-shrink-0">
+                    <circle cx="50" cy="50" r="50" fill="#1CC6FF" />
+                    <path d="M50 20C38 20 28 30 28 43C28 56 35 66 45 72V78C45 79 46 80 48 80H52C54 80 55 79 55 78V72C65 66 72 56 72 43C72 30 62 20 50 20ZM50 32C54.4 32 58 35.6 58 40C58 44.4 54.4 48 50 48C45.6 48 42 44.4 42 40C42 35.6 45.6 32 50 32Z" fill="white" />
+                    <polygon points="50,44 55,41 50,38" fill="#FF9900" />
                   </svg>
                   Wave
                 </button>
