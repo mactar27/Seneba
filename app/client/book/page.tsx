@@ -15,15 +15,15 @@ const ClientMap = dynamic(() => import("@/components/client/client-map").then(mo
 
 // --- Premium Vehicle SVGs ---
 function StandardCarSVG() {
-  return <img src="/images/standard_car.png" alt="Standard" className="w-20 h-10 object-contain mix-blend-multiply" />
+  return <img src="/images/standard_car.png" alt="Standard" className="w-20 h-10 object-contain mix-blend-multiply" style={{ mixBlendMode: 'multiply' }} />
 }
 
 function ConfortCarSVG() {
-  return <img src="/images/confort_car.png" alt="Confort" className="w-20 h-10 object-contain mix-blend-multiply" />
+  return <img src="/images/confort_car.png" alt="Confort" className="w-20 h-10 object-contain mix-blend-multiply" style={{ mixBlendMode: 'multiply' }} />
 }
 
 function InterurbainVanSVG() {
-  return <img src="/images/interurbain_van.png" alt="Interurbain" className="w-20 h-10 object-contain mix-blend-multiply" />
+  return <img src="/images/interurbain_van.png" alt="Interurbain" className="w-20 h-10 object-contain mix-blend-multiply" style={{ mixBlendMode: 'multiply' }} />
 }
 
 export default function BookRidePage() {
