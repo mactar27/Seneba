@@ -8,7 +8,7 @@ export default function HomePage() {
       
       {/* ─── Header Background (Seneba Blue Gradient) ─── */}
       <div 
-        className="absolute top-0 left-0 right-0 h-[48vh] z-0 flex flex-col justify-start pt-12 px-6"
+        className="absolute top-0 left-0 right-0 h-[56vh] z-0 flex flex-col justify-start pt-12 px-6"
         style={{ background: "linear-gradient(180deg, #0050C8 0%, #0066EE 100%)" }}
       >
         {/* Status Area & Logo Row */}
@@ -35,7 +35,7 @@ export default function HomePage() {
       </div>
 
       {/* ─── Main Scrollable Area ─── */}
-      <div className="relative z-10 flex flex-col px-4 pt-[240px] gap-4">
+      <div className="relative z-10 flex flex-col px-4 pt-[290px] gap-4">
         
         {/* ── Featured Card — reconstruit en HTML/CSS pour être net ── */}
         <Link href="/client/auth/login"
