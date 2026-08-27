@@ -1,96 +1,162 @@
 import Link from "next/link"
 import { SenebaLogo } from "@/components/seneba-logo"
-import { Car, ArrowRight, MapPin, Building2, ShoppingBag } from "lucide-react"
+import { Car, ArrowRight, MapPin, Building2, ShoppingBag, Bell, ShieldCheck, ChevronRight, Home, Clock, User } from "lucide-react"
 
 export default function HomePage() {
   return (
-    <div className="flex min-h-svh flex-col bg-[#F4F8FA] overflow-hidden relative">
+    <div className="flex min-h-svh flex-col bg-[#F7F9FC] overflow-x-hidden pb-20 relative">
       
-      {/* ─── Header Background (Seneba Blue) ─── */}
+      {/* ─── Header Background (Seneba Blue Gradient) ─── */}
       <div 
-        className="absolute top-0 left-0 right-0 h-[45vh] z-0"
-        style={{ background: "linear-gradient(180deg, #0066CC 0%, #0052A3 100%)" }}
+        className="absolute top-0 left-0 right-0 h-[48vh] z-0 flex flex-col justify-start pt-12 px-6"
+        style={{ background: "linear-gradient(180deg, #0050C8 0%, #0066EE 100%)" }}
       >
-        <div className="pt-14 px-6 text-center">
-          <div className="flex justify-center mb-4">
-            <span className="bg-white/10 backdrop-blur-md px-4 py-1.5 rounded-full text-white/90 text-xs font-bold tracking-wider uppercase">
-              Seneba Courses
-            </span>
-          </div>
-          <h1 className="text-white font-black text-2xl leading-tight">
-            Votre chauffeur privé<br/>à Dakar en un clic
+        {/* Status Area & Logo Row */}
+        <div className="flex items-center justify-between mb-6">
+          <SenebaLogo className="h-7 text-white brightness-0 invert" />
+          <button className="relative w-10 h-10 bg-white/10 backdrop-blur-md rounded-full flex items-center justify-center text-white hover:bg-white/20 transition-colors">
+            <Bell className="w-5 h-5" />
+            <span className="absolute top-2 right-2.5 w-2 h-2 bg-red-500 rounded-full ring-2 ring-[#0050C8]" />
+          </button>
+        </div>
+
+        {/* Title Tag, Heading and Subtitle */}
+        <div className="flex flex-col items-start">
+          <span className="inline-block bg-white/10 backdrop-blur-md px-3.5 py-1.5 rounded-full text-white text-[10px] font-black tracking-wider uppercase mb-3">
+            Seneba Courses
+          </span>
+          <h1 className="text-white font-extrabold text-[28px] leading-tight mb-2 tracking-tight text-left">
+            Votre chauffeur privé<br/>à Dakar, en un clic
           </h1>
+          <p className="text-white/80 text-xs font-semibold leading-relaxed text-left">
+            Trajets rapides, sécurisés et confortables à tout moment.
+          </p>
         </div>
       </div>
 
-      {/* ─── Main Content ─── */}
-      <div className="relative z-10 flex flex-col px-4 pt-36 pb-8 h-full flex-1">
+      {/* ─── Main Scrollable Area ─── */}
+      <div className="relative z-10 flex flex-col px-4 pt-[240px] gap-4">
         
-        {/* Real Vehicle Banner Card */}
-        <div className="bg-white rounded-[24px] shadow-lg overflow-hidden mb-4 flex flex-col">
-          <div className="p-5 flex justify-between items-center border-b border-slate-50">
-            <SenebaLogo className="h-7" />
-            <span className="text-xs font-extrabold text-[#0066CC] bg-blue-50 px-2.5 py-1 rounded-lg">Disponible 24h/7</span>
-          </div>
-          <div className="relative w-full h-44 bg-slate-900 overflow-hidden">
-            <img 
-              src="/images/real_vehicle.png" 
-              alt="Seneba Vehicle" 
-              className="w-full h-full object-cover opacity-90 scale-105"
-            />
-            <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent flex flex-col justify-end p-5">
-              <span className="text-white font-black text-lg">Commandez votre trajet</span>
-              <span className="text-slate-300 text-xs font-medium">Standard • Confort • Interurbain</span>
-            </div>
-          </div>
-        </div>
+        {/* Featured Card (using seneba.png) */}
+        <Link href="/client/auth/login" className="w-full rounded-[28px] overflow-hidden shadow-sm bg-white border border-slate-100 hover:shadow-md transition-shadow">
+          <img 
+            src="/images/seneba.png" 
+            alt="Seneba Courses - Disponible 24h/7" 
+            className="w-full h-auto object-cover"
+          />
+        </Link>
 
-        {/* Where to / Quick Destinations */}
-        <div className="bg-white rounded-[24px] shadow-lg p-5">
-          {/* Search Input */}
-          <Link href="/client/auth/login" className="flex items-center gap-3 bg-[#F4F8FA] rounded-2xl h-14 px-4 mb-4 hover:bg-slate-100 transition-colors border border-slate-100/50">
-            <div className="w-6 h-6 flex items-center justify-center bg-blue-100 text-[#0066CC] rounded-full">
-              <Car className="w-4 h-4" />
-            </div>
-            <span className="flex-1 font-bold text-base text-slate-800">Où allez-vous ?</span>
-            <ArrowRight className="w-5 h-5 text-slate-400" />
-          </Link>
+        {/* Where to / Search Destination Box */}
+        <Link href="/client/auth/login" className="flex items-center gap-4 bg-white rounded-3xl p-4 shadow-sm hover:shadow-md transition-shadow border border-slate-100/50">
+          <div className="w-12 h-12 flex items-center justify-center bg-blue-50 text-[#0066CC] rounded-2xl flex-shrink-0">
+            <Car className="w-6 h-6" />
+          </div>
+          <div className="flex-1 flex flex-col items-start">
+            <span className="font-extrabold text-base text-slate-800 leading-tight">Où allez-vous ?</span>
+            <span className="text-xs font-semibold text-slate-400">Entrez votre destination</span>
+          </div>
+          <ChevronRight className="w-5 h-5 text-[#0066CC] mr-1" />
+        </Link>
 
-          {/* Saved Destinations */}
-          <div className="flex flex-col gap-1">
-            <Link href="/client/auth/login" className="flex items-center justify-between py-3 border-b border-slate-100 hover:bg-slate-50 rounded-xl px-2 transition-colors">
-              <div className="flex items-center gap-4">
-                <div className="w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center text-slate-600">
-                  <MapPin className="w-4 h-4" />
+        {/* Quick Access Section */}
+        <div className="flex flex-col bg-white rounded-3xl p-4 shadow-sm border border-slate-100/50">
+          <div className="flex items-center justify-between mb-3 px-1">
+            <span className="text-sm font-black text-slate-800">Accès rapides</span>
+            <button className="text-xs font-extrabold text-[#0066CC] hover:underline">Voir tout</button>
+          </div>
+
+          <div className="flex flex-col">
+            {/* Domicile */}
+            <Link href="/client/auth/login" className="flex items-center justify-between py-3 border-b border-slate-50 hover:bg-slate-50/50 rounded-xl px-1 transition-colors">
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 rounded-2xl bg-blue-50 text-[#0066CC] flex items-center justify-center flex-shrink-0">
+                  <Home className="w-4 h-4" />
                 </div>
-                <span className="font-semibold text-sm text-slate-700">Domicile</span>
+                <div className="flex flex-col items-start">
+                  <span className="font-extrabold text-sm text-slate-700 leading-tight">Domicile</span>
+                  <span className="text-[10px] font-semibold text-slate-400">Votre adresse enregistrée</span>
+                </div>
               </div>
-              <span className="text-xs font-bold text-slate-400">12 min</span>
+              <div className="flex items-center gap-1.5">
+                <span className="bg-blue-50 text-[#0066CC] text-[10px] font-black px-2.5 py-1 rounded-lg">12 min</span>
+                <ChevronRight className="w-4 h-4 text-slate-300" />
+              </div>
             </Link>
 
-            <Link href="/client/auth/login" className="flex items-center justify-between py-3 border-b border-slate-100 hover:bg-slate-50 rounded-xl px-2 transition-colors">
-              <div className="flex items-center gap-4">
-                <div className="w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center text-slate-600">
+            {/* Bureau */}
+            <Link href="/client/auth/login" className="flex items-center justify-between py-3 border-b border-slate-50 hover:bg-slate-50/50 rounded-xl px-1 transition-colors">
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 rounded-2xl bg-blue-50 text-[#0066CC] flex items-center justify-center flex-shrink-0">
                   <Building2 className="w-4 h-4" />
                 </div>
-                <span className="font-semibold text-sm text-slate-700">Bureau</span>
+                <div className="flex flex-col items-start">
+                  <span className="font-extrabold text-sm text-slate-700 leading-tight">Bureau</span>
+                  <span className="text-[10px] font-semibold text-slate-400">Votre lieu de travail</span>
+                </div>
               </div>
-              <span className="text-xs font-bold text-slate-400">44 min</span>
+              <div className="flex items-center gap-1.5">
+                <span className="bg-blue-50 text-[#0066CC] text-[10px] font-black px-2.5 py-1 rounded-lg">44 min</span>
+                <ChevronRight className="w-4 h-4 text-slate-300" />
+              </div>
             </Link>
 
-            <Link href="/client/auth/login" className="flex items-center justify-between py-3 hover:bg-slate-50 rounded-xl px-2 transition-colors">
-              <div className="flex items-center gap-4">
-                <div className="w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center text-slate-600">
+            {/* Centre commercial */}
+            <Link href="/client/auth/login" className="flex items-center justify-between py-3 hover:bg-slate-50/50 rounded-xl px-1 transition-colors">
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 rounded-2xl bg-blue-50 text-[#0066CC] flex items-center justify-center flex-shrink-0">
                   <ShoppingBag className="w-4 h-4" />
                 </div>
-                <span className="font-semibold text-sm text-slate-700">Centre commercial</span>
+                <div className="flex flex-col items-start">
+                  <span className="font-extrabold text-sm text-slate-700 leading-tight">Centre commercial</span>
+                  <span className="text-[10px] font-semibold text-slate-400">Les Almadies</span>
+                </div>
               </div>
-              <span className="text-xs font-bold text-slate-400">18 min</span>
+              <div className="flex items-center gap-1.5">
+                <span className="bg-blue-50 text-[#0066CC] text-[10px] font-black px-2.5 py-1 rounded-lg">18 min</span>
+                <ChevronRight className="w-4 h-4 text-slate-300" />
+              </div>
             </Link>
           </div>
         </div>
 
+        {/* Security Info Card */}
+        <Link href="/client/auth/login" className="flex items-center justify-between bg-slate-50 hover:bg-slate-100 transition-colors rounded-2xl p-4 border border-slate-150/50">
+          <div className="flex items-center gap-3">
+            <div className="w-8 h-8 rounded-full bg-green-50 text-green-600 flex items-center justify-center flex-shrink-0">
+              <ShieldCheck className="w-5 h-5" />
+            </div>
+            <div className="flex flex-col items-start">
+              <span className="font-extrabold text-xs text-slate-700 leading-tight">Sécurité avant tout</span>
+              <span className="text-[10px] font-semibold text-slate-400">Chauffeurs vérifiés • Trajets suivis en temps réel</span>
+            </div>
+          </div>
+          <ChevronRight className="w-4 h-4 text-slate-300" />
+        </Link>
       </div>
+
+      {/* ─── Bottom Navigation Bar ─── */}
+      <nav className="fixed bottom-0 left-0 right-0 z-50 bg-white border-t border-slate-100 safe-area-bottom h-16 shadow-lg">
+        <div className="flex items-center justify-around h-full px-2">
+          {/* Tab 1: Réserver */}
+          <Link href="/client/auth/login" className="flex flex-col items-center justify-center flex-1 h-full gap-1 text-[#0066CC]">
+            <Car className="w-5 h-5" />
+            <span className="text-[10px] font-bold">Réserver</span>
+          </Link>
+
+          {/* Tab 2: Historique */}
+          <Link href="/client/auth/login" className="flex flex-col items-center justify-center flex-1 h-full gap-1 text-slate-400 hover:text-slate-600">
+            <Clock className="w-5 h-5" />
+            <span className="text-[10px] font-medium">Historique</span>
+          </Link>
+
+          {/* Tab 3: Profil */}
+          <Link href="/client/auth/login" className="flex flex-col items-center justify-center flex-1 h-full gap-1 text-slate-400 hover:text-slate-600">
+            <User className="w-5 h-5" />
+            <span className="text-[10px] font-medium">Profil</span>
+          </Link>
+        </div>
+      </nav>
+
     </div>
   )
 }
