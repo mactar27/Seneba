@@ -5,7 +5,7 @@ import { getSession } from "@/lib/auth"
 import type { RowDataPacket } from "mysql2"
 import { checkRateLimit } from "@/lib/rate-limit"
 
-export async function getClientProfile() {
+export async function getClientProfilee() {
   const session = await getSession()
   if (!session?.user?.id) return null
 
@@ -180,7 +180,7 @@ export async function getClientRideHistory() {
   }
 }
 
-export async function updateClientProfile(data: any) {
+export async function updateClientProfilee(data: any) {
   const session = await getSession()
   if (!session?.user?.id) return { error: "Non autorisé" }
 

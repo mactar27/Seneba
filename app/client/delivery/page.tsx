@@ -65,7 +65,7 @@ export default function DeliveryPage() {
             >
               <div>
                 <h4 className="font-bold text-slate-900 text-sm">Livraison express</h4>
-                <p className="text-xs text-slate-400 font-semibold mt-0.5">Rapide et sécurisée</p>
+                <p className="text-xs text-slate-400 font-semibold mt-0.5">Fast and secure</p>
               </div>
               <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center ${
                 option === "express" ? "border-[#0066CC] bg-[#0066CC]" : "border-slate-200"
@@ -83,7 +83,7 @@ export default function DeliveryPage() {
             >
               <div>
                 <h4 className="font-bold text-slate-900 text-sm">Livraison standard</h4>
-                <p className="text-xs text-slate-400 font-semibold mt-0.5">Économique</p>
+                <p className="text-xs text-slate-400 font-semibold mt-0.5">Economic</p>
               </div>
               <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center ${
                 option === "standard" ? "border-[#0066CC] bg-[#0066CC]" : "border-slate-200"
@@ -100,7 +100,7 @@ export default function DeliveryPage() {
               }`}
             >
               <div>
-                <h4 className="font-bold text-slate-900 text-sm">Livraison programmée</h4>
+                <h4 className="font-bold text-slate-900 text-sm">Scheduled delivery</h4>
                 <p className="text-xs text-slate-400 font-semibold mt-0.5">Choisissez l'horaire</p>
               </div>
               <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center ${
@@ -117,7 +117,7 @@ export default function DeliveryPage() {
           onClick={handleContinue}
           className="w-full h-13 text-sm font-bold rounded-2xl bg-[#0066CC] hover:bg-[#0052A3] text-white flex items-center justify-center"
         >
-          Continuer
+          Continue
         </Button>
       </main>
 
@@ -126,15 +126,15 @@ export default function DeliveryPage() {
         <div className="flex items-center justify-around h-full px-2">
           <Link href="/client/book" className="flex flex-col items-center justify-center flex-1 h-full gap-1 text-slate-400 hover:text-slate-600 transition-all">
             <Car className="w-5 h-5" />
-            <span className="text-[10px] font-medium">Réserver</span>
+            <span className="text-[10px] font-medium">Book</span>
           </Link>
           <Link href="/client/history" className="flex flex-col items-center justify-center flex-1 h-full gap-1 text-slate-400 hover:text-slate-600 transition-all">
             <Compass className="w-5 h-5" />
-            <span className="text-[10px] font-medium">Historique</span>
+            <span className="text-[10px] font-medium">History</span>
           </Link>
           <Link href="/client/profile" className="flex flex-col items-center justify-center flex-1 h-full gap-1 text-slate-400 hover:text-slate-600 transition-all">
             <Compass className="w-5 h-5" />
-            <span className="text-[10px] font-medium">Profil</span>
+            <span className="text-[10px] font-medium">Profile</span>
           </Link>
         </div>
       </nav>

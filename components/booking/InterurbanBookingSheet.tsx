@@ -33,7 +33,7 @@ export function InterurbanBookingSheet() {
       <Drawer.Trigger asChild>
         <Button className="w-full py-6 text-lg font-semibold bg-green-600 hover:bg-green-700 text-white shadow-lg rounded-xl">
           <Navigation className="mr-2 h-5 w-5 animate-pulse" />
-          Voyager en Région (Interurbain)
+          Voyager en Région (Intercity)
         </Button>
       </Drawer.Trigger>
       
@@ -55,7 +55,7 @@ export function InterurbanBookingSheet() {
               {/* Point de départ */}
               <div className="space-y-2 relative">
                 <Label className="flex items-center gap-2 text-sm font-medium">
-                  <MapPin className="h-4 w-4 text-green-600" /> Région de Départ
+                  <MapPin className="h-4 w-4 text-green-600" /> Région de Pickup
                 </Label>
                 <RegionSelector 
                   value={departRegion} 
@@ -121,7 +121,7 @@ export function InterurbanBookingSheet() {
                 className="w-full py-6 font-bold text-base rounded-xl"
                 disabled={!departRegion || !arriveeRegion || loading}
               >
-                Confirmer et chercher un chauffeur
+                Confirm et chercher un chauffeur
               </Button>
             </div>
           </div>

@@ -2,7 +2,7 @@
 
 export interface PricingOptions {
   distanceKm: number;
-  isInterurbain: boolean;
+  isIntercity: boolean;
   inclutPeage?: boolean;
 }
 
@@ -23,18 +23,18 @@ const INTERURBAIN_PRICE_PER_KM = 25; // Tarif moins élevé au km pour les longs
 const PEAGE_FLAT_FEE = 3000;
 
 export async function calculateTripPrice(options: PricingOptions): Promise<PricingResult> {
-  const { distanceKm, isInterurbain, inclutPeage } = options;
+  const { distanceKm, isIntercity, inclutPeage } = options;
 
   let baseFare = URBAIN_BASE_FARE;
   let pricePerKm = URBAIN_PRICE_PER_KM;
   let tollFare = 0;
 
-  if (isInterurbain) {
+  if (isIntercity) {
     baseFare = INTERURBAIN_BASE_FARE;
     pricePerKm = INTERURBAIN_PRICE_PER_KM;
   }
 
-  if (inclutPeage && isInterurbain) {
+  if (inclutPeage && isIntercity) {
     // Forfait péage ajouté (ex: Ila Touba ou Autoroute Avenir)
     tollFare = PEAGE_FLAT_FEE;
   }
@@ -67,7 +67,7 @@ export async function calculateInterurbanPrice(
   
   const result = await calculateTripPrice({
     distanceKm: mockDistanceKm,
-    isInterurbain: true,
+    isIntercity: true,
     inclutPeage,
   });
 

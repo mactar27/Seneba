@@ -1,6 +1,6 @@
 "use client"
 
-import { getClientProfile, createRide } from "@/lib/actions/client"
+import { getClientProfilee, createRide } from "@/lib/actions/client"
 import { useEffect, useState, useCallback } from "react"
 import { useRouter } from "next/navigation"
 import { Button } from "@/components/ui/button"
@@ -18,12 +18,12 @@ function StandardCarSVG() {
   return <img src="/images/standard_car.png" alt="Standard" className="w-20 h-10 object-contain" />
 }
 
-function ConfortCarSVG() {
-  return <img src="/images/confort_car.png" alt="Confort" className="w-20 h-10 object-contain" />
+function ComfortCarSVG() {
+  return <img src="/images/confort_car.png" alt="Comfort" className="w-20 h-10 object-contain" />
 }
 
-function InterurbainVanSVG() {
-  return <img src="/images/interurbain_van.png" alt="Interurbain" className="w-20 h-10 object-contain" />
+function IntercityVanSVG() {
+  return <img src="/images/interurbain_van.png" alt="Intercity" className="w-20 h-10 object-contain" />
 }
 
 export default function BookRidePage() {
@@ -41,7 +41,7 @@ export default function BookRidePage() {
   const [paymentMethod, setPaymentMethod] = useState<"cash" | "wave" | "orange_money">("cash")
 
   const loadClient = useCallback(async () => {
-    const clientData = await getClientProfile()
+    const clientData = await getClientProfilee()
     if (clientData) {
       setClient(clientData as Client)
     }
@@ -92,12 +92,12 @@ export default function BookRidePage() {
     const pickupCoords = getCoords(pickup)
     const destCoords = getCoords(destination)
     
-    const isConfort = selectedService === "confort"
-    const isInterurbain = selectedService === "interurbain"
-    const baseFare = isConfort ? 1000 : isInterurbain ? 500 : 500
+    const isComfort = selectedService === "confort"
+    const isIntercity = selectedService === "interurbain"
+    const baseFare = isComfort ? 1000 : isIntercity ? 500 : 500
     
     const distanceKm = Math.sqrt(Math.pow(destCoords.lat - pickupCoords.lat, 2) + Math.pow(destCoords.lng - pickupCoords.lng, 2)) * 111 || 5
-    const distanceFare = distanceKm * (isConfort ? 500 : isInterurbain ? 200 : 300)
+    const distanceFare = distanceKm * (isComfort ? 500 : isIntercity ? 200 : 300)
     const totalFare = Math.round(baseFare + distanceFare)
 
     const result = await createRide({
@@ -174,7 +174,7 @@ export default function BookRidePage() {
           <span className="absolute right-4 w-2.5 h-2.5 bg-blue-600 rounded-full" />
         </button>
         <Link href="/client/profile" className="w-full flex items-center gap-3.5 px-4.5 py-3 rounded-2xl text-slate-700 hover:bg-slate-50 font-semibold text-sm text-left">
-          <Settings className="w-5 h-5 text-slate-400" /> Paramètres
+          <Settings className="w-5 h-5 text-slate-400" /> Settings
         </Link>
         <button onClick={() => handleSoon("Aide")} className="w-full flex items-center gap-3.5 px-4.5 py-3 rounded-2xl text-slate-700 hover:bg-slate-50 font-semibold text-sm text-left">
           <HelpCircle className="w-5 h-5 text-slate-400" /> Aide & support
@@ -200,7 +200,7 @@ export default function BookRidePage() {
           >
             {/* Header */}
             <div className="flex items-center justify-between mb-5">
-              <h2 className="text-xl font-black text-slate-900">Où allez-vous ?</h2>
+              <h2 className="text-xl font-black text-slate-900">Where to?</h2>
               <button 
                 onClick={() => setIsSearchMode(false)}
                 className="w-10 h-10 rounded-full bg-slate-50 flex items-center justify-center text-slate-800 hover:bg-slate-100 transition-colors"
@@ -240,7 +240,7 @@ export default function BookRidePage() {
                 </div>
               </button>
 
-              {/* Domicile */}
+              {/* Home */}
               <button 
                 onClick={() => selectDestination("Hann Bel-Air")}
                 className="w-full flex items-center gap-4 py-3 border-b border-slate-50 text-left"
@@ -249,12 +249,12 @@ export default function BookRidePage() {
                   <Compass className="w-5 h-5" />
                 </div>
                 <div>
-                  <h4 className="font-bold text-slate-900 text-sm">Domicile</h4>
-                  <p className="text-xs text-[#0066CC] font-bold">Définir une adresse</p>
+                  <h4 className="font-bold text-slate-900 text-sm">Home</h4>
+                  <p className="text-xs text-[#0066CC] font-bold">Set an address</p>
                 </div>
               </button>
 
-              {/* Bureau */}
+              {/* Office */}
               <button 
                 onClick={() => selectDestination("Plateau, Dakar")}
                 className="w-full flex items-center gap-4 py-3 border-b border-slate-50 text-left"
@@ -263,15 +263,15 @@ export default function BookRidePage() {
                   <Building2 className="w-5 h-5" />
                 </div>
                 <div>
-                  <h4 className="font-bold text-slate-900 text-sm">Bureau</h4>
-                  <p className="text-xs text-[#0066CC] font-bold">Définir une adresse</p>
+                  <h4 className="font-bold text-slate-900 text-sm">Office</h4>
+                  <p className="text-xs text-[#0066CC] font-bold">Set an address</p>
                 </div>
               </button>
             </div>
 
-            {/* Destinations récentes */}
+            {/* Recent destinations */}
             <div className="flex-1 overflow-y-auto">
-              <h3 className="font-black text-slate-900 text-sm mb-3">Destinations récentes</h3>
+              <h3 className="font-black text-slate-900 text-sm mb-3">Recent destinations</h3>
               <div className="space-y-4">
                 {[
                   { title: "Aéroport AIBD", sub: "Diass, Sénégal", icon: Plane },
@@ -300,7 +300,7 @@ export default function BookRidePage() {
             </div>
 
             {/* Footer search link */}
-            <button onClick={() => handleSoon("Historique complet")} className="text-center font-bold text-sm text-[#0066CC] py-3 hover:underline">
+            <button onClick={() => handleSoon("History complet")} className="text-center font-bold text-sm text-[#0066CC] py-3 hover:underline">
               Voir plus d'historique
             </button>
           </motion.div>
@@ -364,7 +364,7 @@ export default function BookRidePage() {
                 className="flex items-center gap-3.5 pt-1 cursor-pointer hover:opacity-80"
               >
                 <div className="w-4 h-4 rounded-full bg-orange-500 flex items-center justify-center" />
-                <span className="text-slate-400 font-medium text-sm">Où allez-vous ?</span>
+                <span className="text-slate-400 font-medium text-sm">Where to?</span>
               </div>
             </div>
           </div>
@@ -376,8 +376,8 @@ export default function BookRidePage() {
             className="w-full bg-[#EBF3FF] rounded-[24px] p-5 text-left flex items-center justify-between mb-8 active:scale-95 transition-transform relative overflow-hidden group border border-blue-100"
           >
             <div className="z-10 w-2/3">
-              <h3 className="text-slate-900 font-black text-base mb-1 tracking-tight">Déplacez-vous facilement</h3>
-              <p className="text-slate-500 text-xs font-semibold">Des trajets rapides et sécurisés à tout moment</p>
+              <h3 className="text-slate-900 font-black text-base mb-1 tracking-tight">Move around easily</h3>
+              <p className="text-slate-500 text-xs font-semibold">Fast and secure rides anytime</p>
             </div>
             <div className="w-20 h-12 relative z-10 flex items-center justify-center">
               <img src="/images/real_vehicle.png" alt="Car" className="w-full h-full object-contain" />
@@ -390,8 +390,8 @@ export default function BookRidePage() {
           {/* Recent Destinations */}
           <div className="mb-8">
             <div className="flex items-center justify-between mb-4">
-              <h3 className="font-black text-slate-900 text-base">Destinations récentes</h3>
-              <button onClick={openSearch} className="text-xs font-black text-[#0066CC] hover:underline">Voir tout</button>
+              <h3 className="font-black text-slate-900 text-base">Recent destinations</h3>
+              <button onClick={openSearch} className="text-xs font-black text-[#0066CC] hover:underline">See all</button>
             </div>
 
             <div className="space-y-3">
@@ -514,7 +514,7 @@ export default function BookRidePage() {
                       onClick={openSearch}
                       readOnly
                       className="flex-1 bg-transparent border-none outline-none text-slate-800 font-bold text-sm placeholder:text-slate-400 placeholder:font-normal cursor-pointer"
-                      placeholder="Où allez-vous ?"
+                      placeholder="Where to?"
                     />
                   </div>
                 </div>
@@ -523,7 +523,7 @@ export default function BookRidePage() {
               {/* Service Categories Options */}
               <div className="flex items-center justify-between mb-2">
                 <span className="text-xs font-black text-slate-900 uppercase tracking-wider">Type de course</span>
-                <button onClick={() => handleSoon("Types")} className="text-[11px] font-black text-[#0066CC] hover:underline">Voir tout</button>
+                <button onClick={() => handleSoon("Types")} className="text-[11px] font-black text-[#0066CC] hover:underline">See all</button>
               </div>
 
               <div className="flex gap-2.5 mb-4">
@@ -543,7 +543,7 @@ export default function BookRidePage() {
                   </div>
                 </button>
 
-                {/* Confort */}
+                {/* Comfort */}
                 <button 
                   onClick={() => setSelectedService("confort")}
                   className={`flex-1 bg-white rounded-2xl p-3 flex flex-col items-center gap-2 border transition-all ${
@@ -552,14 +552,14 @@ export default function BookRidePage() {
                       : "border-slate-100 opacity-60 hover:opacity-100"
                   }`}
                 >
-                  <ConfortCarSVG />
+                  <ComfortCarSVG />
                   <div className="text-center">
-                    <span className="block font-black text-slate-800 text-[13px]">Confort</span>
+                    <span className="block font-black text-slate-800 text-[13px]">Comfort</span>
                     <span className="block text-[9px] text-slate-400 font-medium">Plus d'espace</span>
                   </div>
                 </button>
 
-                {/* Interurbain */}
+                {/* Intercity */}
                 <button 
                   onClick={() => setSelectedService("interurbain")}
                   className={`flex-1 bg-white rounded-2xl p-3 flex flex-col items-center gap-2 border transition-all ${
@@ -568,9 +568,9 @@ export default function BookRidePage() {
                       : "border-slate-100 opacity-60 hover:opacity-100"
                   }`}
                 >
-                  <InterurbainVanSVG />
+                  <IntercityVanSVG />
                   <div className="text-center">
-                    <span className="block font-black text-slate-800 text-[13px]">Interurbain</span>
+                    <span className="block font-black text-slate-800 text-[13px]">Intercity</span>
                     <span className="block text-[9px] text-slate-400 font-medium">Voyagez loin</span>
                   </div>
                 </button>
@@ -578,7 +578,7 @@ export default function BookRidePage() {
 
               {/* Payment Methods buttons */}
               <div className="mb-2">
-                <span className="text-xs font-black text-slate-900 uppercase tracking-wider">Méthode de paiement</span>
+                <span className="text-xs font-black text-slate-900 uppercase tracking-wider">Payment method</span>
               </div>
               <div className="grid grid-cols-3 gap-2 mb-5">
                 {/* Cash */}
@@ -644,7 +644,7 @@ export default function BookRidePage() {
         className="fixed bottom-0 left-0 right-0 z-50 bg-white border-t border-slate-100 safe-area-bottom h-16"
       >
         <div className="flex items-center justify-around h-full px-2">
-          {/* Tab 1: Réserver */}
+          {/* Tab 1: Book */}
           <button 
             onClick={() => { setIsMapMode(false); setIsSearchMode(false) }}
             className={`flex flex-col items-center justify-center flex-1 h-full gap-1 transition-all ${
@@ -652,25 +652,25 @@ export default function BookRidePage() {
             }`}
           >
             <Car className="w-5 h-5" />
-            <span className="text-[10px] font-bold">Réserver</span>
+            <span className="text-[10px] font-bold">Book</span>
           </button>
 
-          {/* Tab 2: Historique */}
+          {/* Tab 2: History */}
           <Link 
             href="/client/history"
             className="flex flex-col items-center justify-center flex-1 h-full gap-1 text-slate-400 hover:text-slate-600 transition-all"
           >
             <Compass className="w-5 h-5" />
-            <span className="text-[10px] font-medium">Historique</span>
+            <span className="text-[10px] font-medium">History</span>
           </Link>
 
-          {/* Tab 3: Profil */}
+          {/* Tab 3: Profile */}
           <Link 
             href="/client/profile"
             className="flex flex-col items-center justify-center flex-1 h-full gap-1 text-slate-400 hover:text-slate-600 transition-all"
           >
             <Compass className="w-5 h-5" />
-            <span className="text-[10px] font-medium">Profil</span>
+            <span className="text-[10px] font-medium">Profile</span>
           </Link>
         </div>
       </nav>

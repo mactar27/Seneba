@@ -1,7 +1,7 @@
 "use client"
 
 import type React from "react"
-import { getDriverProfile, completeOnboarding } from "@/lib/actions/driver"
+import { getDriverProfilee, completeOnboarding } from "@/lib/actions/driver"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
@@ -32,7 +32,7 @@ export default function OnboardingPage() {
 
   useEffect(() => {
     const checkAuth = async () => {
-      const driver = await getDriverProfile()
+      const driver = await getDriverProfilee()
       if (driver) {
         setUserId(driver.user_id)
         setFormData(prev => ({
@@ -89,7 +89,7 @@ export default function OnboardingPage() {
 
   const steps = [
     { id: "personal", label: "Personnel", icon: User },
-    { id: "vehicle", label: "Véhicule", icon: Car },
+    { id: "vehicle", label: "Vehicle", icon: Car },
     { id: "documents", label: "Documents", icon: FileText },
   ]
 
@@ -102,8 +102,8 @@ export default function OnboardingPage() {
           <div className="mx-auto mb-6 flex h-20 w-20 items-center justify-center rounded-full bg-green-100">
             <CheckCircle2 className="h-10 w-10 text-green-600" />
           </div>
-          <h1 className="text-2xl font-bold mb-2">Inscription terminée !</h1>
-          <p className="text-muted-foreground mb-8">Votre compte chauffeur SENEBA est prêt</p>
+          <h1 className="text-2xl font-bold mb-2">Registration complete!</h1>
+          <p className="text-muted-foreground mb-8">Your SENEBA driver account is ready</p>
           <Button onClick={() => router.push("/dashboard")} className="h-12 px-8">
             Accéder au tableau de bord
           </Button>
@@ -167,7 +167,7 @@ export default function OnboardingPage() {
                   />
                 </div>
                 <div className="grid gap-2">
-                  <Label htmlFor="phone">Téléphone</Label>
+                  <Label htmlFor="phone">Phone</Label>
                   <Input
                     id="phone"
                     name="phone"
@@ -183,7 +183,7 @@ export default function OnboardingPage() {
                   className="h-12 mt-4"
                   disabled={!formData.fullName || !formData.phone}
                 >
-                  Continuer
+                  Continue
                 </Button>
               </div>
             )}
@@ -203,7 +203,7 @@ export default function OnboardingPage() {
                     />
                   </div>
                   <div className="grid gap-2">
-                    <Label htmlFor="vehicleModel">Modèle</Label>
+                    <Label htmlFor="vehicleModel">Model</Label>
                     <Input
                       id="vehicleModel"
                       name="vehicleModel"
@@ -216,7 +216,7 @@ export default function OnboardingPage() {
                 </div>
                 <div className="grid grid-cols-2 gap-4">
                   <div className="grid gap-2">
-                    <Label htmlFor="vehicleYear">Année</Label>
+                    <Label htmlFor="vehicleYear">Year</Label>
                     <Input
                       id="vehicleYear"
                       name="vehicleYear"
@@ -259,7 +259,7 @@ export default function OnboardingPage() {
                     className="h-12 flex-1"
                     disabled={!formData.vehicleMake || !formData.vehicleModel || !formData.licensePlate}
                   >
-                    Continuer
+                    Continue
                   </Button>
                 </div>
               </div>
@@ -268,18 +268,18 @@ export default function OnboardingPage() {
             {step === "documents" && (
               <div className="flex flex-col gap-4">
                 <div className="rounded-lg bg-muted/50 p-4">
-                  <h3 className="font-semibold mb-3">Récapitulatif</h3>
+                  <h3 className="font-semibold mb-3">Summary</h3>
                   <dl className="space-y-2 text-sm">
                     <div className="flex justify-between">
                       <dt className="text-muted-foreground">Nom</dt>
                       <dd className="font-medium">{formData.fullName}</dd>
                     </div>
                     <div className="flex justify-between">
-                      <dt className="text-muted-foreground">Téléphone</dt>
+                      <dt className="text-muted-foreground">Phone</dt>
                       <dd className="font-medium">{formData.phone}</dd>
                     </div>
                     <div className="flex justify-between">
-                      <dt className="text-muted-foreground">Véhicule</dt>
+                      <dt className="text-muted-foreground">Vehicle</dt>
                       <dd className="font-medium">
                         {formData.vehicleMake} {formData.vehicleModel}
                       </dd>
@@ -296,7 +296,7 @@ export default function OnboardingPage() {
                     Retour
                   </Button>
                   <Button onClick={handleSubmit} className="h-12 flex-1" disabled={isLoading}>
-                    {isLoading ? "Création..." : "Terminer"}
+                    {isLoading ? "Creating..." : "Terminer"}
                   </Button>
                 </div>
               </div>

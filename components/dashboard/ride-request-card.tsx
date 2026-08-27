@@ -94,11 +94,11 @@ export function RideRequestCard({ ride, onAccept, onDecline }: RideRequestCardPr
       <div className="flex gap-3">
         <Button variant="outline" className="flex-1 h-12 bg-transparent" onClick={onDecline}>
           <X className="h-5 w-5 mr-2" />
-          Refuser
+          Decline
         </Button>
         <Button className="flex-1 h-12 bg-green-600 hover:bg-green-700" onClick={onAccept}>
           <Check className="h-5 w-5 mr-2" />
-          Accepter
+          Accept
         </Button>
       </div>
     </Card>

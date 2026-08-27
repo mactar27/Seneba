@@ -59,7 +59,7 @@ export function NearbyDrivers() {
       {/* Driver count badge */}
       <div className="absolute top-4 left-4 bg-card px-3 py-2 rounded-full shadow-md flex items-center gap-2">
         <div className="h-2 w-2 rounded-full bg-green-500 animate-pulse" />
-        <span className="text-sm font-medium">{drivers.length} chauffeurs à proximité</span>
+        <span className="text-sm font-medium">{drivers.length} drivers nearby</span>
       </div>
     </>
   )

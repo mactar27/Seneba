@@ -1,7 +1,7 @@
 "use client"
 
 import { 
-  getDriverProfile, 
+  getDriverProfilee, 
   updateDriverAvailability, 
   getActiveRide, 
   getTodayEarnings, 
@@ -64,7 +64,7 @@ export default function DashboardPage() {
 
     // Always refresh driver stats (rides count + rating come from DB aggregation)
     if (forceDriver || currentDriver) {
-      const driverData = await getDriverProfile()
+      const driverData = await getDriverProfilee()
       if (!driverData) {
         router.push("/auth/login")
         return
@@ -172,8 +172,8 @@ export default function DashboardPage() {
       setDriver(prev => prev ? { ...prev, is_available: newStatus } : null)
       if (newStatus) {
         // Real push notification + DB notification
-        notifyRef.current("✅ Vous êtes en ligne", "Vous pouvez maintenant recevoir des courses.", "/dashboard")
-        await createNotification(driver.id, "system", "Vous êtes en ligne", "Vous pouvez maintenant recevoir des courses.")
+        notifyRef.current("✅ You are online", "Vous pouvez maintenant recevoir des courses.", "/dashboard")
+        await createNotification(driver.id, "system", "You are online", "Vous pouvez maintenant recevoir des courses.")
       }
     } else {
       alert("Erreur: " + (result.error || "Impossible de changer le statut"))
@@ -216,7 +216,7 @@ export default function DashboardPage() {
         // Refresh all stats after completion
         const [newEarnings, updatedDriver] = await Promise.all([
           getTodayEarnings(driver.id),
-          getDriverProfile()
+          getDriverProfilee()
         ])
         setTodayEarnings(Number(newEarnings) || 0)
         if (updatedDriver) setDriver(prev => prev ? { ...updatedDriver, is_available: prev.is_available } : null)

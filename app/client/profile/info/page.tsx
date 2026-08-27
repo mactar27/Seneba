@@ -17,7 +17,7 @@ export default function Page() {
           <Info className="w-10 h-10 text-[#0066CC]" />
         </div>
         <h2 className="text-2xl font-bold text-slate-900 mb-2">Informations</h2>
-        <p className="text-slate-500 mb-8 max-w-xs mx-auto text-sm whitespace-pre-line">Seneba App v1.0.0\nConditions Générales d'Utilisation.</p>
+        <p className="text-slate-500 mb-8 max-w-xs mx-auto text-sm whitespace-pre-line">Seneba App v1.0.0\nTerms and Conditions of Use.</p>
         <button onClick={() => { alert('Action réussie ! (Simulation)'); router.back() }} className="w-full max-w-xs bg-slate-900 text-white py-4 rounded-2xl font-bold hover:bg-[#0066CC] transition-colors">
           Voir Mentions Légales
         </button>

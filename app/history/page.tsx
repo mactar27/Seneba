@@ -1,6 +1,6 @@
 "use client"
 
-import { getDriverProfile, getRideHistory } from "@/lib/actions/driver"
+import { getDriverProfilee, getRideHistory } from "@/lib/actions/driver"
 import { useEffect, useState, useCallback } from "react"
 import { useRouter } from "next/navigation"
 import type { Driver, Ride } from "@/lib/types"
@@ -17,7 +17,7 @@ export default function HistoryPage() {
   const router = useRouter()
 
   const loadData = useCallback(async () => {
-    const driverData = await getDriverProfile()
+    const driverData = await getDriverProfilee()
     if (!driverData) {
       router.push("/auth/login")
       return
@@ -62,7 +62,7 @@ export default function HistoryPage() {
               <span className="sr-only">Retour</span>
             </Link>
           </Button>
-          <h1 className="text-xl font-bold">Historique</h1>
+          <h1 className="text-xl font-bold">History</h1>
         </div>
       </header>
 
@@ -70,8 +70,8 @@ export default function HistoryPage() {
         {rides.length === 0 ? (
           <Card className="p-8 text-center">
             <Clock className="h-12 w-12 mx-auto text-muted-foreground mb-3" />
-            <p className="text-muted-foreground">Aucune course effectuée</p>
-            <p className="text-sm text-muted-foreground mt-1">Vos courses terminées apparaîtront ici</p>
+            <p className="text-muted-foreground">No rides completed</p>
+            <p className="text-sm text-muted-foreground mt-1">Your completed rides will appear here</p>
           </Card>
         ) : (
           <div className="space-y-3">
@@ -84,7 +84,7 @@ export default function HistoryPage() {
                     ) : (
                       <XCircle className="h-5 w-5 text-destructive" />
                     )}
-                    <span className="font-medium">{ride.status === "completed" ? "Terminée" : "Annulée"}</span>
+                    <span className="font-medium">{ride.status === "completed" ? "Completed" : "Cancelled"}</span>
                   </div>
                   {ride.status === "completed" && (
                     <span className="font-bold text-green-600">{ride.total_fare || ride.base_fare} FCFA</span>

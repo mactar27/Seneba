@@ -10,9 +10,9 @@ export default function ClientSupportPage() {
 
   // Fausses données pour correspondre à la capture d'écran de l'utilisateur
   const recentRides = [
-    { id: 1, type: "vehicle", name: "Véhicule Éco", date: "28 juil. à 15:54", price: "1600F", address: "Sénégal, 55, Rue P, Dakar, Eglise..." },
+    { id: 1, type: "vehicle", name: "Vehicle Éco", date: "28 juil. à 15:54", price: "1600F", address: "Sénégal, 55, Rue P, Dakar, Eglise..." },
     { id: 2, type: "delivery", name: "Livraison", date: "24 juil. à 17:02", price: "", address: "Cite Avion → Rue OKM-99, 338" },
-    { id: 3, type: "vehicle", name: "Véhicule Éco", date: "19 juil. à 03:04", price: "1100F", address: "Route de l'Aeroport Yum-Yum O..." },
+    { id: 3, type: "vehicle", name: "Vehicle Éco", date: "19 juil. à 03:04", price: "1100F", address: "Route de l'Aeroport Yum-Yum O..." },
   ]
 
   return (

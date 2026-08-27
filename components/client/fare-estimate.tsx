@@ -70,7 +70,7 @@ export function FareEstimate({ pickup, destination, onSelectionChange }: FareEst
               </div>
               <div>
                 <p className="font-semibold">Standard</p>
-                <p className="text-xs text-muted-foreground">Économique et rapide</p>
+                <p className="text-xs text-muted-foreground">Economic & fast</p>
               </div>
             </div>
             <div className="text-right">
@@ -79,7 +79,7 @@ export function FareEstimate({ pickup, destination, onSelectionChange }: FareEst
           </div>
         </Card>
 
-        {/* Confort */}
+        {/* Comfort */}
         <Card 
           className={cn("p-4 cursor-pointer transition-colors border-2", courseType === "confort" ? "border-primary bg-primary/5" : "border-transparent bg-muted/30")}
           onClick={() => setCourseType("confort")}
@@ -90,8 +90,8 @@ export function FareEstimate({ pickup, destination, onSelectionChange }: FareEst
                 <Car className="h-5 w-5 text-primary" />
               </div>
               <div>
-                <p className="font-semibold">Confort</p>
-                <p className="text-xs text-muted-foreground">Véhicules spacieux</p>
+                <p className="font-semibold">Comfort</p>
+                <p className="text-xs text-muted-foreground">Spacious vehicles</p>
               </div>
             </div>
             <div className="text-right">
@@ -112,7 +112,7 @@ export function FareEstimate({ pickup, destination, onSelectionChange }: FareEst
           >
             <div className="flex items-center gap-3">
               <Banknote className="h-5 w-5 text-muted-foreground" />
-              <span className="font-medium text-sm">Espèces (Cash)</span>
+              <span className="font-medium text-sm">Cash</span>
             </div>
             {paymentMethod === "cash" && <Check className="h-4 w-4 text-primary" />}
           </Card>

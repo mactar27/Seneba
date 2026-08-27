@@ -199,9 +199,9 @@ export default function RideTrackingPage({ params }: { params: Promise<{ id: str
       {/* Top Floating Box: Status & Time (Screen 4 Layout) */}
       <div className="absolute top-20 left-4 right-4 z-20 bg-white rounded-3xl p-5 shadow-lg border border-slate-100 flex items-center justify-between">
         <div>
-          <span className="text-xs font-black text-slate-400 uppercase tracking-wider block">En cours</span>
+          <span className="text-xs font-black text-slate-400 uppercase tracking-wider block">In progress</span>
           <h2 className="text-2xl font-black text-slate-900 leading-tight mt-1">
-            Arrivée dans <span className="text-[#0066CC]">{mins} min</span>
+            Drop-off dans <span className="text-[#0066CC]">{mins} min</span>
           </h2>
           <p className="text-xs text-slate-500 font-semibold mt-0.5">Votre chauffeur est en route</p>
         </div>
@@ -278,7 +278,7 @@ export default function RideTrackingPage({ params }: { params: Promise<{ id: str
               <div className="w-10 h-10 rounded-full bg-red-500 flex items-center justify-center text-white shadow-sm">
                 <X className="w-5 h-5" />
               </div>
-              <span className="text-[10px] font-bold text-red-600">Annuler</span>
+              <span className="text-[10px] font-bold text-red-600">Cancel</span>
             </button>
           </div>
 
@@ -291,7 +291,7 @@ export default function RideTrackingPage({ params }: { params: Promise<{ id: str
                   <div className="w-2.5 h-2.5 rounded-full bg-[#0066CC]" />
                 </div>
                 <div className="flex-1">
-                  <span className="text-[10px] text-slate-400 font-bold block uppercase leading-none">Départ</span>
+                  <span className="text-[10px] text-slate-400 font-bold block uppercase leading-none">Pickup</span>
                   <span className="text-slate-800 font-bold text-xs block mt-0.5 truncate">{ride.pickup_address || "Ma position actuelle"}</span>
                 </div>
               </div>
@@ -305,7 +305,7 @@ export default function RideTrackingPage({ params }: { params: Promise<{ id: str
                   <MapPin className="w-3.5 h-3.5 text-orange-500" />
                 </div>
                 <div className="flex-1">
-                  <span className="text-[10px] text-slate-400 font-bold block uppercase leading-none">Arrivée</span>
+                  <span className="text-[10px] text-slate-400 font-bold block uppercase leading-none">Drop-off</span>
                   <span className="text-slate-800 font-bold text-xs block mt-0.5 truncate">{ride.destination_address || "Aéroport AIBD"}</span>
                 </div>
               </div>

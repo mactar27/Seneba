@@ -61,7 +61,7 @@ export default function LoginPage() {
         <Card className="w-full max-w-sm border-0 shadow-lg">
           <CardHeader className="text-center">
             <CardTitle className="text-2xl">Connexion</CardTitle>
-            <CardDescription>Connectez-vous à votre compte chauffeur</CardDescription>
+            <CardDescription>Log in to your driver account</CardDescription>
           </CardHeader>
           <CardContent>
             <form onSubmit={handleLogin}>

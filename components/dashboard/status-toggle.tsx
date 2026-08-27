@@ -25,7 +25,7 @@ export function StatusToggle({ isOnline, onToggle }: StatusToggleProps) {
             <Power className="h-6 w-6" />
           </div>
           <div>
-            <p className="font-semibold">{isOnline ? "Vous êtes en ligne" : "Vous êtes hors ligne"}</p>
+            <p className="font-semibold">{isOnline ? "You are online" : "You are offline"}</p>
             <p className="text-sm text-muted-foreground">
               {isOnline ? "Prêt à recevoir des courses" : "Activez pour recevoir des courses"}
             </p>

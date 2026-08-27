@@ -17,7 +17,7 @@ export default function Payments() {
           <div className="p-4 flex items-center justify-between">
             <div className="flex items-center gap-4">
               <div className="w-10 h-10 bg-emerald-50 rounded-full flex items-center justify-center"><Banknote className="w-5 h-5 text-emerald-600" /></div>
-              <h3 className="font-bold text-slate-900">Espèces (Cash)</h3>
+              <h3 className="font-bold text-slate-900">Cash</h3>
             </div>
             <div className="w-5 h-5 rounded-full border-4 border-[#0066CC] bg-white"></div>
           </div>
@@ -25,7 +25,7 @@ export default function Payments() {
         <button className="w-full bg-white border border-slate-200 text-slate-900 py-4 rounded-2xl font-bold shadow-sm flex items-center justify-center gap-2 hover:bg-slate-50 transition-colors">
           <Plus className="w-5 h-5" /> Ajouter une carte bancaire
         </button>
-        <p className="text-[10px] text-center text-slate-400">Vos paiements sont sécurisés et cryptés de bout en bout.</p>
+        <p className="text-[10px] text-center text-slate-400">Your payments are secure and end-to-end encrypted.</p>
       </main>
     </div>
   )

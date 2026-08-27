@@ -1,6 +1,6 @@
 "use client"
 
-import { getDriverProfile, updateDriverProfile } from "@/lib/actions/driver"
+import { getDriverProfilee, updateDriverProfilee } from "@/lib/actions/driver"
 import { getSession, logout } from "@/lib/actions/auth"
 import { useEffect, useState, useCallback, useRef } from "react"
 import { useRouter } from "next/navigation"
@@ -14,7 +14,7 @@ import { BottomNav } from "@/components/dashboard/bottom-nav"
 import { ArrowLeft, Car, Star, Phone, Mail, LogOut, ChevronRight, Shield, HelpCircle, FileText, Edit2, Save, X, Loader2, Camera } from "lucide-react"
 import Link from "next/link"
 
-export default function ProfilePage() {
+export default function ProfileePage() {
   const [driver, setDriver] = useState<Driver | null>(null)
   const [email, setEmail] = useState<string | null>(null)
   const [isLoading, setIsLoading] = useState(true)
@@ -34,7 +34,7 @@ export default function ProfilePage() {
 
   const loadData = useCallback(async () => {
     const [driverData, session] = await Promise.all([
-      getDriverProfile(),
+      getDriverProfilee(),
       getSession()
     ])
 
@@ -69,7 +69,7 @@ export default function ProfilePage() {
   const handleSave = async () => {
     if (!driver) return
     setIsSaving(true)
-    const result = await updateDriverProfile(formData)
+    const result = await updateDriverProfilee(formData)
     setIsSaving(false)
     if (result.success) {
       setIsEditing(false)
@@ -128,7 +128,7 @@ export default function ProfilePage() {
           {!isEditing ? (
             <Button variant="ghost" size="sm" onClick={() => setIsEditing(true)} className="text-primary gap-2">
               <Edit2 className="h-4 w-4" />
-              Modifier
+              Edit
             </Button>
           ) : (
             <div className="flex gap-2">
@@ -137,7 +137,7 @@ export default function ProfilePage() {
               </Button>
               <Button size="sm" onClick={handleSave} disabled={isSaving} className="gap-2">
                 {isSaving ? <Loader2 className="h-4 w-4 animate-spin" /> : <Save className="h-4 w-4" />}
-                Enregistrer
+                Save
               </Button>
             </div>
           )}
@@ -145,7 +145,7 @@ export default function ProfilePage() {
       </header>
 
       <main className="flex-1 px-4 py-4 space-y-4">
-        {/* Profile Card */}
+        {/* Profilee Card */}
         <Card className="p-6">
           <div className="flex items-center gap-4">
             <div className="relative cursor-pointer" onClick={() => isEditing && fileInputRef.current?.click()}>
@@ -212,7 +212,7 @@ export default function ProfilePage() {
           <div className="flex flex-col gap-1.5">
             <Label htmlFor="phone" className="flex items-center gap-2 mb-1">
               <Phone className="h-4 w-4 text-muted-foreground" />
-              Téléphone
+              Phone
             </Label>
             {isEditing ? (
               <Input
@@ -232,7 +232,7 @@ export default function ProfilePage() {
               Email
             </Label>
             <p className="font-medium pl-6 text-muted-foreground">{email}</p>
-            {isEditing && <p className="text-[10px] text-muted-foreground pl-6 italic">L'email ne peut pas être modifié</p>}
+            {isEditing && <p className="text-[10px] text-muted-foreground pl-6 italic">Email cannot be changed</p>}
           </div>
         </Card>
 
@@ -240,7 +240,7 @@ export default function ProfilePage() {
         <Card className="p-4">
           <div className="flex items-center gap-3 mb-4">
             <Car className="h-5 w-5 text-primary" />
-            <h3 className="font-semibold">Mon véhicule</h3>
+            <h3 className="font-semibold">My vehicle</h3>
           </div>
           <div className="grid grid-cols-2 gap-4 text-sm">
             <div className="grid gap-1.5">
@@ -258,7 +258,7 @@ export default function ProfilePage() {
               )}
             </div>
             <div className="grid gap-1.5">
-              <Label htmlFor="vehicleModel">Modèle</Label>
+              <Label htmlFor="vehicleModel">Model</Label>
               {isEditing ? (
                 <Input
                   id="vehicleModel"
@@ -272,7 +272,7 @@ export default function ProfilePage() {
               )}
             </div>
             <div className="grid gap-1.5">
-              <Label htmlFor="vehicleYear">Année</Label>
+              <Label htmlFor="vehicleYear">Year</Label>
               {isEditing ? (
                 <Input
                   id="vehicleYear"
@@ -342,7 +342,7 @@ export default function ProfilePage() {
           onClick={handleLogout}
         >
           <LogOut className="h-5 w-5 mr-2" />
-          Se déconnecter
+          Log out
         </Button>
       </main>
 

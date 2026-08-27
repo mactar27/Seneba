@@ -14,19 +14,19 @@ export default function SignUpSuccessPage() {
           <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-green-100">
             <CheckCircle className="h-8 w-8 text-green-600" />
           </div>
-          <CardTitle className="text-2xl">Vérifiez votre email</CardTitle>
-          <CardDescription>Un lien de confirmation a été envoyé à votre adresse email</CardDescription>
+          <CardTitle className="text-2xl">Check your email</CardTitle>
+          <CardDescription>A confirmation link has been sent to your email address</CardDescription>
         </CardHeader>
         <CardContent className="flex flex-col gap-4">
           <div className="flex items-center justify-center gap-2 text-muted-foreground">
             <Mail className="h-5 w-5" />
-            <span>Consultez votre boîte de réception</span>
+            <span>Check your inbox</span>
           </div>
           <p className="text-sm text-muted-foreground">
             Cliquez sur le lien dans l'email pour activer votre compte et commencer votre inscription
           </p>
           <Button asChild variant="outline" className="mt-4 bg-transparent">
-            <Link href="/auth/login">Retour à la connexion</Link>
+            <Link href="/auth/login">Back to login</Link>
           </Button>
         </CardContent>
       </Card>

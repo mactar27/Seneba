@@ -36,7 +36,7 @@ export default function SignUpPage() {
     }
 
     if (password.length < 6) {
-      setError("Le mot de passe doit contenir au moins 6 caractères")
+      setError("Password must contain at least 6 characters")
       setIsLoading(false)
       return
     }
@@ -77,7 +77,7 @@ export default function SignUpPage() {
 
         <Card className="w-full max-w-sm border-0 shadow-lg">
           <CardHeader className="text-center">
-            <CardTitle className="text-2xl">Créer un compte</CardTitle>
+            <CardTitle className="text-2xl">Create an account</CardTitle>
             <CardDescription>Rejoignez SENEBA en tant que chauffeur</CardDescription>
           </CardHeader>
           <CardContent>
@@ -110,7 +110,7 @@ export default function SignUpPage() {
                   />
                 </div>
                 <div className="grid gap-2">
-                  <Label htmlFor="phone">Téléphone</Label>
+                  <Label htmlFor="phone">Phone</Label>
                   <Input
                     id="phone"
                     type="tel"
@@ -149,7 +149,7 @@ export default function SignUpPage() {
                   </div>
                 </div>
                 <div className="grid gap-2">
-                  <Label htmlFor="confirm-password">Confirmer le mot de passe</Label>
+                  <Label htmlFor="confirm-password">Confirm le mot de passe</Label>
                   <Input
                     id="confirm-password"
                     type={showPassword ? "text" : "password"}
@@ -162,11 +162,11 @@ export default function SignUpPage() {
                 </div>
                 {error && <p className="text-sm text-destructive bg-destructive/10 p-3 rounded-lg">{error}</p>}
                 <Button type="submit" className="w-full h-12 text-base font-semibold" disabled={isLoading}>
-                  {isLoading ? "Création..." : "Créer mon compte"}
+                  {isLoading ? "Creating..." : "Create my account"}
                 </Button>
               </div>
               <div className="mt-6 text-center text-sm">
-                Déjà un compte ?{" "}
+                Already have an account?{" "}
                 <Link href="/auth/login" className="text-primary font-semibold hover:underline">
                   Se connecter
                 </Link>

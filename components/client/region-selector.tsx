@@ -65,7 +65,7 @@ export function RegionSelector({ value, onChange, placeholder = "Sélectionner u
         <Command>
           <CommandInput placeholder="Rechercher une région..." />
           <CommandList>
-            <CommandEmpty>Aucune région trouvée.</CommandEmpty>
+            <CommandEmpty>No region found.</CommandEmpty>
             <CommandGroup>
               {regions.map((region) => (
                 <CommandItem

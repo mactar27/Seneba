@@ -1,6 +1,6 @@
 "use client"
 
-import { getClientProfile } from "@/lib/actions/client"
+import { getClientProfilee } from "@/lib/actions/client"
 import { logout } from "@/lib/actions/auth"
 import { useState, useEffect, useCallback } from "react"
 import { useRouter } from "next/navigation"
@@ -21,13 +21,13 @@ import {
 } from "lucide-react"
 import Link from "next/link"
 
-export default function ClientProfilePage() {
+export default function ClientProfileePage() {
   const router = useRouter()
   const [client, setClient] = useState<Client | null>(null)
   const [loading, setLoading] = useState(true)
 
-  const loadProfile = useCallback(async () => {
-    const data = await getClientProfile()
+  const loadProfilee = useCallback(async () => {
+    const data = await getClientProfilee()
     if (!data) {
       router.push("/client/auth/login")
       return
@@ -37,8 +37,8 @@ export default function ClientProfilePage() {
   }, [router])
 
   useEffect(() => {
-    loadProfile()
-  }, [loadProfile])
+    loadProfilee()
+  }, [loadProfilee])
 
   const handleLogout = async () => {
     await logout()
@@ -62,12 +62,12 @@ export default function ClientProfilePage() {
 
   return (
     <div className="flex min-h-svh flex-col bg-[#F8FAFC] pb-24">
-      {/* Header Profile Info Card */}
+      {/* Header Profilee Info Card */}
       <header className="px-5 pt-8 pb-6 safe-area-top sticky top-0 z-20 bg-[#F8FAFC]">
         <div className="flex items-center justify-between bg-white rounded-3xl p-5 border border-slate-100 shadow-sm">
           <div className="flex items-center gap-4">
             <div className="w-14 h-14 rounded-full overflow-hidden border-2 border-white shadow-sm shrink-0">
-              <img src="/images/mactar-profile.png" alt="Profile" className="w-full h-full object-cover" />
+              <img src="/images/mactar-profile.png" alt="Profilee" className="w-full h-full object-cover" />
             </div>
             <div>
               <h1 className="text-lg font-black text-slate-900 leading-tight">
@@ -79,7 +79,7 @@ export default function ClientProfilePage() {
             </div>
           </div>
           <button 
-            onClick={() => handleSoon("Modifier le profil")}
+            onClick={() => handleSoon("Edit le profil")}
             className="w-10 h-10 rounded-full bg-slate-50 flex items-center justify-center text-slate-500 hover:bg-slate-100 transition-colors"
           >
             <Edit2 className="w-4 h-4" />
@@ -102,26 +102,26 @@ export default function ClientProfilePage() {
             <ChevronRight className="w-4 h-4 text-slate-400" />
           </button>
 
-          {/* Item 2: Méthodes de paiement */}
+          {/* Item 2: Payment methods */}
           <button 
-            onClick={() => handleSoon("Méthodes de paiement")}
+            onClick={() => handleSoon("Payment methods")}
             className="w-full flex items-center justify-between p-3.5 rounded-2xl hover:bg-slate-50 transition-colors text-left"
           >
             <div className="flex items-center gap-3.5">
               <CreditCard className="w-5 h-5 text-slate-400" />
-              <span className="font-bold text-slate-800 text-sm">Méthodes de paiement</span>
+              <span className="font-bold text-slate-800 text-sm">Payment methods</span>
             </div>
             <ChevronRight className="w-4 h-4 text-slate-400" />
           </button>
 
-          {/* Item 3: Adresses enregistrées */}
+          {/* Item 3: Saved addresses */}
           <button 
-            onClick={() => handleSoon("Adresses enregistrées")}
+            onClick={() => handleSoon("Saved addresses")}
             className="w-full flex items-center justify-between p-3.5 rounded-2xl hover:bg-slate-50 transition-colors text-left"
           >
             <div className="flex items-center gap-3.5">
               <MapPin className="w-5 h-5 text-slate-400" />
-              <span className="font-bold text-slate-800 text-sm">Adresses enregistrées</span>
+              <span className="font-bold text-slate-800 text-sm">Saved addresses</span>
             </div>
             <ChevronRight className="w-4 h-4 text-slate-400" />
           </button>
@@ -138,14 +138,14 @@ export default function ClientProfilePage() {
             <ChevronRight className="w-4 h-4 text-slate-400" />
           </button>
 
-          {/* Item 5: Paramètres */}
+          {/* Item 5: Settings */}
           <button 
-            onClick={() => handleSoon("Paramètres")}
+            onClick={() => handleSoon("Settings")}
             className="w-full flex items-center justify-between p-3.5 rounded-2xl hover:bg-slate-50 transition-colors text-left"
           >
             <div className="flex items-center gap-3.5">
               <Settings className="w-5 h-5 text-slate-400" />
-              <span className="font-bold text-slate-800 text-sm">Paramètres</span>
+              <span className="font-bold text-slate-800 text-sm">Settings</span>
             </div>
             <ChevronRight className="w-4 h-4 text-slate-400" />
           </button>
@@ -169,7 +169,7 @@ export default function ClientProfilePage() {
           >
             <div className="flex items-center gap-3.5">
               <Info className="w-5 h-5 text-slate-400" />
-              <span className="font-bold text-slate-800 text-sm">À propos de Seneba</span>
+              <span className="font-bold text-slate-800 text-sm">About Seneba</span>
             </div>
             <ChevronRight className="w-4 h-4 text-slate-400" />
           </button>
@@ -180,7 +180,7 @@ export default function ClientProfilePage() {
           onClick={handleLogout}
           className="w-full bg-red-50 text-red-600 font-bold h-13 rounded-2xl mt-6 active:scale-95 transition-all text-sm flex items-center justify-center hover:bg-red-100/50"
         >
-          Se déconnecter
+          Log out
         </button>
       </main>
 
@@ -189,15 +189,15 @@ export default function ClientProfilePage() {
         <div className="flex items-center justify-around h-full px-2">
           <Link href="/client/book" className="flex flex-col items-center justify-center flex-1 h-full gap-1 text-slate-400 hover:text-slate-600 transition-all">
             <Car className="w-5 h-5" />
-            <span className="text-[10px] font-medium">Réserver</span>
+            <span className="text-[10px] font-medium">Book</span>
           </Link>
           <Link href="/client/history" className="flex flex-col items-center justify-center flex-1 h-full gap-1 text-slate-400 hover:text-slate-600 transition-all">
             <Compass className="w-5 h-5" />
-            <span className="text-[10px] font-medium">Historique</span>
+            <span className="text-[10px] font-medium">History</span>
           </Link>
           <button className="flex flex-col items-center justify-center flex-1 h-full gap-1 text-[#0066CC] transition-all">
             <Compass className="w-5 h-5" />
-            <span className="text-[10px] font-bold">Profil</span>
+            <span className="text-[10px] font-bold">Profile</span>
           </button>
         </div>
       </nav>

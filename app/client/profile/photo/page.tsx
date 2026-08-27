@@ -4,7 +4,7 @@ import { useRouter } from "next/navigation"
 import { ChevronLeft, Camera, Image as ImageIcon, UserCircle2 } from "lucide-react"
 import { useState } from "react"
 
-export default function PhotoProfilePage() {
+export default function PhotoProfileePage() {
   const router = useRouter()
   const [selectedImage, setSelectedImage] = useState<string | null>(null)
 

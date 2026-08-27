@@ -31,7 +31,7 @@ export function RatingModal({ driverName, onSubmit, onClose }: RatingModalProps)
             <span className="text-2xl font-bold text-primary">{driverName.charAt(0)}</span>
           </div>
           <p className="font-semibold">{driverName}</p>
-          <p className="text-sm text-muted-foreground">Comment était votre trajet ?</p>
+          <p className="text-sm text-muted-foreground">How was your ride?</p>
         </div>
 
         {/* Star rating */}
@@ -77,7 +77,7 @@ export function RatingModal({ driverName, onSubmit, onClose }: RatingModalProps)
           onClick={onClose}
           className="w-full text-center text-muted-foreground mt-3 text-sm hover:underline"
         >
-          Passer cette étape
+          Skip cette étape
         </button>
       </div>
     </div>

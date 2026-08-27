@@ -50,7 +50,7 @@ export default function SupportPage() {
             </div>
             <div className="flex-1">
               <h3 className="font-bold text-slate-900 text-[15px]">Appelez-nous</h3>
-              <p className="text-[13px] text-slate-500 mb-1 leading-tight">Contactez notre équipe<br/>par téléphone</p>
+              <p className="text-[13px] text-slate-500 mb-1 leading-tight">Contact our team<br/>by phone</p>
               <p className="text-[14px] font-semibold text-[#0066CC]">+221 77 503 44 04</p>
             </div>
             <div className="flex flex-col items-end gap-3 self-stretch justify-center">
@@ -68,7 +68,7 @@ export default function SupportPage() {
             </div>
             <div className="flex-1">
               <h3 className="font-bold text-slate-900 text-[15px]">WhatsApp</h3>
-              <p className="text-[13px] text-slate-500 leading-tight">Discutez avec un agent<br/>Réponse rapide</p>
+              <p className="text-[13px] text-slate-500 leading-tight">Discutez avec un agent<br/>Fast response</p>
               <div className="mt-2 inline-block px-3 py-1 bg-[#E6F0FF] text-[#0066CC] text-[11px] font-semibold rounded-md">
                 Réponse en quelques minutes
               </div>
@@ -88,7 +88,7 @@ export default function SupportPage() {
             </div>
             <div className="flex-1">
               <h3 className="font-bold text-slate-900 text-[15px]">Envoyez un email</h3>
-              <p className="text-[13px] text-slate-500 mb-1 leading-tight">Écrivez-nous par email<br/>Nous vous répondrons rapidement</p>
+              <p className="text-[13px] text-slate-500 mb-1 leading-tight">Write us by email<br/>We will reply quickly</p>
               <p className="text-[14px] font-semibold text-[#0066CC]">boubsy27@gmail.com</p>
             </div>
             <div className="flex flex-col items-end gap-3 self-stretch justify-center">
@@ -105,7 +105,7 @@ export default function SupportPage() {
               <div className="w-5 h-5 rounded-full bg-[#0066CC] flex items-center justify-center flex-shrink-0">
                 <svg className="w-3 h-3 text-white" fill="none" stroke="currentColor" strokeWidth={3} viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" /></svg>
               </div>
-              <h4 className="font-bold text-slate-900 text-xs">Votre satisfaction est notre priorité</h4>
+              <h4 className="font-bold text-slate-900 text-xs">Your satisfaction is our priority</h4>
             </div>
             <p className="text-[10px] text-slate-500 leading-tight">
               Nous sommes disponibles 24h/24 et 7j/7 pour vous offrir la meilleure expérience.
@@ -113,7 +113,7 @@ export default function SupportPage() {
           </div>
           <img 
             src="/images/real_vehicle.png" 
-            alt="Véhicule Seneba" 
+            alt="Vehicle Seneba" 
             className="absolute right-[-20px] bottom-[-10px] w-[140px] object-contain pointer-events-none"
             style={{ mixBlendMode: "multiply", filter: "drop-shadow(0 8px 8px rgba(0,0,0,0.15))" }}
           />

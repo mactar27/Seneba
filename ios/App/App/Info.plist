@@ -48,7 +48,7 @@
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<true/>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>Nous avons besoin de votre position pour vous montrer les chauffeurs à proximité et suivre votre course.</string>
+	<string>We need your location to show nearby drivers and track your ride.</string>
 	<key>LSApplicationQueriesSchemes</key>
 	<array>
 		<string>tel</string>

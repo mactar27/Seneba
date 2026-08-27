@@ -44,11 +44,11 @@ export default function ClientHistoryPage() {
 
   // Fallback to mock data to match mockup Screen 5 exactly
   const mockRides = [
-    { id: 1, type: "vehicle", name: "Aéroport AIBD", sub: "Diass, Sénégal", time: "08:42", price: "3 500 FCFA", dateGroup: "Aujourd'hui", status: "Payé" },
-    { id: 2, type: "vehicle", name: "Cité Elisabeth Diouf", sub: "Hann-Bel-Air", time: "07:15", price: "1 800 FCFA", dateGroup: "Aujourd'hui", status: "Payé" },
-    { id: 3, type: "food", name: "Yum-Yum Ouakam", sub: "Ouakam", time: "20:30", price: "2 200 FCFA", dateGroup: "Hier", status: "Payé" },
-    { id: 4, type: "vehicle", name: "Point E → Almadies", sub: "Dakar", time: "18:10", price: "3 000 FCFA", dateGroup: "Hier", status: "Payé" },
-    { id: 5, type: "vehicle", name: "Place de l'Indépendance", sub: "Dakar", time: "09:30", price: "1 500 FCFA", dateGroup: "22 Mai 2024", status: "Payé" },
+    { id: 1, type: "vehicle", name: "Aéroport AIBD", sub: "Diass, Sénégal", time: "08:42", price: "3 500 FCFA", dateGroup: "Aujourd'hui", status: "Paid" },
+    { id: 2, type: "vehicle", name: "Cité Elisabeth Diouf", sub: "Hann-Bel-Air", time: "07:15", price: "1 800 FCFA", dateGroup: "Aujourd'hui", status: "Paid" },
+    { id: 3, type: "food", name: "Yum-Yum Ouakam", sub: "Ouakam", time: "20:30", price: "2 200 FCFA", dateGroup: "Hier", status: "Paid" },
+    { id: 4, type: "vehicle", name: "Point E → Almadies", sub: "Dakar", time: "18:10", price: "3 000 FCFA", dateGroup: "Hier", status: "Paid" },
+    { id: 5, type: "vehicle", name: "Place de l'Indépendance", sub: "Dakar", time: "09:30", price: "1 500 FCFA", dateGroup: "22 Mai 2024", status: "Paid" },
   ]
 
   // Filter rides
@@ -73,7 +73,7 @@ export default function ClientHistoryPage() {
           <ChevronLeft className="h-6 w-6 text-slate-800" />
         </button>
         <h1 className="text-xl font-black text-slate-900 leading-none">
-          Historique
+          History
         </h1>
       </header>
 
@@ -127,7 +127,7 @@ export default function ClientHistoryPage() {
                         <span className="block font-black text-slate-900 text-sm leading-tight">{ride.price}</span>
                         <div className="flex items-center justify-end gap-1.5 mt-1 leading-none">
                           <span className="text-[10px] text-slate-400 font-bold">{ride.time}</span>
-                          <span className="text-[9px] font-black text-emerald-600 bg-emerald-50 px-1.5 py-0.5 rounded uppercase tracking-wider">Payé</span>
+                          <span className="text-[9px] font-black text-emerald-600 bg-emerald-50 px-1.5 py-0.5 rounded uppercase tracking-wider">Paid</span>
                         </div>
                       </div>
                     </div>
@@ -144,15 +144,15 @@ export default function ClientHistoryPage() {
         <div className="flex items-center justify-around h-full px-2">
           <Link href="/client/book" className="flex flex-col items-center justify-center flex-1 h-full gap-1 text-slate-400 hover:text-slate-600 transition-all">
             <Car className="w-5 h-5" />
-            <span className="text-[10px] font-medium">Réserver</span>
+            <span className="text-[10px] font-medium">Book</span>
           </Link>
           <button className="flex flex-col items-center justify-center flex-1 h-full gap-1 text-[#0066CC] transition-all">
             <Compass className="w-5 h-5" />
-            <span className="text-[10px] font-bold">Historique</span>
+            <span className="text-[10px] font-bold">History</span>
           </button>
           <Link href="/client/profile" className="flex flex-col items-center justify-center flex-1 h-full gap-1 text-slate-400 hover:text-slate-600 transition-all">
             <Compass className="w-5 h-5" />
-            <span className="text-[10px] font-medium">Profil</span>
+            <span className="text-[10px] font-medium">Profile</span>
           </Link>
         </div>
       </nav>

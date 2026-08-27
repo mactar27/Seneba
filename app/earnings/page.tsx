@@ -1,7 +1,7 @@
 "use client"
 
 import { 
-  getDriverProfile, 
+  getDriverProfilee, 
   getEarningsHistory, 
   getTodayEarnings, 
   getWeekEarnings 
@@ -35,7 +35,7 @@ export default function EarningsPage() {
   const router = useRouter()
 
   const loadData = useCallback(async () => {
-    const driverData = await getDriverProfile()
+    const driverData = await getDriverProfilee()
     if (!driverData) {
       router.push("/auth/login")
       return
@@ -118,12 +118,12 @@ export default function EarningsPage() {
 
         {/* Earnings List */}
         <div>
-          <h2 className="font-semibold mb-3">Historique des gains</h2>
+          <h2 className="font-semibold mb-3">History des gains</h2>
           {earnings.length === 0 ? (
             <Card className="p-8 text-center">
               <Wallet className="h-12 w-12 mx-auto text-muted-foreground mb-3" />
               <p className="text-muted-foreground">Aucun gain pour le moment</p>
-              <p className="text-sm text-muted-foreground mt-1">Vos gains apparaîtront ici après vos courses</p>
+              <p className="text-sm text-muted-foreground mt-1">Your earnings will appear here after your rides</p>
             </Card>
           ) : (
             <div className="space-y-2">

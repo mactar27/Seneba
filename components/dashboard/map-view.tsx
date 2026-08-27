@@ -182,7 +182,7 @@ export function MapView({ driverLat, driverLng, activeRide, className = "" }: Ma
     })
     const pickupM = L.marker([activeRide.pickup_latitude, activeRide.pickup_longitude], { icon: pickupIcon })
       .addTo(map)
-      .bindPopup(`<b>📍 Départ client</b><br/>${activeRide.pickup_address}`)
+      .bindPopup(`<b>📍 Client pickup</b><br/>${activeRide.pickup_address}`)
     markersRef.current.push(pickupM)
 
     // --- Destination marker ---

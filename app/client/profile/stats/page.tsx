@@ -22,12 +22,12 @@ export default function Stats() {
           <div className="bg-white p-5 rounded-[24px] border border-slate-100 shadow-sm flex flex-col items-center text-center">
             <div className="w-10 h-10 bg-emerald-50 rounded-full flex items-center justify-center mb-2"><ThumbsUp className="w-5 h-5 text-emerald-500" /></div>
             <h3 className="text-2xl font-bold text-slate-900">98%</h3>
-            <p className="text-[10px] text-slate-500 font-bold uppercase">Courses complétées</p>
+            <p className="text-[10px] text-slate-500 font-bold uppercase">Completed rides</p>
           </div>
           <div className="bg-white p-5 rounded-[24px] border border-slate-100 shadow-sm flex flex-col items-center text-center">
             <div className="w-10 h-10 bg-blue-50 rounded-full flex items-center justify-center mb-2"><MapPin className="w-5 h-5 text-[#0066CC]" /></div>
             <h3 className="text-2xl font-bold text-slate-900">42</h3>
-            <p className="text-[10px] text-slate-500 font-bold uppercase">Trajets effectués</p>
+            <p className="text-[10px] text-slate-500 font-bold uppercase">Trips taken</p>
           </div>
         </div>
       </main>

@@ -15,7 +15,7 @@ export default function TermsPage() {
               <span className="sr-only">Retour</span>
             </Link>
           </Button>
-          <h1 className="text-xl font-bold">Conditions générales</h1>
+          <h1 className="text-xl font-bold">Terms and Conditions</h1>
         </div>
       </header>
 
@@ -33,7 +33,7 @@ export default function TermsPage() {
         <div className="space-y-4">
           <div className="flex items-center gap-3 text-primary">
             <Shield className="h-6 w-6" />
-            <h2 className="text-xl font-bold">2. Protection des données</h2>
+            <h2 className="text-xl font-bold">2. Data Protection</h2>
           </div>
           <p className="text-sm text-muted-foreground leading-relaxed">
             Nous accordons une importance capitale à la confidentialité de vos données personnelles. Vos informations de localisation ne sont partagées que pour faciliter le bon déroulement des courses.

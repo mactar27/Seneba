@@ -83,7 +83,7 @@ export default function ClientLoginPage() {
         <form onSubmit={handleLogin} className="flex flex-col gap-6 flex-1">
           <div className="space-y-3">
             <Label htmlFor="phone" className="text-sm font-semibold text-foreground/80">
-              Numéro de téléphone
+              Phone number
             </Label>
             <div className="flex rounded-2xl border-2 border-muted-foreground/20 focus-within:border-primary focus-within:ring-4 focus-within:ring-primary/20 transition-all bg-card overflow-hidden">
               <div className="flex items-center justify-center px-4 bg-muted/30 border-r border-muted-foreground/20">
@@ -114,7 +114,7 @@ export default function ClientLoginPage() {
               className="w-full h-14 text-lg font-bold rounded-xl shadow-lg bg-primary hover:bg-primary/90 text-white"
               disabled={loading || phone.length < 9 || !!devCode}
             >
-              {loading ? <Loader2 className="h-6 w-6 animate-spin" /> : "Continuer"}
+              {loading ? <Loader2 className="h-6 w-6 animate-spin" /> : "Continue"}
             </Button>
           </div>
         </form>

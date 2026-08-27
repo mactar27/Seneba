@@ -47,7 +47,7 @@ export function LocationInput({ pickup, destination, onPickupChange, onDestinati
             </div>
           </div>
           <Input
-            placeholder="Où allez-vous ?"
+            placeholder="Where to?"
             value={destination}
             onChange={(e) => onDestinationChange(e.target.value)}
             className="pl-12 h-14 bg-muted/30 border-2 border-muted-foreground/10 focus-visible:ring-0 focus-visible:border-[#F97316] focus-visible:bg-card transition-all text-base font-medium rounded-2xl"
@@ -77,7 +77,7 @@ export function LocationInput({ pickup, destination, onPickupChange, onDestinati
         </button>
         <button
           type="button"
-          onClick={() => onDestinationChange("Les Almadies")}
+          onClick={() => onDestinationChange("Almadies")}
           className="flex whitespace-nowrap items-center gap-2 px-4 py-2.5 rounded-xl bg-muted text-sm font-medium text-muted-foreground hover:bg-muted/80 transition-colors border border-muted-foreground/10"
         >
           <MapPin className="h-4 w-4" />

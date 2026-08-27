@@ -10,7 +10,7 @@ interface BottomNavClientProps {
 const items = [
   {
     id: "book",
-    label: "Réserver",
+    label: "Book",
     href: "/client/book",
     icon: (
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} className="w-5 h-5">
@@ -21,7 +21,7 @@ const items = [
   },
   {
     id: "history",
-    label: "Historique",
+    label: "History",
     href: "/client/history",
     icon: (
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} className="w-5 h-5">
@@ -42,7 +42,7 @@ const items = [
   },
   {
     id: "profile",
-    label: "Profil",
+    label: "Profile",
     href: "/client/profile",
     icon: (
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} className="w-5 h-5">

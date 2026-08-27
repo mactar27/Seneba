@@ -6,7 +6,7 @@ import { RowDataPacket, ResultSetHeader } from "mysql2"
 import { Driver, Ride } from "@/lib/types"
 import { pusherServer } from "@/lib/pusher"
 
-export async function getDriverProfile() {
+export async function getDriverProfilee() {
   const session = await getSession()
   if (!session?.user?.id) return null
 
@@ -406,7 +406,7 @@ export async function getRideHistory(driverId: string) {
   }
 }
 
-export async function updateDriverProfile(data: any) {
+export async function updateDriverProfilee(data: any) {
   const session = await getSession()
   if (!session?.user?.id) return { error: "Non autorisé" }
 
@@ -442,8 +442,8 @@ export async function seedDemoData() {
   if (!session?.user?.id) return { error: "Non autorisé" }
 
   try {
-    const driver = await getDriverProfile()
-    if (!driver) return { error: "Profil chauffeur introuvable" }
+    const driver = await getDriverProfilee()
+    if (!driver) return { error: "Profile chauffeur introuvable" }
 
     const connection = await pool.getConnection()
     await connection.beginTransaction()

@@ -56,8 +56,8 @@ export default function ClientSignUpPage() {
           <SenebaLogo className="h-10" />
         </div>
 
-        <h1 className="text-3xl font-black text-foreground mb-2 tracking-tight">Créer un compte</h1>
-        <p className="text-muted-foreground mb-8 text-base">Inscrivez-vous pour commander votre première course SENEBA.</p>
+        <h1 className="text-3xl font-black text-foreground mb-2 tracking-tight">Create an account</h1>
+        <p className="text-muted-foreground mb-8 text-base">Sign up to book your first SENEBA ride.</p>
 
         <form onSubmit={handleSignUp} className="flex flex-col gap-5 flex-1">
           <div className="space-y-2">
@@ -77,7 +77,7 @@ export default function ClientSignUpPage() {
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="phone" className="text-sm font-semibold text-foreground/80">Numéro de téléphone</Label>
+            <Label htmlFor="phone" className="text-sm font-semibold text-foreground/80">Phone number</Label>
             <div className="flex rounded-2xl border-2 border-muted-foreground/20 focus-within:border-primary focus-within:ring-4 focus-within:ring-primary/20 transition-all bg-card overflow-hidden">
               <div className="flex items-center justify-center px-4 bg-muted/30 border-r border-muted-foreground/20">
                 <span className="font-bold text-foreground text-lg">🇸🇳 +221</span>
@@ -131,7 +131,7 @@ export default function ClientSignUpPage() {
 
           <div className="mt-auto pb-4 pt-6">
             <Button type="submit" size="lg" className="w-full h-14 text-lg font-bold rounded-xl shadow-lg bg-primary hover:bg-primary/90 text-white" disabled={loading}>
-              {loading ? <Loader2 className="h-6 w-6 animate-spin" /> : "Créer mon compte"}
+              {loading ? <Loader2 className="h-6 w-6 animate-spin" /> : "Create my account"}
             </Button>
             
             <p className="text-center text-muted-foreground mt-6 text-sm">
@@ -146,7 +146,7 @@ export default function ClientSignUpPage() {
             </p>
 
             <p className="text-center text-muted-foreground mt-4 text-base">
-              Déjà un compte ?{" "}
+              Already have an account?{" "}
               <Link href="/client/auth/login" className="text-primary font-bold hover:underline">
                 Connectez-vous
               </Link>
