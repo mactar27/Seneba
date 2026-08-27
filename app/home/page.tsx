@@ -13,7 +13,7 @@ export default function HomePage() {
       >
         {/* Status Area & Logo Row */}
         <div className="flex items-center justify-between mb-6">
-          <SenebaLogo className="h-7 text-white brightness-0 invert" />
+          <SenebaLogo className="h-10 text-white brightness-0 invert" />
           <button className="relative w-10 h-10 bg-white/10 backdrop-blur-md rounded-full flex items-center justify-center text-white hover:bg-white/20 transition-colors">
             <Bell className="w-5 h-5" />
             <span className="absolute top-2 right-2.5 w-2 h-2 bg-red-500 rounded-full ring-2 ring-[#0050C8]" />
