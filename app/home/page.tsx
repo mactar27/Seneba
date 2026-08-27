@@ -37,12 +37,15 @@ export default function HomePage() {
       {/* ─── Main Scrollable Area ─── */}
       <div className="relative z-10 flex flex-col px-4 pt-[240px] gap-4">
         
-        {/* Featured Card (using real_vehicle.png) */}
-        <Link href="/client/auth/login" className="w-full rounded-3xl overflow-hidden shadow-sm bg-white border border-slate-100 hover:shadow-md transition-shadow block">
-          <img 
-            src="/images/real_vehicle.png" 
-            alt="Seneba Courses" 
+        {/* ── Featured Card — exactly like the mockup ── */}
+        <Link href="/client/auth/login"
+          className="w-full rounded-3xl overflow-hidden shadow-sm hover:shadow-md transition-shadow block border border-slate-100"
+        >
+          <img
+            src="/images/real_vehicle.png"
+            alt="Commandez votre trajet — Standard • Confort • Interurbain"
             className="w-full h-auto object-cover"
+            style={{ display: 'block' }}
           />
         </Link>
 
