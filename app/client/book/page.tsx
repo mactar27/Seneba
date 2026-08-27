@@ -256,7 +256,7 @@ export default function BookRidePage() {
 
               {/* Office */}
               <button 
-                onClick={() => selectDestination("Plateau, Dakar")}
+                onClick={() => selectDestination("Plateau, Gambia")}
                 className="w-full flex items-center gap-4 py-3 border-b border-slate-50 text-left"
               >
                 <div className="w-10 h-10 rounded-full bg-slate-50 flex items-center justify-center text-slate-400 flex-shrink-0">
@@ -277,7 +277,7 @@ export default function BookRidePage() {
                   { title: "Aéroport AIBD", sub: "Diass, Sénégal", icon: Plane },
                   { title: "Cité Elisabeth Diouf", sub: "Rue HB-335, Hann-Bel-Air", icon: Building2 },
                   { title: "Yum-Yum Ouakam", sub: "Rue OKM-99, 338", icon: Utensils },
-                  { title: "Place de l'Indépendance", sub: "Dakar, Sénégal", icon: Compass },
+                  { title: "Place de l'Indépendance", sub: "Gambia", icon: Compass },
                 ].map((place, idx) => (
                   <button 
                     key={idx} 

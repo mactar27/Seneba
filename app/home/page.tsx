@@ -26,7 +26,7 @@ export default function HomePage() {
             Seneba Rides
           </span>
           <h1 className="text-white font-extrabold text-[28px] leading-tight mb-2 tracking-tight text-left">
-            Your private driver<br/>in Dakar, in one click
+            Your private driver<br/>in Gambia, in one click
           </h1>
           <p className="text-white/80 text-xs font-semibold leading-relaxed text-left">
             Fast, secure, and comfortable rides at any time.
