@@ -38,7 +38,7 @@ export default function HomePage() {
       <div className="relative z-10 flex flex-col px-4 pt-[240px] gap-4">
         
         {/* Featured Card (using real_vehicle.png) */}
-        <Link href="/client/auth/login" className="w-full rounded-[28px] overflow-hidden shadow-sm bg-white border border-slate-100 hover:shadow-md transition-shadow block">
+        <Link href="/client/auth/login" className="w-full rounded-3xl overflow-hidden shadow-sm bg-white border border-slate-100 hover:shadow-md transition-shadow block">
           <img 
             src="/images/real_vehicle.png" 
             alt="Seneba Courses" 
