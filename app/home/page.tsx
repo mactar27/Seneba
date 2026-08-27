@@ -37,13 +37,23 @@ export default function HomePage() {
       {/* ─── Main Scrollable Area ─── */}
       <div className="relative z-10 flex flex-col px-4 pt-[240px] gap-4">
         
-        {/* Featured Card (using real_vehicle.png) */}
-        <Link href="/client/auth/login" className="w-full rounded-[28px] overflow-hidden shadow-sm bg-white border border-slate-100 hover:shadow-md transition-shadow">
+        {/* Featured Card (using real_vehicle.png with Text Overlay) */}
+        <Link href="/client/auth/login" className="w-full rounded-[28px] overflow-hidden shadow-sm bg-white border border-slate-100 hover:shadow-md transition-shadow relative block h-48">
           <img 
             src="/images/real_vehicle.png" 
-            alt="Seneba Courses - Disponible 24h/7" 
-            className="w-full h-auto object-cover"
+            alt="Seneba Courses" 
+            className="w-full h-full object-cover brightness-[0.85]"
           />
+          {/* Top Left Green Pill Badge */}
+          <div className="absolute top-4 left-4 bg-white/95 backdrop-blur-sm px-3 py-1 rounded-full shadow-sm flex items-center gap-1.5 z-20">
+            <span className="w-2 h-2 rounded-full bg-green-500" />
+            <span className="text-[10px] font-extrabold text-slate-800">Disponible 24h/7</span>
+          </div>
+          {/* Bottom Left Text Overlays */}
+          <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/85 via-black/25 to-transparent p-5 flex flex-col items-start justify-end z-10">
+            <span className="text-white font-extrabold text-lg leading-tight">Commandez votre trajet</span>
+            <span className="text-white/80 text-[11px] font-medium mt-0.5">Standard • Confort • Interurbain</span>
+          </div>
         </Link>
 
         {/* Where to / Search Destination Box */}
