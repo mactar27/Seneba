@@ -75,18 +75,18 @@ export default function BookRidePage() {
     if (!client || !pickup || !destination) return
     setIsBooking(true)
 
-    const SENEGAL_CITIES: Record<string, { lat: number, lng: number }> = {
-      "Dakar": { lat: 14.6928, lng: -17.4467 },
-      "Thiès": { lat: 14.791, lng: -16.926 },
-      "Saint-Louis": { lat: 16.029, lng: -16.496 },
-      "Ziguinchor": { lat: 12.571, lng: -16.271 },
-      "Ma position actuelle": { lat: 14.6928, lng: -17.4467 },
+    const GAMBIA_CITIES: Record<string, { lat: number, lng: number }> = {
+      "Banjul": { lat: 13.4549, lng: -16.5790 },
+      "Serrekunda": { lat: 13.4392, lng: -16.6789 },
+      "Brikama": { lat: 13.2667, lng: -16.6500 },
+      "Basse": { lat: 13.3105, lng: -14.2147 },
+      "Ma position actuelle": { lat: 13.4549, lng: -16.5790 },
     }
 
     const getCoords = (location: string) => {
-      const key = Object.keys(SENEGAL_CITIES).find(c => location.toLowerCase().includes(c.toLowerCase()))
-      if (key) return SENEGAL_CITIES[key]
-      return { lat: 14.6928 + Math.random() * 0.05, lng: -17.4467 + Math.random() * 0.05 }
+      const key = Object.keys(GAMBIA_CITIES).find(c => location.toLowerCase().includes(c.toLowerCase()))
+      if (key) return GAMBIA_CITIES[key]
+      return { lat: 13.4549 + Math.random() * 0.05, lng: -16.5790 + Math.random() * 0.05 }
     }
 
     const pickupCoords = getCoords(pickup)
@@ -274,10 +274,10 @@ export default function BookRidePage() {
               <h3 className="font-black text-slate-900 text-sm mb-3">Recent destinations</h3>
               <div className="space-y-4">
                 {[
-                  { title: "Aéroport AIBD", sub: "Diass, Sénégal", icon: Plane },
-                  { title: "Cité Elisabeth Diouf", sub: "Rue HB-335, Hann-Bel-Air", icon: Building2 },
-                  { title: "Yum-Yum Ouakam", sub: "Rue OKM-99, 338", icon: Utensils },
-                  { title: "Place de l'Indépendance", sub: "Gambia", icon: Compass },
+                  { title: "Aéroport Banjul", sub: "Yundum, Gambie", icon: Plane },
+                  { title: "Marché Albert", sub: "Banjul", icon: Building2 },
+                  { title: "Yum-Yum", sub: "Serrekunda", icon: Utensils },
+                  { title: "Place de l'Indépendance", sub: "Banjul", icon: Compass },
                 ].map((place, idx) => (
                   <button 
                     key={idx} 
@@ -396,9 +396,9 @@ export default function BookRidePage() {
 
             <div className="space-y-3">
               {[
-                { title: "Aéroport AIBD", sub: "Diass, Sénégal", icon: Plane },
-                { title: "Cité Elisabeth Diouf", sub: "Rue HB-335, Hann-Bel-Air", icon: Building2 },
-                { title: "Yum-Yum Ouakam", sub: "Rue OKM-99, 338", icon: Utensils },
+                { title: "Aéroport Banjul", sub: "Yundum, Gambie", icon: Plane },
+                { title: "Marché Albert", sub: "Banjul", icon: Building2 },
+                { title: "Yum-Yum", sub: "Serrekunda", icon: Utensils },
               ].map((place, idx) => (
                 <button key={idx} onClick={() => selectDestination(place.title)} className="w-full bg-white rounded-2xl p-4 flex items-center justify-between text-left shadow-sm border border-slate-50 hover:bg-slate-50 transition-colors group">
                   <div className="flex items-center gap-4">

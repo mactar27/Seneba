@@ -44,11 +44,11 @@ export default function ClientHistoryPage() {
 
   // Fallback to mock data to match mockup Screen 5 exactly
   const mockRides = [
-    { id: 1, type: "vehicle", name: "Aéroport AIBD", sub: "Diass, Sénégal", time: "08:42", price: "3 500 FCFA", dateGroup: "Aujourd'hui", status: "Paid" },
-    { id: 2, type: "vehicle", name: "Cité Elisabeth Diouf", sub: "Hann-Bel-Air", time: "07:15", price: "1 800 FCFA", dateGroup: "Aujourd'hui", status: "Paid" },
-    { id: 3, type: "food", name: "Yum-Yum Ouakam", sub: "Ouakam", time: "20:30", price: "2 200 FCFA", dateGroup: "Hier", status: "Paid" },
-    { id: 4, type: "vehicle", name: "Point E → Almadies", sub: "Dakar", time: "18:10", price: "3 000 FCFA", dateGroup: "Hier", status: "Paid" },
-    { id: 5, type: "vehicle", name: "Place de l'Indépendance", sub: "Dakar", time: "09:30", price: "1 500 FCFA", dateGroup: "22 Mai 2024", status: "Paid" },
+    { id: 1, type: "vehicle", name: "Aéroport Banjul", sub: "Yundum, Gambie", time: "08:42", price: "3 500 GMD", dateGroup: "Aujourd'hui", status: "Paid" },
+    { id: 2, type: "vehicle", name: "Marché Albert", sub: "Banjul", time: "07:15", price: "1 800 GMD", dateGroup: "Aujourd'hui", status: "Paid" },
+    { id: 3, type: "food", name: "Yum-Yum", sub: "Serrekunda", time: "20:30", price: "2 200 GMD", dateGroup: "Hier", status: "Paid" },
+    { id: 4, type: "vehicle", name: "Senegambia → Bakau", sub: "Kanifing", time: "18:10", price: "3 000 GMD", dateGroup: "Hier", status: "Paid" },
+    { id: 5, type: "vehicle", name: "Place de l'Indépendance", sub: "Banjul", time: "09:30", price: "1 500 GMD", dateGroup: "22 Mai 2024", status: "Paid" },
   ]
 
   // Filter rides

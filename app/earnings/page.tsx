@@ -105,14 +105,14 @@ export default function EarningsPage() {
               <Calendar className="h-4 w-4 opacity-80" />
               <span className="text-sm opacity-90">Aujourd'hui</span>
             </div>
-            <p className="text-2xl font-bold">{formatAmount(todayTotal)} FCFA</p>
+            <p className="text-2xl font-bold">{formatAmount(todayTotal)} GMD</p>
           </Card>
           <Card className="p-4 bg-gradient-to-br from-accent to-accent/80 text-accent-foreground border-0">
             <div className="flex items-center gap-2 mb-2">
               <TrendingUp className="h-4 w-4 opacity-80" />
               <span className="text-sm opacity-90">Cette semaine</span>
             </div>
-            <p className="text-2xl font-bold">{formatAmount(weekTotal)} FCFA</p>
+            <p className="text-2xl font-bold">{formatAmount(weekTotal)} GMD</p>
           </Card>
         </div>
 
@@ -135,7 +135,7 @@ export default function EarningsPage() {
                       <p className="text-xs text-muted-foreground">{formatDate(earning.created_at)}</p>
                     </div>
                     <div className="text-right ml-3">
-                      <p className="font-bold text-green-600">+{formatAmount(earning.net_amount || 0)} FCFA</p>
+                      <p className="font-bold text-green-600">+{formatAmount(earning.net_amount || 0)} GMD</p>
                       <p className="text-xs text-muted-foreground">
                         Commission: {formatAmount(earning.commission_amount || 0)}
                       </p>

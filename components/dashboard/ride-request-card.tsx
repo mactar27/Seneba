@@ -43,7 +43,7 @@ export function RideRequestCard({ ride, onAccept, onDecline }: RideRequestCardPr
         </div>
         <div className="flex items-center gap-2 text-lg font-bold text-accent">
           <Banknote className="h-5 w-5" />
-          {ride.base_fare} FCFA
+          {ride.base_fare} GMD
         </div>
       </div>
 

@@ -93,7 +93,7 @@ export interface DriverEarning {
 
 export type RideStatus = Ride["status"]
 
-export interface RegionSenegal {
+export interface RegionGambia {
   id: number
   nom_region: string
   chef_lieu: string

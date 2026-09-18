@@ -87,7 +87,7 @@ export default function ClientLoginPage() {
             </Label>
             <div className="flex rounded-2xl border-2 border-muted-foreground/20 focus-within:border-primary focus-within:ring-4 focus-within:ring-primary/20 transition-all bg-card overflow-hidden">
               <div className="flex items-center justify-center px-4 bg-muted/30 border-r border-muted-foreground/20">
-                <span className="font-bold text-foreground text-lg">🇸🇳 +221</span>
+                <span className="font-bold text-foreground text-lg">🇬🇲 +220</span>
               </div>
               <Input
                 id="phone"

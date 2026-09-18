@@ -74,7 +74,7 @@ export default function ClientProfileePage() {
                 {client?.full_name || "Mamadou Fall"}
               </h1>
               <p className="text-xs text-slate-400 font-semibold mt-1">
-                {client?.phone || "+221 77 123 45 67"}
+                {client?.phone || "+220 77 123 45 67"}
               </p>
             </div>
           </div>

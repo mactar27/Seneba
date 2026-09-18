@@ -87,7 +87,7 @@ export default function HistoryPage() {
                     <span className="font-medium">{ride.status === "completed" ? "Completed" : "Cancelled"}</span>
                   </div>
                   {ride.status === "completed" && (
-                    <span className="font-bold text-green-600">{ride.total_fare || ride.base_fare} FCFA</span>
+                    <span className="font-bold text-green-600">{ride.total_fare || ride.base_fare} GMD</span>
                   )}
                 </div>
 

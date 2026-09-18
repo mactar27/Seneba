@@ -44,7 +44,7 @@ export function ActiveRideCard({ ride, onStatusUpdate }: ActiveRideCardProps) {
           <div className={`h-3 w-3 rounded-full ${config.color} animate-pulse`} />
           <p className="font-semibold">{config.label}</p>
         </div>
-        <p className="text-lg font-bold">{ride.total_fare || ride.base_fare} FCFA</p>
+        <p className="text-lg font-bold">{ride.total_fare || ride.base_fare} GMD</p>
       </div>
 
       {/* Client Info */}

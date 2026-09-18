@@ -262,7 +262,7 @@ export async function updateRideStatus(rideId: string, newStatus: string, driver
         const notifId = crypto.randomUUID()
         await connection.execute(
           "INSERT INTO notifications (id, driver_id, type, title, body) VALUES (?, ?, 'payment', 'Paiement reçu', ?)",
-          [notifId, driverId, `Vous avez reçu ${netAmount.toFixed(0)} FCFA pour votre course.`]
+          [notifId, driverId, `Vous avez reçu ${netAmount.toFixed(0)} GMD pour votre course.`]
         )
       }
 

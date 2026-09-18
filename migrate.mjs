@@ -14,7 +14,7 @@ async function run() {
   
   const files = [
     'scripts/mysql-schema.sql',
-    'scripts/seed-senegal.sql',
+    'scripts/seed-gambia.sql',
     'scripts/004-spatial-index-drivers.sql',
     'scripts/005-add-payment-method.sql'
   ];

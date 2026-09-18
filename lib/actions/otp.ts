@@ -65,13 +65,13 @@ export async function sendOTP(phone: string): Promise<{
 
   // If no valid credentials → show code directly (dev mode)
   if (!hasATCredentials) {
-    console.log(`[DEV] OTP code for +221${phone}: ${code}`)
+    console.log(`[DEV] OTP code for +220${phone}: ${code}`)
     return { success: true, devCode: code }
   }
 
   // Send SMS via Africa's Talking
   try {
-    const formattedPhone = `+221${phone.replace(/\s/g, "").replace(/^\+221/, "")}`
+    const formattedPhone = `+220${phone.replace(/\s/g, "").replace(/^\+220/, "")}`
 
     const response = await fetch("https://api.africastalking.com/version1/messaging", {
       method: "POST",

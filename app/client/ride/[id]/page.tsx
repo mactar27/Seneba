@@ -47,7 +47,7 @@ export default function RideTrackingPage({ params }: { params: Promise<{ id: str
         } else if (newStatus === "in_progress") {
           notify("🚀 Course en cours", `Destination : ${data.destination_address}`, `/client/ride/${id}`)
         } else if (newStatus === "completed") {
-          notify("✅ Course terminée", `Merci d'avoir voyagé avec SENEBA ! Tarif : ${data.total_fare} FCFA`, `/client/ride/${id}`)
+          notify("✅ Course terminée", `Merci d'avoir voyagé avec SENEBA ! Tarif : ${data.total_fare} GMD`, `/client/ride/${id}`)
         } else if (newStatus === "cancelled") {
           notify("❌ Course annulée", "Votre course a été annulée.", "/client/book")
         }

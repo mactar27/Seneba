@@ -1,7 +1,7 @@
 -- Mise à jour pour le support Interurbain au Sénégal
 
 -- 1. Table des Régions / Villes clés du Sénégal
-CREATE TABLE IF NOT EXISTS regions_senegal (
+CREATE TABLE IF NOT EXISTS regions_gambia (
     id INT AUTO_INCREMENT PRIMARY KEY,
     nom_region VARCHAR(50) NOT NULL,
     chef_lieu VARCHAR(50) NOT NULL
@@ -17,9 +17,9 @@ ALTER TABLE rides
 ADD COLUMN region_depart_id INT NULL,
 ADD COLUMN region_arrivee_id INT NULL,
 ADD COLUMN inclut_peage BOOLEAN DEFAULT FALSE,
-ADD COLUMN tarif_estime DECIMAL(10, 2) NULL COMMENT 'En Francs CFA (XOF)',
-ADD FOREIGN KEY (region_depart_id) REFERENCES regions_senegal(id),
-ADD FOREIGN KEY (region_arrivee_id) REFERENCES regions_senegal(id);
+ADD COLUMN tarif_estime DECIMAL(10, 2) NULL COMMENT 'En Dalasi (GMD)',
+ADD FOREIGN KEY (region_depart_id) REFERENCES regions_gambia(id),
+ADD FOREIGN KEY (region_arrivee_id) REFERENCES regions_gambia(id);
 
 -- Modification de la colonne base_fare et autres si on passe en XOF au lieu d'Euros/Dollars
 ALTER TABLE rides MODIFY base_fare DECIMAL(10, 2) DEFAULT 1000.00;

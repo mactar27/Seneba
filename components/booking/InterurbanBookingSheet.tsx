@@ -83,7 +83,7 @@ export function InterurbanBookingSheet() {
                     Prendre l'Autoroute à péage
                   </Label>
                   <p className="text-xs text-muted-foreground">
-                    Ila Touba / Autoroute de l'Avenir (+3 000 FCFA)
+                    Autoroute / Péage (+300 GMD)
                   </p>
                 </div>
                 <Switch
@@ -109,7 +109,7 @@ export function InterurbanBookingSheet() {
                     )}
                   </div>
                   <p className="text-[11px] text-muted-foreground italic text-center pt-2 border-t border-dashed border-green-200 dark:border-green-900">
-                    Tarif indicatif basé sur ~25 FCFA / km hors taxes urbaines locales.
+                    Tarif indicatif basé sur ~5 GMD / km hors taxes urbaines locales.
                   </p>
                 </div>
               )}

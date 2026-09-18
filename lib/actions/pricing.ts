@@ -60,10 +60,10 @@ export async function calculateInterurbanPrice(
 ): Promise<number> {
   // TODO: Remplacer par un vrai calcul de distance via Google Maps API ou OSRM/Leaflet.
   // Simulation basique pour la démonstration :
-  let mockDistanceKm = 150; // ex: Dakar -> Touba
-  if (departRegion === "Dakar" && arriveeRegion === "Ziguinchor") mockDistanceKm = 450;
-  if (departRegion === "Dakar" && arriveeRegion === "Thiès") mockDistanceKm = 70;
-  if (departRegion === "Dakar" && arriveeRegion === "Saint-Louis") mockDistanceKm = 260;
+  let mockDistanceKm = 150; // ex: Banjul -> Mansakonko
+  if (departRegion === "Banjul" && arriveeRegion === "Basse") mockDistanceKm = 380;
+  if (departRegion === "Banjul" && arriveeRegion === "Brikama") mockDistanceKm = 35;
+  if (departRegion === "Banjul" && arriveeRegion === "Farafenni") mockDistanceKm = 115;
   
   const result = await calculateTripPrice({
     distanceKm: mockDistanceKm,

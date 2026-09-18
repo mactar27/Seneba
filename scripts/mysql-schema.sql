@@ -31,7 +31,7 @@ CREATE TABLE IF NOT EXISTS clients (
 );
 
 -- Regions table
-CREATE TABLE IF NOT EXISTS regions_senegal (
+CREATE TABLE IF NOT EXISTS regions_gambia (
     id INT AUTO_INCREMENT PRIMARY KEY,
     nom_region VARCHAR(50) NOT NULL,
     chef_lieu VARCHAR(50) NOT NULL
@@ -100,8 +100,8 @@ CREATE TABLE IF NOT EXISTS rides (
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   FOREIGN KEY (driver_id) REFERENCES drivers(id),
   FOREIGN KEY (client_user_id) REFERENCES users(id),
-  FOREIGN KEY (region_depart_id) REFERENCES regions_senegal(id),
-  FOREIGN KEY (region_arrivee_id) REFERENCES regions_senegal(id)
+  FOREIGN KEY (region_depart_id) REFERENCES regions_gambia(id),
+  FOREIGN KEY (region_arrivee_id) REFERENCES regions_gambia(id)
 );
 
 -- Driver earnings table

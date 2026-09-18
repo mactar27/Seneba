@@ -74,7 +74,7 @@ export function FareEstimate({ pickup, destination, onSelectionChange }: FareEst
               </div>
             </div>
             <div className="text-right">
-              <p className="font-bold text-primary">{estimate.standardFare} FCFA</p>
+              <p className="font-bold text-primary">{estimate.standardFare} GMD</p>
             </div>
           </div>
         </Card>
@@ -95,7 +95,7 @@ export function FareEstimate({ pickup, destination, onSelectionChange }: FareEst
               </div>
             </div>
             <div className="text-right">
-              <p className="font-bold text-primary">{estimate.confortFare} FCFA</p>
+              <p className="font-bold text-primary">{estimate.confortFare} GMD</p>
             </div>
           </div>
         </Card>

@@ -25,8 +25,8 @@ export function ClientMap({ className = "" }: ClientMapProps) {
   const [drivers, setDrivers] = useState<OnlineDriver[]>([])
   const [userPosition, setUserPosition] = useState<{lat: number, lng: number} | null>(null)
 
-  const defaultLat = 14.6928 // Dakar
-  const defaultLng = -17.4467
+  const defaultLat = 13.4549 // Banjul
+  const defaultLng = -16.5790
 
   // Initialize map and mock drivers
   useEffect(() => {

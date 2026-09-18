@@ -82,8 +82,8 @@ export function MapView({ driverLat, driverLng, activeRide, className = "" }: Ma
   const [nextInstruction, setNextInstruction] = useState<string>("")
   const voiceRef = useRef(true)
 
-  const defaultLat = 14.6928 // Dakar
-  const defaultLng = -17.4467
+  const defaultLat = 13.4549 // Banjul
+  const defaultLng = -16.5790
 
   // Initialize map once
   useEffect(() => {

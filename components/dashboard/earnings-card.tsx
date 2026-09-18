@@ -20,7 +20,7 @@ export function EarningsCard({ amount }: EarningsCardProps) {
         <div className="flex items-center justify-between">
           <div>
             <p className="text-sm opacity-90 mb-1">Gains aujourd'hui</p>
-            <p className="text-3xl font-bold">{formattedAmount} FCFA</p>
+            <p className="text-3xl font-bold">{formattedAmount} GMD</p>
           </div>
           <div className="flex flex-col items-end gap-2">
             <div className="flex h-10 w-10 items-center justify-center rounded-full bg-white/20">

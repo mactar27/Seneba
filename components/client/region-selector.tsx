@@ -17,24 +17,17 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { RegionSenegal } from "@/lib/types";
+import { RegionGambia } from "@/lib/types";
 
 // Exemple de données simulées en attendant l'intégration avec la BDD
-const regions: Omit<RegionSenegal, "id">[] = [
-  { nom_region: "Dakar", chef_lieu: "Dakar" },
-  { nom_region: "Thiès", chef_lieu: "Thiès" },
-  { nom_region: "Diourbel", chef_lieu: "Diourbel" },
-  { nom_region: "Fatick", chef_lieu: "Fatick" },
-  { nom_region: "Kaolack", chef_lieu: "Kaolack" },
-  { nom_region: "Kaffrine", chef_lieu: "Kaffrine" },
-  { nom_region: "Tambacounda", chef_lieu: "Tambacounda" },
-  { nom_region: "Kédougou", chef_lieu: "Kédougou" },
-  { nom_region: "Kolda", chef_lieu: "Kolda" },
-  { nom_region: "Sédhiou", chef_lieu: "Sédhiou" },
-  { nom_region: "Ziguinchor", chef_lieu: "Ziguinchor" },
-  { nom_region: "Saint-Louis", chef_lieu: "Saint-Louis" },
-  { nom_region: "Louga", chef_lieu: "Louga" },
-  { nom_region: "Matam", chef_lieu: "Matam" },
+const regions: Omit<RegionGambia, "id">[] = [
+  { nom_region: "Banjul", chef_lieu: "Banjul" },
+  { nom_region: "Kanifing", chef_lieu: "Kanifing" },
+  { nom_region: "Brikama", chef_lieu: "Brikama" },
+  { nom_region: "Mansakonko", chef_lieu: "Mansakonko" },
+  { nom_region: "Kerewan", chef_lieu: "Kerewan" },
+  { nom_region: "Janjanbureh", chef_lieu: "Janjanbureh" },
+  { nom_region: "Basse", chef_lieu: "Basse" },
 ];
 
 interface RegionSelectorProps {
