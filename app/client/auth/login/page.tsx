@@ -29,7 +29,7 @@ export default function ClientLoginPage() {
     setLoading(false);
 
     if (!result.success) {
-      setError(result.error || "Erreur lors de l'envoi du SMS.");
+      setError(result.error || "Error sending SMS.");
       return;
     }
 
@@ -63,20 +63,20 @@ export default function ClientLoginPage() {
         </div>
 
         <h1 className="text-3xl font-black text-foreground mb-3 tracking-tight">
-          Saisissez votre numéro
+          Enter your number
         </h1>
         <p className="text-muted-foreground mb-10 text-base">
-          Nous vous enverrons un code de confirmation par SMS pour vérifier votre identité.
+          We will send you a confirmation code by SMS to verify your identity.
         </p>
 
         {/* DEV MODE: affichage du code OTP */}
         {devCode && (
           <div className="mb-6 rounded-2xl bg-amber-50 border-2 border-amber-300 p-4 text-center animate-pulse">
             <p className="text-xs font-bold text-amber-600 uppercase tracking-wider mb-1">
-              🧪 Mode Développement — Code OTP
+              🧪 Development Mode — OTP Code
             </p>
             <p className="text-4xl font-black text-amber-700 tracking-[0.3em]">{devCode}</p>
-            <p className="text-xs text-amber-500 mt-1">Redirection automatique dans 2 secondes…</p>
+            <p className="text-xs text-amber-500 mt-1">Redirecting in 2 seconds...</p>
           </div>
         )}
 

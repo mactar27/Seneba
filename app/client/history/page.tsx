@@ -16,7 +16,7 @@ export default function ClientHistoryPage() {
   const loadData = useCallback(async () => {
     const historyResult = await getClientRideHistory()
 
-    if (historyResult.error === "Non autorisé") {
+    if (historyResult.error === "Unauthorized") {
       router.push("/client/auth/login")
       return
     }
@@ -50,18 +50,18 @@ export default function ClientHistoryPage() {
     const yesterday = new Date(today)
     yesterday.setDate(yesterday.getDate() - 1)
     
-    let dateGroup = d.toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' })
-    if (d.toDateString() === today.toDateString()) dateGroup = "Aujourd'hui"
-    else if (d.toDateString() === yesterday.toDateString()) dateGroup = "Hier"
+    let dateGroup = d.toLocaleDateString('en-US', { day: 'numeric', month: 'long', year: 'numeric' })
+    if (d.toDateString() === today.toDateString()) dateGroup = "Today"
+    else if (d.toDateString() === yesterday.toDateString()) dateGroup = "Yesterday"
 
-    const time = d.toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' })
+    const time = d.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' })
     const price = ride.total_fare ? `${ride.total_fare} GMD` : 'N/A'
     
     return {
       id: ride.id,
       type: "vehicle", // For now everything is a ride
-      name: ride.destination_address?.split(',')[0] || "Destination inconnue",
-      sub: ride.pickup_address?.split(',')[0] || "Départ inconnu",
+      name: ride.destination_address?.split(',')[0] || "Unknown destination",
+      sub: ride.pickup_address?.split(',')[0] || "Unknown pickup",
       time,
       price,
       dateGroup,
@@ -99,9 +99,9 @@ export default function ClientHistoryPage() {
         {/* Filter Pills */}
         <div className="flex gap-2.5 mb-6 overflow-x-auto pb-2 scrollbar-none pt-1">
           {[
-            { id: "all", label: "Tous" },
-            { id: "vehicle", label: "Courses" },
-            { id: "delivery", label: "Livraisons" },
+            { id: "all", label: "All" },
+            { id: "vehicle", label: "Rides" },
+            { id: "delivery", label: "Deliveries" },
             { id: "food", label: "Food" },
           ].map((filter) => (
             <button

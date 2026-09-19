@@ -13,17 +13,17 @@ import { motion, AnimatePresence } from "framer-motion"
 
 const ClientMap = dynamic(() => import("@/components/client/client-map").then(mod => mod.ClientMap), { ssr: false })
 
-// --- Premium Vehicle SVGs ---
+// --- Premium Vehicle Images ---
 function StandardCarSVG() {
-  return <Car className="w-10 h-10 text-slate-800 my-1" strokeWidth={1.5} />
+  return <img src="/images/standard_car.png" alt="Standard Car" className="w-12 h-12 object-contain my-1" />
 }
 
 function ComfortCarSVG() {
-  return <CarFront className="w-10 h-10 text-slate-800 my-1" strokeWidth={1.5} />
+  return <img src="/images/confort_car.png" alt="Comfort Car" className="w-12 h-12 object-contain my-1" />
 }
 
 function IntercityVanSVG() {
-  return <Truck className="w-10 h-10 text-slate-800 my-1" strokeWidth={1.5} />
+  return <img src="/images/interurbain_van.png" alt="Intercity Van" className="w-12 h-12 object-contain my-1" />
 }
 
 export default function BookRidePage() {
@@ -35,7 +35,7 @@ export default function BookRidePage() {
   // UI States
   const [isMapMode, setIsMapMode] = useState(false)
   const [isSearchMode, setIsSearchMode] = useState(false)
-  const [pickup, setPickup] = useState("Ma position actuelle")
+  const [pickup, setPickup] = useState("My current location")
   const [destination, setDestination] = useState("")
   const [isBooking, setIsBooking] = useState(false)
   const [selectedService, setSelectedService] = useState<"standard" | "confort" | "interurbain">("standard")
@@ -69,7 +69,7 @@ export default function BookRidePage() {
   }, [loadClient])
 
   const handleSoon = (feature: string) => {
-    alert(`${feature} sera bientôt disponible ! (Simulation)`)
+    alert(`${feature} will be available soon! (Simulation)`)
   }
 
   const openSearch = () => {
@@ -96,7 +96,7 @@ export default function BookRidePage() {
       "Serrekunda": { lat: 13.4392, lng: -16.6789 },
       "Brikama": { lat: 13.2667, lng: -16.6500 },
       "Basse": { lat: 13.3105, lng: -14.2147 },
-      "Ma position actuelle": { lat: 13.4549, lng: -16.5790 },
+      "My current location": { lat: 13.4549, lng: -16.5790 },
     }
 
     const getCoords = async (location: string) => {
@@ -170,17 +170,17 @@ export default function BookRidePage() {
         <div className="flex items-center gap-2">
           <img src="/images/seneba.png" alt="Seneba" className="h-8 object-contain" />
         </div>
-        <span className="text-[10px] font-black text-slate-400">Partenaire</span>
+        <span className="text-[10px] font-black text-slate-400">Partner</span>
       </div>
       <nav className="flex-1 px-4 py-4 space-y-1">
         <button onClick={() => { setIsMapMode(false); setIsSearchMode(false) }} className="w-full flex items-center gap-3.5 px-4.5 py-3 rounded-2xl bg-blue-50/50 text-[#0066CC] font-bold text-sm text-left">
-          <Compass className="w-5 h-5 text-[#0066CC]" /> Accueil
+          <Compass className="w-5 h-5 text-[#0066CC]" /> Home
         </button>
         <button onClick={() => openBooking()} className="w-full flex items-center gap-3.5 px-4.5 py-3 rounded-2xl text-slate-700 hover:bg-slate-50 font-bold text-sm text-left">
-          <Car className="w-5 h-5 text-slate-400" /> Courses
+          <Car className="w-5 h-5 text-slate-400" /> Rides
         </button>
         <Link href="/client/delivery" className="w-full flex items-center gap-3.5 px-4.5 py-3 rounded-2xl text-slate-700 hover:bg-slate-50 font-bold text-sm text-left">
-          <Package className="w-5 h-5 text-slate-400" /> Livraison
+          <Package className="w-5 h-5 text-slate-400" /> Delivery
         </Link>
         <button onClick={() => handleSoon("Food")} className="w-full flex items-center gap-3.5 px-4.5 py-3 rounded-2xl text-slate-700 hover:bg-slate-50 font-bold text-sm text-left">
           <Utensils className="w-5 h-5 text-slate-400" /> Food
@@ -188,12 +188,12 @@ export default function BookRidePage() {
         <button onClick={() => handleSoon("Cargo")} className="w-full flex items-center gap-3.5 px-4.5 py-3 rounded-2xl text-slate-700 hover:bg-slate-50 font-bold text-sm text-left">
           <Truck className="w-5 h-5 text-slate-400" /> Cargo
         </button>
-        <button onClick={() => handleSoon("Navigateur")} className="w-full flex items-center gap-3.5 px-4.5 py-3 rounded-2xl text-slate-700 hover:bg-slate-50 font-bold text-sm text-left">
-          <Compass className="w-5 h-5 text-slate-400" /> Navigateur
+        <button onClick={() => handleSoon("Browser")} className="w-full flex items-center gap-3.5 px-4.5 py-3 rounded-2xl text-slate-700 hover:bg-slate-50 font-bold text-sm text-left">
+          <Compass className="w-5 h-5 text-slate-400" /> Browser
         </button>
         <hr className="my-2 border-slate-50" />
-        <button onClick={() => handleSoon("Favoris")} className="w-full flex items-center gap-3.5 px-4.5 py-3 rounded-2xl text-slate-700 hover:bg-slate-50 font-semibold text-sm text-left">
-          <Heart className="w-5 h-5 text-slate-400" /> Favoris
+        <button onClick={() => handleSoon("Favorites")} className="w-full flex items-center gap-3.5 px-4.5 py-3 rounded-2xl text-slate-700 hover:bg-slate-50 font-semibold text-sm text-left">
+          <Heart className="w-5 h-5 text-slate-400" /> Favorites
         </button>
         <button onClick={() => handleSoon("Promotions")} className="w-full flex items-center gap-3.5 px-4.5 py-3 rounded-2xl text-slate-700 hover:bg-slate-50 font-semibold text-sm text-left">
           <Tag className="w-5 h-5 text-slate-400" /> Promotions
@@ -205,8 +205,8 @@ export default function BookRidePage() {
         <Link href="/client/profile" className="w-full flex items-center gap-3.5 px-4.5 py-3 rounded-2xl text-slate-700 hover:bg-slate-50 font-semibold text-sm text-left">
           <Settings className="w-5 h-5 text-slate-400" /> Settings
         </Link>
-        <button onClick={() => handleSoon("Aide")} className="w-full flex items-center gap-3.5 px-4.5 py-3 rounded-2xl text-slate-700 hover:bg-slate-50 font-semibold text-sm text-left">
-          <HelpCircle className="w-5 h-5 text-slate-400" /> Aide & support
+        <button onClick={() => handleSoon("Help")} className="w-full flex items-center gap-3.5 px-4.5 py-3 rounded-2xl text-slate-700 hover:bg-slate-50 font-semibold text-sm text-left">
+          <HelpCircle className="w-5 h-5 text-slate-400" /> Help & Support
         </button>
       </nav>
       <div className="p-6 border-t border-slate-50 bg-white">
@@ -243,7 +243,7 @@ export default function BookRidePage() {
               <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" />
               <input 
                 type="text"
-                placeholder="Rechercher une destination"
+                placeholder="Search destination"
                 className="w-full bg-[#F4F8FA] rounded-2xl h-14 pl-12 pr-12 outline-none font-bold text-slate-900 placeholder:text-slate-400 placeholder:font-medium text-sm"
                 value={destination}
                 onChange={(e) => setDestination(e.target.value)}
@@ -257,15 +257,15 @@ export default function BookRidePage() {
             <div className="space-y-1 mb-6">
               {/* Position Actuelle */}
               <button 
-                onClick={() => { setPickup("Ma position actuelle") }}
+                onClick={() => { setPickup("My current location") }}
                 className="w-full flex items-center gap-4 py-3 border-b border-slate-50 text-left"
               >
                 <div className="w-10 h-10 rounded-full bg-blue-50 flex items-center justify-center text-[#0066CC] flex-shrink-0">
                   <Compass className="w-5 h-5" />
                 </div>
                 <div>
-                  <h4 className="font-bold text-slate-900 text-sm">Ma position actuelle</h4>
-                  <p className="text-xs text-slate-400 font-medium">Utiliser ma position</p>
+                  <h4 className="font-bold text-slate-900 text-sm">My current location</h4>
+                  <p className="text-xs text-slate-400 font-medium">Use my location</p>
                 </div>
               </button>
 
@@ -329,8 +329,8 @@ export default function BookRidePage() {
             </div>
 
             {/* Footer search link */}
-            <button onClick={() => handleSoon("History complet")} className="text-center font-bold text-sm text-[#0066CC] py-3 hover:underline">
-              Voir plus d'historique
+            <button onClick={() => handleSoon("History")} className="text-center font-bold text-sm text-[#0066CC] py-3 hover:underline">
+              See more history
             </button>
           </motion.div>
         )}
@@ -366,9 +366,9 @@ export default function BookRidePage() {
           {/* Greet & Title */}
           <div className="mb-6">
             <h2 className="text-xl font-semibold text-slate-900 flex items-center gap-2">
-              Bonjour {client?.full_name?.split(" ")[0] || "Client"} 👋
+              Hello {client?.full_name?.split(" ")[0] || "Client"} 👋
             </h2>
-            <h1 className="text-2xl font-black text-slate-900 tracking-tight mt-1">Où allez-vous aujourd'hui ?</h1>
+            <h1 className="text-2xl font-black text-slate-900 tracking-tight mt-1">Where are you going today?</h1>
           </div>
 
           {/* Rapid Address Card */}
@@ -488,7 +488,7 @@ export default function BookRidePage() {
           <div className="absolute top-[42vh] left-0 right-0 z-10 flex justify-center pointer-events-none">
             <div className="bg-white/95 backdrop-blur-md px-4 py-2 rounded-full shadow-md border border-slate-100 flex items-center gap-2 pointer-events-auto">
               <Compass className="w-4 h-4 text-[#0066CC]" />
-              <span className="text-xs font-bold text-slate-800">Ma position actuelle</span>
+              <span className="text-xs font-bold text-slate-800">My current location</span>
             </div>
           </div>
 
@@ -525,7 +525,7 @@ export default function BookRidePage() {
                         value={pickup}
                         onChange={(e) => setPickup(e.target.value)}
                         className="flex-1 bg-transparent border-none outline-none text-slate-800 font-bold text-sm"
-                        placeholder="Lieu de départ"
+                        placeholder="Pickup location"
                       />
                     </div>
                     <Compass className="w-4 h-4 text-blue-600 flex-shrink-0 cursor-pointer" />
@@ -551,7 +551,7 @@ export default function BookRidePage() {
 
               {/* Service Categories Options */}
               <div className="flex items-center justify-between mb-2">
-                <span className="text-xs font-black text-slate-900 uppercase tracking-wider">Type de course</span>
+                <span className="text-xs font-black text-slate-900 uppercase tracking-wider">Ride type</span>
                 <button onClick={() => handleSoon("Types")} className="text-[11px] font-black text-[#0066CC] hover:underline">See all</button>
               </div>
 
@@ -568,7 +568,7 @@ export default function BookRidePage() {
                   <StandardCarSVG />
                   <div className="text-center">
                     <span className="block font-black text-slate-800 text-[13px]">Standard</span>
-                    <span className="block text-[9px] text-slate-400 font-medium">Rapide & abordable</span>
+                    <span className="block text-[9px] text-slate-400 font-medium">Fast & affordable</span>
                   </div>
                 </button>
 
@@ -584,7 +584,7 @@ export default function BookRidePage() {
                   <ComfortCarSVG />
                   <div className="text-center">
                     <span className="block font-black text-slate-800 text-[13px]">Comfort</span>
-                    <span className="block text-[9px] text-slate-400 font-medium">Plus d'espace</span>
+                    <span className="block text-[9px] text-slate-400 font-medium">More space</span>
                   </div>
                 </button>
 
@@ -600,7 +600,7 @@ export default function BookRidePage() {
                   <IntercityVanSVG />
                   <div className="text-center">
                     <span className="block font-black text-slate-800 text-[13px]">Intercity</span>
-                    <span className="block text-[9px] text-slate-400 font-medium">Voyagez loin</span>
+                    <span className="block text-[9px] text-slate-400 font-medium">Travel far</span>
                   </div>
                 </button>
               </div>
@@ -661,7 +661,7 @@ export default function BookRidePage() {
                 disabled={!destination || isBooking} 
                 className="w-full h-13 text-sm font-bold rounded-2xl bg-[#0066CC] hover:bg-[#0052A3] text-white flex items-center justify-center gap-2 disabled:opacity-50 active:scale-95 transition-transform"
               >
-                {isBooking ? "Création du trajet..." : "Commander Seneba"} <ArrowRight className="w-4 h-4" />
+                {isBooking ? "Creating ride..." : "Order Seneba"} <ArrowRight className="w-4 h-4" />
               </Button>
             </div>
           </div>

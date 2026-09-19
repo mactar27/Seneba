@@ -52,7 +52,7 @@ function OTPForm() {
     const result = await verifyOTP(phone, enteredCode);
 
     if (!result.success) {
-      setError(result.error || "Code incorrect.");
+      setError(result.error || "Incorrect code.");
       setCode("");
       setLoading(false);
       return;
@@ -87,10 +87,10 @@ function OTPForm() {
 
       <main className="flex flex-1 flex-col px-6 py-4">
         <h1 className="text-3xl font-black text-foreground mb-3 tracking-tight">
-          Code de validation
+          Verification Code
         </h1>
         <p className="text-muted-foreground mb-8 text-base">
-          Saisissez le code à 4 chiffres envoyé au{" "}
+          Enter the 4-digit code sent to{" "}
           <span className="font-bold text-foreground">+221 {phone}</span>
         </p>
 
@@ -98,7 +98,7 @@ function OTPForm() {
         {devCode && (
           <div className="mb-6 rounded-2xl bg-amber-50 border-2 border-amber-300 p-4 text-center">
             <p className="text-xs font-bold text-amber-600 uppercase tracking-wider mb-1">
-              🧪 Mode Développement — Code OTP
+              🧪 Development Mode — OTP Code
             </p>
             <p className="text-4xl font-black text-amber-700 tracking-[0.3em]">{devCode}</p>
           </div>
@@ -138,7 +138,7 @@ function OTPForm() {
         <div className="mt-auto pb-8 space-y-4">
           {/* Resend button */}
           <p className="text-center text-sm font-medium text-muted-foreground">
-            Je n'ai pas reçu de code.{" "}
+            I didn't receive a code.{" "}
             <button
               onClick={handleResend}
               disabled={resendCooldown > 0}
@@ -148,7 +148,7 @@ function OTPForm() {
                   : "text-accent hover:underline"
               }`}
             >
-              {resendCooldown > 0 ? `Renvoyer (${resendCooldown}s)` : "Renvoyer"}
+              {resendCooldown > 0 ? `Resend (${resendCooldown}s)` : "Resend"}
             </button>
           </p>
 
