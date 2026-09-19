@@ -42,17 +42,35 @@ export default function ClientHistoryPage() {
     )
   }
 
-  // Fallback to mock data to match mockup Screen 5 exactly
-  const mockRides = [
-    { id: 1, type: "vehicle", name: "Aéroport Banjul", sub: "Yundum, Gambie", time: "08:42", price: "3 500 GMD", dateGroup: "Aujourd'hui", status: "Paid" },
-    { id: 2, type: "vehicle", name: "Marché Albert", sub: "Banjul", time: "07:15", price: "1 800 GMD", dateGroup: "Aujourd'hui", status: "Paid" },
-    { id: 3, type: "food", name: "Yum-Yum", sub: "Serrekunda", time: "20:30", price: "2 200 GMD", dateGroup: "Hier", status: "Paid" },
-    { id: 4, type: "vehicle", name: "Senegambia → Bakau", sub: "Kanifing", time: "18:10", price: "3 000 GMD", dateGroup: "Hier", status: "Paid" },
-    { id: 5, type: "vehicle", name: "Place de l'Indépendance", sub: "Banjul", time: "09:30", price: "1 500 GMD", dateGroup: "22 Mai 2024", status: "Paid" },
-  ]
+  // Map real database rides to UI format
+  const mappedRides = rides.map((ride: any) => {
+    const d = new Date(ride.requested_at)
+    // Simple date grouping
+    const today = new Date()
+    const yesterday = new Date(today)
+    yesterday.setDate(yesterday.getDate() - 1)
+    
+    let dateGroup = d.toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' })
+    if (d.toDateString() === today.toDateString()) dateGroup = "Aujourd'hui"
+    else if (d.toDateString() === yesterday.toDateString()) dateGroup = "Hier"
+
+    const time = d.toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' })
+    const price = ride.total_fare ? `${ride.total_fare} GMD` : 'N/A'
+    
+    return {
+      id: ride.id,
+      type: "vehicle", // For now everything is a ride
+      name: ride.destination_address?.split(',')[0] || "Destination inconnue",
+      sub: ride.pickup_address?.split(',')[0] || "Départ inconnu",
+      time,
+      price,
+      dateGroup,
+      status: ride.status === 'completed' ? 'Paid' : ride.status
+    }
+  })
 
   // Filter rides
-  const filteredRides = mockRides.filter((ride) => {
+  const filteredRides = mappedRides.filter((ride) => {
     if (activeFilter === "all") return true
     return ride.type === activeFilter
   })
@@ -63,7 +81,7 @@ export default function ClientHistoryPage() {
     if (!acc[group]) acc[group] = []
     acc[group].push(ride)
     return acc
-  }, {} as Record<string, typeof mockRides>)
+  }, {} as Record<string, typeof mappedRides>)
 
   return (
     <div className="flex min-h-svh flex-col bg-[#F8FAFC] pb-20">

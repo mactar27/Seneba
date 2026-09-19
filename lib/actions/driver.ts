@@ -250,7 +250,7 @@ export async function updateRideStatus(rideId: string, newStatus: string, driver
 
         await connection.execute(
           "INSERT INTO driver_earnings (id, driver_id, ride_id, amount, commission_rate, commission_amount, net_amount, earning_type) VALUES (?, ?, ?, ?, ?, ?, ?, 'ride')",
-          [earningId, driverId, rideId, totalFare, 0.2, commissionAmount, netAmount]
+          [earningId, driverId, rideId, totalFare, 20.00, commissionAmount, netAmount]
         )
 
         await connection.execute(

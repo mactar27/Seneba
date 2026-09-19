@@ -1,6 +1,6 @@
 "use client"
 
-import { getClientProfilee, createRide } from "@/lib/actions/client"
+import { getClientProfilee, createRide, getClientRideHistory } from "@/lib/actions/client"
 import { useEffect, useState, useCallback } from "react"
 import { useRouter } from "next/navigation"
 import { Button } from "@/components/ui/button"
@@ -15,21 +15,22 @@ const ClientMap = dynamic(() => import("@/components/client/client-map").then(mo
 
 // --- Premium Vehicle SVGs ---
 function StandardCarSVG() {
-  return <img src="/images/standard_car.png" alt="Standard" className="w-20 h-10 object-contain" />
+  return <Car className="w-10 h-10 text-slate-800 my-1" strokeWidth={1.5} />
 }
 
 function ComfortCarSVG() {
-  return <img src="/images/confort_car.png" alt="Comfort" className="w-20 h-10 object-contain" />
+  return <CarFront className="w-10 h-10 text-slate-800 my-1" strokeWidth={1.5} />
 }
 
 function IntercityVanSVG() {
-  return <img src="/images/interurbain_van.png" alt="Intercity" className="w-20 h-10 object-contain" />
+  return <Truck className="w-10 h-10 text-slate-800 my-1" strokeWidth={1.5} />
 }
 
 export default function BookRidePage() {
   const router = useRouter()
   const [client, setClient] = useState<Client | null>(null)
   const [loading, setLoading] = useState(true)
+  const [recentDestinations, setRecentDestinations] = useState<{title: string, sub: string, icon: any}[]>([])
   
   // UI States
   const [isMapMode, setIsMapMode] = useState(false)
@@ -44,6 +45,21 @@ export default function BookRidePage() {
     const clientData = await getClientProfilee()
     if (clientData) {
       setClient(clientData as Client)
+      const history = await getClientRideHistory()
+      if (history.rides) {
+        const uniqueDestinations = new Map<string, {title: string, sub: string, icon: any}>()
+        history.rides.forEach((ride: any) => {
+          const dest = ride.destination_address || ""
+          if (dest && !uniqueDestinations.has(dest)) {
+            uniqueDestinations.set(dest, {
+              title: dest.split(',')[0],
+              sub: dest.split(',').slice(1).join(',').trim() || "Gambie",
+              icon: MapPin
+            })
+          }
+        })
+        setRecentDestinations(Array.from(uniqueDestinations.values()).slice(0, 3))
+      }
     }
     setLoading(false)
   }, [])
@@ -83,14 +99,27 @@ export default function BookRidePage() {
       "Ma position actuelle": { lat: 13.4549, lng: -16.5790 },
     }
 
-    const getCoords = (location: string) => {
+    const getCoords = async (location: string) => {
       const key = Object.keys(GAMBIA_CITIES).find(c => location.toLowerCase().includes(c.toLowerCase()))
       if (key) return GAMBIA_CITIES[key]
+      
+      // Fallback to real Geocoding via Nominatim (Free, no API key needed)
+      try {
+        const res = await fetch(`https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(location)}&format=json&countrycodes=gm&limit=1`)
+        const data = await res.json()
+        if (data && data.length > 0) {
+          return { lat: parseFloat(data[0].lat), lng: parseFloat(data[0].lon) }
+        }
+      } catch (err) {
+        console.error("Geocoding failed", err)
+      }
+      
+      // Ultimate fallback if search fails
       return { lat: 13.4549 + Math.random() * 0.05, lng: -16.5790 + Math.random() * 0.05 }
     }
 
-    const pickupCoords = getCoords(pickup)
-    const destCoords = getCoords(destination)
+    const pickupCoords = await getCoords(pickup)
+    const destCoords = await getCoords(destination)
     
     const isComfort = selectedService === "confort"
     const isIntercity = selectedService === "interurbain"
@@ -273,12 +302,12 @@ export default function BookRidePage() {
             <div className="flex-1 overflow-y-auto">
               <h3 className="font-black text-slate-900 text-sm mb-3">Recent destinations</h3>
               <div className="space-y-4">
-                {[
+                {(recentDestinations.length > 0 ? recentDestinations : [
                   { title: "Aéroport Banjul", sub: "Yundum, Gambie", icon: Plane },
                   { title: "Marché Albert", sub: "Banjul", icon: Building2 },
                   { title: "Yum-Yum", sub: "Serrekunda", icon: Utensils },
                   { title: "Place de l'Indépendance", sub: "Banjul", icon: Compass },
-                ].map((place, idx) => (
+                ]).map((place, idx) => (
                   <button 
                     key={idx} 
                     onClick={() => selectDestination(place.title)} 
@@ -395,11 +424,11 @@ export default function BookRidePage() {
             </div>
 
             <div className="space-y-3">
-              {[
+              {(recentDestinations.length > 0 ? recentDestinations : [
                 { title: "Aéroport Banjul", sub: "Yundum, Gambie", icon: Plane },
                 { title: "Marché Albert", sub: "Banjul", icon: Building2 },
                 { title: "Yum-Yum", sub: "Serrekunda", icon: Utensils },
-              ].map((place, idx) => (
+              ]).map((place, idx) => (
                 <button key={idx} onClick={() => selectDestination(place.title)} className="w-full bg-white rounded-2xl p-4 flex items-center justify-between text-left shadow-sm border border-slate-50 hover:bg-slate-50 transition-colors group">
                   <div className="flex items-center gap-4">
                     <div className="w-11 h-11 bg-blue-50/50 rounded-xl flex items-center justify-center text-slate-400 group-hover:text-[#0066CC] transition-colors">
