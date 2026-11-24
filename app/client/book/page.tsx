@@ -1,6 +1,8 @@
 "use client"
 
 import { getClientProfilee, createRide, getClientRideHistory } from "@/lib/actions/client"
+import { getClientNotifications, markClientNotificationsAsRead, type Notification } from "@/lib/actions/notifications"
+import { usePushNotifications } from "@/hooks/use-push-notifications"
 import { useEffect, useState, useCallback } from "react"
 import { useRouter } from "next/navigation"
 import { Button } from "@/components/ui/button"
@@ -10,7 +12,7 @@ import {
   Menu, MapPin, Car, Building2, Utensils, Package, Truck, 
   ChevronRight, ChevronLeft, Plane, Bell, Star, ArrowRight, 
   Compass, X, Search, Mic, Settings, HelpCircle, Heart, Tag, 
-  Clock, User, CheckCircle2
+  Clock, User, CheckCircle2, ShieldCheck, Sparkles, CheckCheck
 } from "lucide-react"
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet"
 import Link from "next/link"
@@ -33,9 +35,12 @@ function IntercityVanSVG() {
 
 export default function BookRidePage() {
   const router = useRouter()
+  const { notify } = usePushNotifications()
   const [client, setClient] = useState<Client | null>(null)
   const [loading, setLoading] = useState(true)
   const [recentDestinations, setRecentDestinations] = useState<{title: string, sub: string, icon: any}[]>([])
+  const [notifications, setNotifications] = useState<Notification[]>([])
+  const [pushEnabled, setPushEnabled] = useState(false)
   
   // UI States
   const [isSearchMode, setIsSearchMode] = useState(false)
@@ -45,6 +50,31 @@ export default function BookRidePage() {
   const [isBooking, setIsBooking] = useState(false)
   const [selectedService, setSelectedService] = useState<"standard" | "confort" | "interurbain">("standard")
   const [paymentMethod, setPaymentMethod] = useState<"cash" | "wave" | "orange_money">("cash")
+
+  const loadNotifications = useCallback(async () => {
+    try {
+      const notifs = await getClientNotifications()
+      setNotifications(notifs)
+    } catch (e) {
+      console.error("Error loading notifications:", e)
+    }
+  }, [])
+
+  const handleMarkAllRead = async () => {
+    setNotifications(prev => prev.map(n => ({ ...n, is_read: true })))
+    await markClientNotificationsAsRead()
+  }
+
+  const handleEnablePush = () => {
+    if (typeof window !== "undefined" && "Notification" in window) {
+      Notification.requestPermission().then((perm) => {
+        if (perm === "granted") {
+          setPushEnabled(true)
+          notify("SENEBA 🇬🇲", "Push notifications are now active on this device!")
+        }
+      })
+    }
+  }
 
   const loadClient = useCallback(async () => {
     const clientData = await getClientProfilee()
@@ -66,11 +96,15 @@ export default function BookRidePage() {
         setRecentDestinations(Array.from(uniqueDestinations.values()).slice(0, 3))
       }
     }
+    await loadNotifications()
     setLoading(false)
-  }, [])
+  }, [loadNotifications])
 
   useEffect(() => {
     loadClient()
+    if (typeof window !== "undefined" && "Notification" in window) {
+      setPushEnabled(Notification.permission === "granted")
+    }
   }, [loadClient])
 
   const openSearch = () => {
@@ -220,30 +254,115 @@ export default function BookRidePage() {
 
         {/* Right: Notifications Bell */}
         <button 
-          onClick={() => setIsNotifOpen(true)}
+          onClick={() => {
+            setIsNotifOpen(true)
+            if (notifications.some(n => !n.is_read)) {
+              handleMarkAllRead()
+            }
+          }}
           className="w-11 h-11 bg-white/95 backdrop-blur-md rounded-full flex items-center justify-center shadow-lg border border-slate-100/80 pointer-events-auto active:scale-90 transition-transform text-slate-800 relative"
         >
           <Bell className="w-5 h-5 text-slate-700" />
-          <span className="absolute top-2.5 right-2.5 w-2 h-2 bg-blue-600 rounded-full" />
+          {notifications.some(n => !n.is_read) && (
+            <span className="absolute top-2 right-2 flex h-2.5 w-2.5">
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75"></span>
+              <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-[#0066CC]"></span>
+            </span>
+          )}
         </button>
       </header>
 
-      {/* ─── NOTIFICATION SHEET (NO MORE SYSTEM ALERT) ─── */}
+      {/* ─── REAL NOTIFICATION SHEET ─── */}
       <Sheet open={isNotifOpen} onOpenChange={setIsNotifOpen}>
-        <SheetContent side="top" className="rounded-b-[28px] max-h-[70vh] p-6 z-[250]">
-          <SheetHeader className="mb-4">
+        <SheetContent side="top" className="rounded-b-[28px] max-h-[82vh] p-5 z-[250] flex flex-col overflow-hidden">
+          <SheetHeader className="pb-3 border-b border-slate-100 flex flex-row items-center justify-between">
             <SheetTitle className="text-lg font-black text-slate-900 flex items-center gap-2">
               <Bell className="w-5 h-5 text-[#0066CC]" /> Notifications
             </SheetTitle>
+            {notifications.some(n => !n.is_read) && (
+              <button 
+                onClick={handleMarkAllRead}
+                className="text-xs font-bold text-[#0066CC] hover:underline flex items-center gap-1"
+              >
+                <CheckCheck className="w-3.5 h-3.5" /> Mark all read
+              </button>
+            )}
           </SheetHeader>
-          <div className="py-8 flex flex-col items-center justify-center text-center">
-            <div className="w-14 h-14 rounded-full bg-blue-50 text-[#0066CC] flex items-center justify-center mb-3">
-              <CheckCircle2 className="w-7 h-7" />
+
+          {/* Native Device Push Prompt Card */}
+          <div className="mt-3 p-3.5 rounded-2xl bg-gradient-to-r from-blue-50 to-indigo-50/60 border border-blue-100 flex items-center justify-between">
+            <div className="flex items-center gap-3">
+              <div className="w-9 h-9 rounded-xl bg-white shadow-sm flex items-center justify-center text-[#0066CC] flex-shrink-0">
+                <Bell className="w-5 h-5" />
+              </div>
+              <div className="text-left">
+                <h5 className="font-bold text-slate-900 text-xs">Push alerts on this phone</h5>
+                <p className="text-[11px] text-slate-500 font-medium">Instant updates when driver arrives</p>
+              </div>
             </div>
-            <h4 className="font-bold text-slate-800 text-sm mb-1">You're all caught up!</h4>
-            <p className="text-xs text-slate-400 max-w-[240px]">
-              Ride confirmations, driver arrivals, and promotions will appear here.
-            </p>
+            {pushEnabled ? (
+              <span className="text-[11px] font-bold text-emerald-600 bg-emerald-50 px-2.5 py-1 rounded-full border border-emerald-200">
+                Active ✓
+              </span>
+            ) : (
+              <button 
+                onClick={handleEnablePush}
+                className="text-xs font-bold bg-[#0066CC] hover:bg-[#0052A3] text-white px-3 py-1.5 rounded-xl shadow-sm active:scale-95 transition-transform"
+              >
+                Enable
+              </button>
+            )}
+          </div>
+
+          {/* Notifications List */}
+          <div className="flex-1 overflow-y-auto mt-4 space-y-3 pr-1">
+            {notifications.length > 0 ? (
+              notifications.map((notif) => {
+                const isPromo = notif.type === "payment"
+                const isSafety = notif.type === "rating"
+                const isRide = notif.type === "ride_request"
+
+                return (
+                  <div 
+                    key={notif.id}
+                    className={`p-3.5 rounded-2xl border transition-all text-left flex items-start gap-3 relative ${
+                      notif.is_read 
+                        ? "bg-white border-slate-100" 
+                        : "bg-blue-50/30 border-blue-200 shadow-sm"
+                    }`}
+                  >
+                    {/* Icon */}
+                    <div className={`w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0 mt-0.5 ${
+                      isPromo ? "bg-emerald-50 text-emerald-600" :
+                      isSafety ? "bg-amber-50 text-amber-600" :
+                      isRide ? "bg-blue-50 text-[#0066CC]" :
+                      "bg-indigo-50 text-indigo-600"
+                    }`}>
+                      {isPromo ? <Tag className="w-5 h-5" /> :
+                       isSafety ? <ShieldCheck className="w-5 h-5" /> :
+                       isRide ? <Car className="w-5 h-5" /> :
+                       <Sparkles className="w-5 h-5" />}
+                    </div>
+
+                    {/* Content */}
+                    <div className="flex-1 min-w-0">
+                      <div className="flex items-center justify-between mb-1">
+                        <h4 className="font-bold text-slate-900 text-xs truncate">{notif.title}</h4>
+                        {!notif.is_read && (
+                          <span className="w-2 h-2 rounded-full bg-[#0066CC] flex-shrink-0 ml-2" />
+                        )}
+                      </div>
+                      <p className="text-xs text-slate-600 leading-relaxed font-normal">{notif.body}</p>
+                    </div>
+                  </div>
+                )
+              })
+            ) : (
+              <div className="py-8 text-center flex flex-col items-center">
+                <CheckCircle2 className="w-8 h-8 text-slate-300 mb-2" />
+                <p className="text-xs text-slate-400 font-medium">No notifications yet.</p>
+              </div>
+            )}
           </div>
         </SheetContent>
       </Sheet>
