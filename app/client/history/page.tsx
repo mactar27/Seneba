@@ -4,7 +4,7 @@ import { getClientRideHistory } from "@/lib/actions/client"
 import { useEffect, useState, useCallback } from "react"
 import { useRouter } from "next/navigation"
 import type { Ride } from "@/lib/types"
-import { ChevronLeft, Compass, Car, Package, Utensils, Check } from "lucide-react"
+import { ChevronLeft, Compass, Car, Package, Utensils, Check, Clock, User, ArrowRight } from "lucide-react"
 import Link from "next/link"
 
 export default function ClientHistoryPage() {
@@ -119,42 +119,60 @@ export default function ClientHistoryPage() {
         </div>
 
         {/* List grouped by date */}
-        <div className="space-y-6">
-          {Object.keys(groupedRides).map((date) => (
-            <div key={date} className="space-y-3">
-              <h3 className="text-xs font-black text-slate-400 uppercase tracking-wider">{date}</h3>
-              <div className="space-y-3">
-                {groupedRides[date].map((ride) => {
-                  const Icon = ride.type === "delivery" ? Package : ride.type === "food" ? Utensils : Car
-                  return (
-                    <div 
-                      key={ride.id} 
-                      className="bg-white rounded-2xl p-4 flex items-center justify-between border border-slate-50 shadow-sm"
-                    >
-                      <div className="flex items-center gap-3.5">
-                        <div className="w-11 h-11 rounded-xl bg-blue-50/50 flex items-center justify-center text-[#0066CC]">
-                          <Icon className="w-5 h-5" />
+        {filteredRides.length > 0 ? (
+          <div className="space-y-6">
+            {Object.keys(groupedRides).map((date) => (
+              <div key={date} className="space-y-3">
+                <h3 className="text-xs font-black text-slate-400 uppercase tracking-wider">{date}</h3>
+                <div className="space-y-3">
+                  {groupedRides[date].map((ride) => {
+                    const Icon = ride.type === "delivery" ? Package : ride.type === "food" ? Utensils : Car
+                    return (
+                      <div 
+                        key={ride.id} 
+                        className="bg-white rounded-2xl p-4 flex items-center justify-between border border-slate-50 shadow-sm"
+                      >
+                        <div className="flex items-center gap-3.5">
+                          <div className="w-11 h-11 rounded-xl bg-blue-50/50 flex items-center justify-center text-[#0066CC]">
+                            <Icon className="w-5 h-5" />
+                          </div>
+                          <div>
+                            <h4 className="font-bold text-slate-800 text-[14px] leading-tight">{ride.name}</h4>
+                            <p className="text-xs text-slate-400 font-semibold mt-0.5">{ride.sub}</p>
+                          </div>
                         </div>
-                        <div>
-                          <h4 className="font-bold text-slate-800 text-[14px] leading-tight">{ride.name}</h4>
-                          <p className="text-xs text-slate-400 font-semibold mt-0.5">{ride.sub}</p>
+                        
+                        <div className="text-right">
+                          <span className="block font-black text-slate-900 text-sm leading-tight">{ride.price}</span>
+                          <div className="flex items-center justify-end gap-1.5 mt-1 leading-none">
+                            <span className="text-[10px] text-slate-400 font-bold">{ride.time}</span>
+                            <span className="text-[9px] font-black text-emerald-600 bg-emerald-50 px-1.5 py-0.5 rounded uppercase tracking-wider">Paid</span>
+                          </div>
                         </div>
                       </div>
-                      
-                      <div className="text-right">
-                        <span className="block font-black text-slate-900 text-sm leading-tight">{ride.price}</span>
-                        <div className="flex items-center justify-end gap-1.5 mt-1 leading-none">
-                          <span className="text-[10px] text-slate-400 font-bold">{ride.time}</span>
-                          <span className="text-[9px] font-black text-emerald-600 bg-emerald-50 px-1.5 py-0.5 rounded uppercase tracking-wider">Paid</span>
-                        </div>
-                      </div>
-                    </div>
-                  )
-                })}
+                    )
+                  })}
+                </div>
               </div>
+            ))}
+          </div>
+        ) : (
+          <div className="py-16 px-4 flex flex-col items-center justify-center text-center">
+            <div className="w-16 h-16 rounded-full bg-blue-50 text-[#0066CC] flex items-center justify-center mb-4 shadow-sm">
+              <Clock className="w-8 h-8" />
             </div>
-          ))}
-        </div>
+            <h3 className="font-black text-slate-800 text-base mb-1">No rides yet</h3>
+            <p className="text-xs text-slate-400 font-medium max-w-[260px] leading-relaxed mb-6">
+              When you complete a ride with SENEBA, your trips, receipts, and route history will appear here.
+            </p>
+            <Link
+              href="/client/book"
+              className="inline-flex items-center gap-2 px-6 py-3 rounded-2xl bg-[#0066CC] hover:bg-[#0052A3] text-white text-xs font-black shadow-md active:scale-95 transition-all"
+            >
+              Book a ride <ArrowRight className="w-4 h-4" />
+            </Link>
+          </div>
+        )}
       </main>
 
       {/* Bottom Navigation */}
@@ -165,11 +183,11 @@ export default function ClientHistoryPage() {
             <span className="text-[10px] font-medium">Book</span>
           </Link>
           <button className="flex flex-col items-center justify-center flex-1 h-full gap-1 text-[#0066CC] transition-all">
-            <Compass className="w-5 h-5" />
+            <Clock className="w-5 h-5" />
             <span className="text-[10px] font-bold">History</span>
           </button>
           <Link href="/client/profile" className="flex flex-col items-center justify-center flex-1 h-full gap-1 text-slate-400 hover:text-slate-600 transition-all">
-            <Compass className="w-5 h-5" />
+            <User className="w-5 h-5" />
             <span className="text-[10px] font-medium">Profile</span>
           </Link>
         </div>

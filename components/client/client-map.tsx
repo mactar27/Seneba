@@ -52,11 +52,10 @@ export function ClientMap({ className = "" }: ClientMapProps) {
         zoomControl: false,
       })
 
-      // Use a clean light map style (CartoDB Positron) 
-      L.tileLayer("https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png", {
-        attribution: '&copy; OpenStreetMap &copy; CARTO',
+      // Clean OpenStreetMap tiles (100% free, no API key watermark)
+      L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+        attribution: '&copy; OpenStreetMap contributors',
         maxZoom: 19,
-        className: 'map-tiles-blue' // Custom class for CSS filter
       }).addTo(map)
 
       // Add zoom control at bottom right
