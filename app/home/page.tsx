@@ -1,8 +1,42 @@
+"use client"
+
+import { useEffect } from "react"
+import { useRouter } from "next/navigation"
+import { getSession, restoreSessionFromStorage } from "@/lib/actions/auth"
 import Link from "next/link"
 import { SenebaLogo } from "@/components/seneba-logo"
 import { Car, ArrowRight, MapPin, Building2, ShoppingBag, Bell, ShieldCheck, ChevronRight, Home, Clock, User } from "lucide-react"
 
 export default function HomePage() {
+  const router = useRouter()
+
+  useEffect(() => {
+    const checkActiveSession = async () => {
+      try {
+        const session = await getSession()
+        if (session?.user) {
+          router.replace(session.user.role === "driver" ? "/dashboard" : "/client/book")
+          return
+        }
+
+        if (typeof window !== "undefined") {
+          const stored = localStorage.getItem("seneba_session")
+          if (stored) {
+            const { userId, phone } = JSON.parse(stored)
+            if (userId || phone) {
+              const restored = await restoreSessionFromStorage(userId, phone)
+              if (restored.success) {
+                router.replace(restored.role === "driver" ? "/dashboard" : "/client/book")
+              }
+            }
+          }
+        }
+      } catch (e) {
+        console.error("Session check on home:", e)
+      }
+    }
+    checkActiveSession()
+  }, [router])
   return (
     <div className="flex min-h-svh flex-col bg-[#F7F9FC] overflow-x-hidden pb-20 relative">
       

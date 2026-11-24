@@ -2,7 +2,7 @@
 
 import { getClientProfilee, createRide, getClientRideHistory } from "@/lib/actions/client"
 import { getClientNotifications, markClientNotificationsAsRead, type Notification } from "@/lib/actions/notifications"
-import { logout } from "@/lib/actions/auth"
+import { logout, restoreSessionFromStorage } from "@/lib/actions/auth"
 import { usePushNotifications } from "@/hooks/use-push-notifications"
 import { useEffect, useState, useCallback } from "react"
 import { useRouter } from "next/navigation"
@@ -78,9 +78,31 @@ export default function BookRidePage() {
   }
 
   const loadClient = useCallback(async () => {
-    const clientData = await getClientProfilee()
+    let clientData = await getClientProfilee()
+
+    // Si le cookie a été perdu (fermeture Safari / webview), tentative de restauration via storage
+    if (!clientData && typeof window !== "undefined") {
+      const stored = localStorage.getItem("seneba_session")
+      if (stored) {
+        try {
+          const { userId, phone } = JSON.parse(stored)
+          if (userId || phone) {
+            const restored = await restoreSessionFromStorage(userId, phone)
+            if (restored.success) {
+              clientData = await getClientProfilee()
+            }
+          }
+        } catch (e) {
+          console.error("Storage restore error:", e)
+        }
+      }
+    }
+
     if (clientData) {
       setClient(clientData as Client)
+      if (typeof window !== "undefined") {
+        localStorage.setItem("seneba_session", JSON.stringify({ userId: clientData.user_id, phone: clientData.phone, timestamp: Date.now() }))
+      }
       const history = await getClientRideHistory()
       if (history.rides) {
         const uniqueDestinations = new Map<string, {title: string, sub: string, icon: any}>()
@@ -219,6 +241,9 @@ export default function BookRidePage() {
         <hr className="my-2 border-slate-100" />
         <button 
           onClick={async () => {
+            if (typeof window !== "undefined") {
+              localStorage.removeItem("seneba_session")
+            }
             await logout("/home")
           }}
           className="w-full flex items-center gap-3.5 px-4.5 py-3 rounded-2xl text-red-600 hover:bg-red-50 font-bold text-sm text-left transition-colors"

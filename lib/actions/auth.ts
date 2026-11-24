@@ -158,3 +158,55 @@ export async function getSession() {
   const { getSession: getAuthSession } = await import("@/lib/auth")
   return await getAuthSession()
 }
+
+export async function restoreSessionFromStorage(userId?: string, phone?: string): Promise<{ success: boolean; role?: string }> {
+  if (!userId && !phone) return { success: false }
+
+  try {
+    let user: any = null
+
+    if (userId) {
+      const [rows] = await pool.execute<RowDataPacket[]>(
+        "SELECT id, role, email FROM users WHERE id = ?",
+        [userId]
+      )
+      user = rows[0]
+    }
+
+    if (!user && phone) {
+      const cleanPhone = phone.replace(/\s/g, "").replace(/^\+220/, "")
+      const formattedPhone = `+220${cleanPhone}`
+      const [clientRows] = await pool.execute<RowDataPacket[]>(
+        "SELECT user_id FROM clients WHERE phone = ? OR phone = ? OR phone = ?",
+        [cleanPhone, formattedPhone, phone]
+      )
+      if (clientRows && clientRows[0]) {
+        const [uRows] = await pool.execute<RowDataPacket[]>(
+          "SELECT id, role, email FROM users WHERE id = ?",
+          [clientRows[0].user_id]
+        )
+        user = uRows[0]
+      }
+    }
+
+    if (!user) return { success: false }
+
+    // Re-create persistent 1-year session cookie
+    const expires = new Date(Date.now() + SESSION_DURATION_MS)
+    const session = await encrypt({ user: { id: user.id, email: user.email, role: user.role }, expires })
+
+    ;(await cookies()).set("session", session, {
+      expires,
+      maxAge: SESSION_MAX_AGE,
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "lax",
+      path: "/",
+    })
+
+    return { success: true, role: user.role }
+  } catch (error) {
+    console.error("restoreSessionFromStorage error:", error)
+    return { success: false }
+  }
+}

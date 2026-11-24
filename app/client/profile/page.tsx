@@ -41,7 +41,10 @@ export default function ClientProfileePage() {
   }, [loadProfilee])
 
   const handleLogout = async () => {
-    await logout()
+    if (typeof window !== "undefined") {
+      localStorage.removeItem("seneba_session")
+    }
+    await logout("/home")
   }
 
   const handleSoon = (feature: string) => {

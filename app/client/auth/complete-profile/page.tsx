@@ -59,6 +59,10 @@ function CompleteProfileForm() {
       return;
     }
 
+    if (typeof window !== "undefined") {
+      localStorage.setItem("seneba_session", JSON.stringify({ phone, timestamp: Date.now() }));
+    }
+
     // Successfully completed! Go directly to booking
     router.push("/client/book");
   };

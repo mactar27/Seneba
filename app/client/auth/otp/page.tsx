@@ -58,6 +58,10 @@ function OTPForm() {
       return;
     }
 
+    if (typeof window !== "undefined") {
+      localStorage.setItem("seneba_session", JSON.stringify({ phone, timestamp: Date.now() }));
+    }
+
     // If new user, complete profile with name, surname, and birth date
     if (result.isNewUser) {
       router.push(`/client/auth/complete-profile?phone=${encodeURIComponent(phone)}`);
