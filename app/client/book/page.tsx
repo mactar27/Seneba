@@ -6,7 +6,12 @@ import { useRouter } from "next/navigation"
 import { Button } from "@/components/ui/button"
 import type { Client } from "@/lib/types"
 import dynamic from "next/dynamic"
-import { Menu, MapPin, Car, CarFront, Building2, Utensils, Navigation, Package, Truck, Shield, ChevronRight, ChevronLeft, Briefcase, Plane, Bell, Star, ArrowRight, Compass, X, Search, Mic, LogOut, Settings, HelpCircle, Heart, Tag } from "lucide-react"
+import { 
+  Menu, MapPin, Car, Building2, Utensils, Package, Truck, 
+  ChevronRight, ChevronLeft, Plane, Bell, Star, ArrowRight, 
+  Compass, X, Search, Mic, Settings, HelpCircle, Heart, Tag, 
+  Clock, User, CheckCircle2
+} from "lucide-react"
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet"
 import Link from "next/link"
 import { motion, AnimatePresence } from "framer-motion"
@@ -33,8 +38,8 @@ export default function BookRidePage() {
   const [recentDestinations, setRecentDestinations] = useState<{title: string, sub: string, icon: any}[]>([])
   
   // UI States
-  const [isMapMode, setIsMapMode] = useState(false)
   const [isSearchMode, setIsSearchMode] = useState(false)
+  const [isNotifOpen, setIsNotifOpen] = useState(false)
   const [pickup, setPickup] = useState("My current location")
   const [destination, setDestination] = useState("")
   const [isBooking, setIsBooking] = useState(false)
@@ -53,7 +58,7 @@ export default function BookRidePage() {
           if (dest && !uniqueDestinations.has(dest)) {
             uniqueDestinations.set(dest, {
               title: dest.split(',')[0],
-              sub: dest.split(',').slice(1).join(',').trim() || "Gambie",
+              sub: dest.split(',').slice(1).join(',').trim() || "Gambia",
               icon: MapPin
             })
           }
@@ -68,10 +73,6 @@ export default function BookRidePage() {
     loadClient()
   }, [loadClient])
 
-  const handleSoon = (feature: string) => {
-    alert(`${feature} will be available soon! (Simulation)`)
-  }
-
   const openSearch = () => {
     setIsSearchMode(true)
   }
@@ -79,12 +80,6 @@ export default function BookRidePage() {
   const selectDestination = (dest: string) => {
     setDestination(dest)
     setIsSearchMode(false)
-    setIsMapMode(true)
-  }
-
-  const openBooking = (dest: string = "") => {
-    if (dest) setDestination(dest)
-    setIsMapMode(true)
   }
 
   const handleBookRide = async () => {
@@ -103,7 +98,6 @@ export default function BookRidePage() {
       const key = Object.keys(GAMBIA_CITIES).find(c => location.toLowerCase().includes(c.toLowerCase()))
       if (key) return GAMBIA_CITIES[key]
       
-      // Fallback to real Geocoding via Nominatim (Free, no API key needed)
       try {
         const res = await fetch(`https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(location)}&format=json&countrycodes=gm&limit=1`)
         const data = await res.json()
@@ -114,7 +108,6 @@ export default function BookRidePage() {
         console.error("Geocoding failed", err)
       }
       
-      // Ultimate fallback if search fails
       return { lat: 13.4549 + Math.random() * 0.05, lng: -16.5790 + Math.random() * 0.05 }
     }
 
@@ -157,13 +150,13 @@ export default function BookRidePage() {
 
   if (loading) {
     return (
-      <div className="flex min-h-svh items-center justify-center bg-white">
+      <div className="flex h-[100dvh] items-center justify-center bg-white">
         <div className="h-8 w-8 animate-spin rounded-full border-4 border-[#0066CC] border-t-transparent" />
       </div>
     )
   }
 
-  // --- Common Sidebar Component (Screen 8) ---
+  // --- Sidebar Component ---
   const SidebarContent = () => (
     <div className="flex flex-col h-full pointer-events-auto bg-white">
       <div className="p-6 border-b border-slate-50 flex items-center justify-between">
@@ -173,41 +166,21 @@ export default function BookRidePage() {
         <span className="text-[10px] font-black text-slate-400">Partner</span>
       </div>
       <nav className="flex-1 px-4 py-4 space-y-1">
-        <button onClick={() => { setIsMapMode(false); setIsSearchMode(false) }} className="w-full flex items-center gap-3.5 px-4.5 py-3 rounded-2xl bg-blue-50/50 text-[#0066CC] font-bold text-sm text-left">
+        <button onClick={() => { setDestination(""); setIsSearchMode(false) }} className="w-full flex items-center gap-3.5 px-4.5 py-3 rounded-2xl bg-blue-50/50 text-[#0066CC] font-bold text-sm text-left">
           <Compass className="w-5 h-5 text-[#0066CC]" /> Home
-        </button>
-        <button onClick={() => openBooking()} className="w-full flex items-center gap-3.5 px-4.5 py-3 rounded-2xl text-slate-700 hover:bg-slate-50 font-bold text-sm text-left">
-          <Car className="w-5 h-5 text-slate-400" /> Rides
         </button>
         <Link href="/client/delivery" className="w-full flex items-center gap-3.5 px-4.5 py-3 rounded-2xl text-slate-700 hover:bg-slate-50 font-bold text-sm text-left">
           <Package className="w-5 h-5 text-slate-400" /> Delivery
         </Link>
-        <button onClick={() => handleSoon("Food")} className="w-full flex items-center gap-3.5 px-4.5 py-3 rounded-2xl text-slate-700 hover:bg-slate-50 font-bold text-sm text-left">
-          <Utensils className="w-5 h-5 text-slate-400" /> Food
-        </button>
-        <button onClick={() => handleSoon("Cargo")} className="w-full flex items-center gap-3.5 px-4.5 py-3 rounded-2xl text-slate-700 hover:bg-slate-50 font-bold text-sm text-left">
-          <Truck className="w-5 h-5 text-slate-400" /> Cargo
-        </button>
-        <button onClick={() => handleSoon("Browser")} className="w-full flex items-center gap-3.5 px-4.5 py-3 rounded-2xl text-slate-700 hover:bg-slate-50 font-bold text-sm text-left">
-          <Compass className="w-5 h-5 text-slate-400" /> Browser
-        </button>
-        <hr className="my-2 border-slate-50" />
-        <button onClick={() => handleSoon("Favorites")} className="w-full flex items-center gap-3.5 px-4.5 py-3 rounded-2xl text-slate-700 hover:bg-slate-50 font-semibold text-sm text-left">
-          <Heart className="w-5 h-5 text-slate-400" /> Favorites
-        </button>
-        <button onClick={() => handleSoon("Promotions")} className="w-full flex items-center gap-3.5 px-4.5 py-3 rounded-2xl text-slate-700 hover:bg-slate-50 font-semibold text-sm text-left">
-          <Tag className="w-5 h-5 text-slate-400" /> Promotions
-        </button>
-        <button onClick={() => handleSoon("Notifications")} className="w-full flex items-center gap-3.5 px-4.5 py-3 rounded-2xl text-slate-700 hover:bg-slate-50 font-semibold text-sm text-left relative">
-          <Bell className="w-5 h-5 text-slate-400" /> Notifications
-          <span className="absolute right-4 w-2.5 h-2.5 bg-blue-600 rounded-full" />
-        </button>
+        <Link href="/client/history" className="w-full flex items-center gap-3.5 px-4.5 py-3 rounded-2xl text-slate-700 hover:bg-slate-50 font-bold text-sm text-left">
+          <Clock className="w-5 h-5 text-slate-400" /> History
+        </Link>
         <Link href="/client/profile" className="w-full flex items-center gap-3.5 px-4.5 py-3 rounded-2xl text-slate-700 hover:bg-slate-50 font-semibold text-sm text-left">
           <Settings className="w-5 h-5 text-slate-400" /> Settings
         </Link>
-        <button onClick={() => handleSoon("Help")} className="w-full flex items-center gap-3.5 px-4.5 py-3 rounded-2xl text-slate-700 hover:bg-slate-50 font-semibold text-sm text-left">
+        <Link href="/client/support" className="w-full flex items-center gap-3.5 px-4.5 py-3 rounded-2xl text-slate-700 hover:bg-slate-50 font-semibold text-sm text-left">
           <HelpCircle className="w-5 h-5 text-slate-400" /> Help & Support
-        </button>
+        </Link>
       </nav>
       <div className="p-6 border-t border-slate-50 bg-white">
         <span className="text-xs text-slate-400 font-semibold">Version 1.0.0</span>
@@ -216,19 +189,258 @@ export default function BookRidePage() {
   )
 
   return (
-    <div className="flex min-h-svh flex-col relative bg-[#F8FAFC] overflow-x-hidden pb-16">
+    <div className="h-[100dvh] w-full flex flex-col relative bg-[#F8FAFC] overflow-hidden select-none">
       
-      {/* ─── SCREEN 3: DESTINATION SEARCH FULLSCREEN (SCREEN 3) ─── */}
+      {/* ─── FULLSCREEN INTERACTIVE MAP (DEFAULT VIEW) ─── */}
+      <div className="absolute inset-0 z-0 w-full h-full">
+        <ClientMap className="w-full h-full" />
+      </div>
+
+      {/* ─── FLOATING TOP HEADER ─── */}
+      <header className="absolute top-0 left-0 right-0 z-30 flex items-center justify-between px-4 pt-4 safe-area-top pointer-events-none">
+        {/* Left: Sidebar Menu button */}
+        <Sheet>
+          <SheetTrigger asChild>
+            <button className="w-11 h-11 bg-white/95 backdrop-blur-md rounded-full flex items-center justify-center shadow-lg border border-slate-100/80 pointer-events-auto active:scale-90 transition-transform text-slate-800">
+              <Menu className="w-5 h-5" />
+            </button>
+          </SheetTrigger>
+          <SheetContent side="left" className="w-80 pointer-events-auto p-0 z-[200]">
+            <SidebarContent />
+          </SheetContent>
+        </Sheet>
+
+        {/* Center: Brand Pill */}
+        <div className="bg-white/95 backdrop-blur-md px-3.5 py-1.5 rounded-full shadow-md border border-slate-100 flex items-center gap-2 pointer-events-auto">
+          <img src="/images/seneba.png" alt="Seneba" className="h-5 object-contain" />
+          <span className="text-xs font-bold text-slate-800">
+            {client?.full_name?.split(" ")[0] || "Client"}
+          </span>
+        </div>
+
+        {/* Right: Notifications Bell */}
+        <button 
+          onClick={() => setIsNotifOpen(true)}
+          className="w-11 h-11 bg-white/95 backdrop-blur-md rounded-full flex items-center justify-center shadow-lg border border-slate-100/80 pointer-events-auto active:scale-90 transition-transform text-slate-800 relative"
+        >
+          <Bell className="w-5 h-5 text-slate-700" />
+          <span className="absolute top-2.5 right-2.5 w-2 h-2 bg-blue-600 rounded-full" />
+        </button>
+      </header>
+
+      {/* ─── NOTIFICATION SHEET (NO MORE SYSTEM ALERT) ─── */}
+      <Sheet open={isNotifOpen} onOpenChange={setIsNotifOpen}>
+        <SheetContent side="top" className="rounded-b-[28px] max-h-[70vh] p-6 z-[250]">
+          <SheetHeader className="mb-4">
+            <SheetTitle className="text-lg font-black text-slate-900 flex items-center gap-2">
+              <Bell className="w-5 h-5 text-[#0066CC]" /> Notifications
+            </SheetTitle>
+          </SheetHeader>
+          <div className="py-8 flex flex-col items-center justify-center text-center">
+            <div className="w-14 h-14 rounded-full bg-blue-50 text-[#0066CC] flex items-center justify-center mb-3">
+              <CheckCircle2 className="w-7 h-7" />
+            </div>
+            <h4 className="font-bold text-slate-800 text-sm mb-1">You're all caught up!</h4>
+            <p className="text-xs text-slate-400 max-w-[240px]">
+              Ride confirmations, driver arrivals, and promotions will appear here.
+            </p>
+          </div>
+        </SheetContent>
+      </Sheet>
+
+      {/* ─── FLOATING GPS RECENTER BUTTON ─── */}
+      <div className="absolute right-4 z-20 pointer-events-auto bottom-[340px]">
+        <button 
+          onClick={() => {
+            const btn = document.querySelector('[title="Centrer sur ma position"]') as HTMLButtonElement
+            if (btn) btn.click()
+          }}
+          className="w-11 h-11 bg-white rounded-full flex items-center justify-center shadow-lg text-[#0066CC] border border-slate-100 active:scale-90 transition-transform"
+        >
+          <Compass className="w-5 h-5" />
+        </button>
+      </div>
+
+      {/* ─── NATIVE BOTTOM SHEET (UBER / BOLT STYLE) ─── */}
+      <div className="mt-auto z-30 bg-white rounded-t-[32px] shadow-[0_-8px_30px_rgba(0,0,0,0.08)] border-t border-slate-100 flex flex-col mb-16 max-h-[55vh] overflow-hidden">
+        {/* Grab handle */}
+        <div className="w-12 h-1 bg-slate-200 rounded-full mx-auto mt-3 mb-2 flex-shrink-0" />
+
+        {/* STATE A: NO DESTINATION CHOSEN YET */}
+        {!destination ? (
+          <div className="px-5 pt-1 pb-4 flex flex-col">
+            <h3 className="text-base font-black text-slate-900 mb-3 tracking-tight">
+              Where are you going today?
+            </h3>
+
+            {/* Tap to Search Bar */}
+            <button 
+              onClick={openSearch}
+              className="w-full bg-slate-50 hover:bg-slate-100 rounded-2xl h-13 px-4 flex items-center justify-between border border-slate-150 transition-colors mb-4 active:scale-[0.99]"
+            >
+              <div className="flex items-center gap-3">
+                <div className="w-3.5 h-3.5 rounded-full bg-orange-500 flex-shrink-0" />
+                <span className="text-slate-400 font-medium text-sm">Where to?</span>
+              </div>
+              <Search className="w-4 h-4 text-slate-400" />
+            </button>
+
+            {/* Quick Destinations Shortcuts */}
+            <div className="space-y-2">
+              <span className="text-[11px] font-black text-slate-400 uppercase tracking-wider block mb-1">
+                Quick access
+              </span>
+              {(recentDestinations.length > 0 ? recentDestinations : [
+                { title: "Aéroport Banjul", sub: "Yundum, Gambie", icon: Plane },
+                { title: "Marché Albert", sub: "Banjul", icon: Building2 },
+                { title: "Yum-Yum", sub: "Serrekunda", icon: Utensils },
+              ]).map((place, idx) => (
+                <button 
+                  key={idx} 
+                  onClick={() => selectDestination(place.title)} 
+                  className="w-full bg-white rounded-xl p-2.5 flex items-center justify-between text-left border border-slate-100 hover:bg-blue-50/30 transition-colors group"
+                >
+                  <div className="flex items-center gap-3">
+                    <div className="w-9 h-9 bg-blue-50 rounded-lg flex items-center justify-center text-[#0066CC] flex-shrink-0">
+                      <place.icon className="w-4 h-4" />
+                    </div>
+                    <div>
+                      <h4 className="font-bold text-slate-800 text-xs">{place.title}</h4>
+                      <p className="text-[11px] text-slate-400 font-medium">{place.sub}</p>
+                    </div>
+                  </div>
+                  <ChevronRight className="w-4 h-4 text-slate-300 group-hover:text-[#0066CC] transition-colors" />
+                </button>
+              ))}
+            </div>
+          </div>
+        ) : (
+          /* STATE B: DESTINATION SELECTED - RIDE OPTIONS & BOOKING */
+          <div className="px-5 pt-1 pb-4 flex flex-col overflow-y-auto">
+            {/* Route Summary */}
+            <div className="bg-slate-50 rounded-2xl p-3 border border-slate-100 mb-3 relative">
+              <div className="flex flex-col gap-2 relative">
+                <div className="flex items-center gap-2.5">
+                  <div className="w-3 h-3 rounded-full bg-blue-600 flex-shrink-0" />
+                  <span className="font-semibold text-slate-700 text-xs truncate flex-1">{pickup}</span>
+                </div>
+                <div className="flex items-center gap-2.5">
+                  <div className="w-3 h-3 rounded-full bg-orange-500 flex-shrink-0" />
+                  <span className="font-bold text-slate-900 text-xs truncate flex-1">{destination}</span>
+                  <button 
+                    onClick={() => setDestination("")} 
+                    className="w-5 h-5 rounded-full bg-slate-200 hover:bg-slate-300 text-slate-600 flex items-center justify-center flex-shrink-0"
+                  >
+                    <X className="w-3 h-3" />
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            {/* Vehicle Options */}
+            <div className="flex gap-2 mb-3">
+              {/* Standard */}
+              <button 
+                onClick={() => setSelectedService("standard")}
+                className={`flex-1 rounded-2xl p-2.5 flex flex-col items-center gap-1 border transition-all ${
+                  selectedService === "standard" 
+                    ? "border-[#0066CC] bg-blue-50/20 shadow-sm" 
+                    : "border-slate-100 bg-white opacity-60 hover:opacity-100"
+                }`}
+              >
+                <StandardCarSVG />
+                <span className="font-black text-slate-800 text-xs">Standard</span>
+                <span className="text-[10px] text-slate-500 font-semibold">~500 GMD</span>
+              </button>
+
+              {/* Comfort */}
+              <button 
+                onClick={() => setSelectedService("confort")}
+                className={`flex-1 rounded-2xl p-2.5 flex flex-col items-center gap-1 border transition-all ${
+                  selectedService === "confort" 
+                    ? "border-[#0066CC] bg-blue-50/20 shadow-sm" 
+                    : "border-slate-100 bg-white opacity-60 hover:opacity-100"
+                }`}
+              >
+                <ComfortCarSVG />
+                <span className="font-black text-slate-800 text-xs">Comfort</span>
+                <span className="text-[10px] text-slate-500 font-semibold">~1000 GMD</span>
+              </button>
+
+              {/* Intercity */}
+              <button 
+                onClick={() => setSelectedService("interurbain")}
+                className={`flex-1 rounded-2xl p-2.5 flex flex-col items-center gap-1 border transition-all ${
+                  selectedService === "interurbain" 
+                    ? "border-[#0066CC] bg-blue-50/20 shadow-sm" 
+                    : "border-slate-100 bg-white opacity-60 hover:opacity-100"
+                }`}
+              >
+                <IntercityVanSVG />
+                <span className="font-black text-slate-800 text-xs">Intercity</span>
+                <span className="text-[10px] text-slate-500 font-semibold">~500 GMD</span>
+              </button>
+            </div>
+
+            {/* Payment Method Pills */}
+            <div className="grid grid-cols-3 gap-2 mb-3">
+              <button 
+                onClick={() => setPaymentMethod("cash")}
+                className={`py-2 px-1 rounded-xl border text-[11px] font-bold transition-all flex items-center justify-center gap-1.5 ${
+                  paymentMethod === "cash" 
+                    ? "bg-slate-900 text-white border-slate-900 shadow-sm" 
+                    : "bg-white text-slate-600 border-slate-200 hover:bg-slate-50"
+                }`}
+              >
+                💵 Cash
+              </button>
+              <button 
+                onClick={() => setPaymentMethod("wave")}
+                className={`py-2 px-1 rounded-xl border text-[11px] font-bold transition-all flex items-center justify-center gap-1.5 ${
+                  paymentMethod === "wave" 
+                    ? "bg-[#1cc6ff] text-white border-[#1cc6ff] shadow-sm" 
+                    : "bg-white text-slate-600 border-slate-200 hover:bg-slate-50"
+                }`}
+              >
+                <img src="/images/wave_logo.png" alt="Wave" className="w-3.5 h-3.5 rounded-full" />
+                Wave
+              </button>
+              <button 
+                onClick={() => setPaymentMethod("orange_money")}
+                className={`py-2 px-1 rounded-xl border text-[11px] font-bold transition-all flex items-center justify-center gap-1.5 ${
+                  paymentMethod === "orange_money" 
+                    ? "bg-[#ff6600] text-white border-[#ff6600] shadow-sm" 
+                    : "bg-white text-slate-600 border-slate-200 hover:bg-slate-50"
+                }`}
+              >
+                <img src="/images/orange_money_logo.png" alt="Orange" className="w-3.5 h-3.5 rounded" />
+                Orange
+              </button>
+            </div>
+
+            {/* Book CTA Button */}
+            <Button 
+              onClick={handleBookRide} 
+              disabled={!destination || isBooking} 
+              className="w-full h-12 text-sm font-black rounded-xl bg-[#0066CC] hover:bg-[#0052A3] text-white flex items-center justify-center gap-2 disabled:opacity-50 active:scale-95 transition-transform shadow-md"
+            >
+              {isBooking ? "Booking..." : "Order Seneba"} <ArrowRight className="w-4 h-4" />
+            </Button>
+          </div>
+        )}
+      </div>
+
+      {/* ─── FULLSCREEN SEARCH MODAL (SLIDES IN) ─── */}
       <AnimatePresence>
         {isSearchMode && (
           <motion.div 
-            initial={{ opacity: 0, y: 15 }} 
+            initial={{ opacity: 0, y: 30 }} 
             animate={{ opacity: 1, y: 0 }} 
-            exit={{ opacity: 0, y: 15 }}
+            exit={{ opacity: 0, y: 30 }}
             className="fixed inset-0 z-50 bg-white flex flex-col p-5"
           >
             {/* Header */}
-            <div className="flex items-center justify-between mb-5">
+            <div className="flex items-center justify-between mb-4">
               <h2 className="text-xl font-black text-slate-900">Where to?</h2>
               <button 
                 onClick={() => setIsSearchMode(false)}
@@ -239,69 +451,25 @@ export default function BookRidePage() {
             </div>
 
             {/* Input Search Container */}
-            <div className="relative mb-6">
+            <div className="relative mb-4">
               <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" />
               <input 
                 type="text"
                 placeholder="Search destination"
-                className="w-full bg-[#F4F8FA] rounded-2xl h-14 pl-12 pr-12 outline-none font-bold text-slate-900 placeholder:text-slate-400 placeholder:font-medium text-sm"
+                className="w-full bg-[#F4F8FA] rounded-2xl h-13 pl-12 pr-12 outline-none font-bold text-slate-900 placeholder:text-slate-400 placeholder:font-medium text-sm"
                 value={destination}
                 onChange={(e) => setDestination(e.target.value)}
                 onKeyDown={(e) => { if (e.key === 'Enter') selectDestination(destination) }}
                 autoFocus
               />
-              <Mic className="absolute right-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400 cursor-pointer" />
             </div>
 
-            {/* Quick Actions */}
-            <div className="space-y-1 mb-6">
-              {/* Position Actuelle */}
-              <button 
-                onClick={() => { setPickup("My current location") }}
-                className="w-full flex items-center gap-4 py-3 border-b border-slate-50 text-left"
-              >
-                <div className="w-10 h-10 rounded-full bg-blue-50 flex items-center justify-center text-[#0066CC] flex-shrink-0">
-                  <Compass className="w-5 h-5" />
-                </div>
-                <div>
-                  <h4 className="font-bold text-slate-900 text-sm">My current location</h4>
-                  <p className="text-xs text-slate-400 font-medium">Use my location</p>
-                </div>
-              </button>
-
-              {/* Home */}
-              <button 
-                onClick={() => selectDestination("Hann Bel-Air")}
-                className="w-full flex items-center gap-4 py-3 border-b border-slate-50 text-left"
-              >
-                <div className="w-10 h-10 rounded-full bg-slate-50 flex items-center justify-center text-slate-400 flex-shrink-0">
-                  <Compass className="w-5 h-5" />
-                </div>
-                <div>
-                  <h4 className="font-bold text-slate-900 text-sm">Home</h4>
-                  <p className="text-xs text-[#0066CC] font-bold">Set an address</p>
-                </div>
-              </button>
-
-              {/* Office */}
-              <button 
-                onClick={() => selectDestination("Plateau, Gambia")}
-                className="w-full flex items-center gap-4 py-3 border-b border-slate-50 text-left"
-              >
-                <div className="w-10 h-10 rounded-full bg-slate-50 flex items-center justify-center text-slate-400 flex-shrink-0">
-                  <Building2 className="w-5 h-5" />
-                </div>
-                <div>
-                  <h4 className="font-bold text-slate-900 text-sm">Office</h4>
-                  <p className="text-xs text-[#0066CC] font-bold">Set an address</p>
-                </div>
-              </button>
-            </div>
-
-            {/* Recent destinations */}
+            {/* Suggestions */}
             <div className="flex-1 overflow-y-auto">
-              <h3 className="font-black text-slate-900 text-sm mb-3">Recent destinations</h3>
-              <div className="space-y-4">
+              <span className="text-xs font-black text-slate-400 uppercase tracking-wider block mb-2">
+                Popular in Gambia
+              </span>
+              <div className="space-y-3">
                 {(recentDestinations.length > 0 ? recentDestinations : [
                   { title: "Aéroport Banjul", sub: "Yundum, Gambie", icon: Plane },
                   { title: "Marché Albert", sub: "Banjul", icon: Building2 },
@@ -311,374 +479,33 @@ export default function BookRidePage() {
                   <button 
                     key={idx} 
                     onClick={() => selectDestination(place.title)} 
-                    className="w-full flex items-center justify-between text-left group"
+                    className="w-full flex items-center justify-between text-left p-3 rounded-xl hover:bg-slate-50 transition-colors"
                   >
-                    <div className="flex items-center gap-4">
-                      <div className="w-10 h-10 bg-slate-50 rounded-xl flex items-center justify-center text-slate-400 group-hover:text-[#0066CC] transition-colors">
-                        <place.icon className="w-5 h-5" />
+                    <div className="flex items-center gap-3">
+                      <div className="w-9 h-9 bg-blue-50 rounded-lg flex items-center justify-center text-[#0066CC] flex-shrink-0">
+                        <place.icon className="w-4 h-4" />
                       </div>
                       <div>
-                        <h4 className="font-bold text-slate-900 text-[14px]">{place.title}</h4>
+                        <h4 className="font-bold text-slate-900 text-sm">{place.title}</h4>
                         <p className="text-xs text-slate-400 font-medium">{place.sub}</p>
                       </div>
                     </div>
-                    <ChevronRight className="w-5 h-5 text-slate-400" />
+                    <ChevronRight className="w-4 h-4 text-slate-400" />
                   </button>
                 ))}
               </div>
             </div>
-
-            {/* Footer search link */}
-            <button onClick={() => handleSoon("History")} className="text-center font-bold text-sm text-[#0066CC] py-3 hover:underline">
-              See more history
-            </button>
           </motion.div>
         )}
       </AnimatePresence>
 
-      {/* ─── STATE 1: HUB VIEW (HOME / SUPER APP) ─── */}
-      {!isMapMode && !isSearchMode && (
-        <main className="flex-1 px-5 pt-4 pb-20 animate-in fade-in duration-200">
-          
-          {/* Header (No circular boxes around icons, matching Screen 1 header) */}
-          <Sheet>
-            <header className="flex items-center justify-between py-3 mb-6">
-              <div className="flex items-center gap-2">
-                <img src="/images/seneba.png" alt="Seneba" className="h-8 object-contain" />
-              </div>
-              <div className="flex items-center gap-4 text-slate-700">
-                <button onClick={() => handleSoon("Notifications")} className="relative active:scale-95 transition-transform">
-                  <Bell className="w-6 h-6" />
-                  <span className="absolute top-0.5 right-0.5 w-2 h-2 bg-blue-600 rounded-full" />
-                </button>
-                <SheetTrigger asChild>
-                  <button className="active:scale-95 transition-transform">
-                    <Menu className="w-6 h-6" />
-                  </button>
-                </SheetTrigger>
-              </div>
-            </header>
-            <SheetContent side="left" className="w-80 pointer-events-auto p-0 z-[200]">
-              <SidebarContent />
-            </SheetContent>
-          </Sheet>
-
-          {/* Greet & Title */}
-          <div className="mb-6">
-            <h2 className="text-xl font-semibold text-slate-900 flex items-center gap-2">
-              Hello {client?.full_name?.split(" ")[0] || "Client"} 👋
-            </h2>
-            <h1 className="text-2xl font-black text-slate-900 tracking-tight mt-1">Where are you going today?</h1>
-          </div>
-
-          {/* Rapid Address Card */}
-          <div className="bg-white rounded-3xl p-5 shadow-sm border border-slate-100 mb-6">
-            <div className="flex flex-col gap-4 relative">
-              {/* Pickup Input representation */}
-              <div className="flex items-center justify-between pb-3 border-b border-slate-50">
-                <div className="flex items-center gap-3.5">
-                  <div className="w-4 h-4 rounded-full bg-blue-600 flex items-center justify-center">
-                    <div className="w-1.5 h-1.5 rounded-full bg-white" />
-                  </div>
-                  <span className="font-bold text-slate-800 text-sm">{pickup}</span>
-                </div>
-                <button className="text-[#0066CC] hover:opacity-80">
-                  <Compass className="w-5 h-5" />
-                </button>
-              </div>
-
-              {/* Destination Input representation */}
-              <div 
-                onClick={openSearch}
-                className="flex items-center gap-3.5 pt-1 cursor-pointer hover:opacity-80"
-              >
-                <div className="w-4 h-4 rounded-full bg-orange-500 flex items-center justify-center" />
-                <span className="text-slate-400 font-medium text-sm">Where to?</span>
-              </div>
-            </div>
-          </div>
-
-
-          {/* Medium Banner */}
-          <button 
-            onClick={() => openBooking()} 
-            className="w-full bg-[#EBF3FF] rounded-[24px] p-5 text-left flex items-center justify-between mb-8 active:scale-95 transition-transform relative overflow-hidden group border border-blue-100"
-          >
-            <div className="z-10 w-2/3">
-              <h3 className="text-slate-900 font-black text-base mb-1 tracking-tight">Move around easily</h3>
-              <p className="text-slate-500 text-xs font-semibold">Fast and secure rides anytime</p>
-            </div>
-            <div className="w-20 h-12 relative z-10 flex items-center justify-center">
-              <img src="/images/real_vehicle.png" alt="Car" className="w-full h-full object-contain" />
-            </div>
-            <div className="w-8 h-8 rounded-full bg-white flex items-center justify-center text-[#0066CC] shadow-sm ml-2">
-              <ChevronRight className="w-4 h-4" />
-            </div>
-          </button>
-
-          {/* Recent Destinations */}
-          <div className="mb-8">
-            <div className="flex items-center justify-between mb-4">
-              <h3 className="font-black text-slate-900 text-base">Recent destinations</h3>
-              <button onClick={openSearch} className="text-xs font-black text-[#0066CC] hover:underline">See all</button>
-            </div>
-
-            <div className="space-y-3">
-              {(recentDestinations.length > 0 ? recentDestinations : [
-                { title: "Aéroport Banjul", sub: "Yundum, Gambie", icon: Plane },
-                { title: "Marché Albert", sub: "Banjul", icon: Building2 },
-                { title: "Yum-Yum", sub: "Serrekunda", icon: Utensils },
-              ]).map((place, idx) => (
-                <button key={idx} onClick={() => selectDestination(place.title)} className="w-full bg-white rounded-2xl p-4 flex items-center justify-between text-left shadow-sm border border-slate-50 hover:bg-slate-50 transition-colors group">
-                  <div className="flex items-center gap-4">
-                    <div className="w-11 h-11 bg-blue-50/50 rounded-xl flex items-center justify-center text-slate-400 group-hover:text-[#0066CC] transition-colors">
-                      <place.icon className="w-5 h-5 text-[#0066CC]" />
-                    </div>
-                    <div>
-                      <h4 className="font-bold text-slate-900 text-[14px]">{place.title}</h4>
-                      <p className="text-xs text-slate-400 font-medium">{place.sub}</p>
-                    </div>
-                  </div>
-                  <Star className="w-4 h-4 text-slate-300 hover:text-amber-400 cursor-pointer transition-colors" />
-                </button>
-              ))}
-            </div>
-          </div>
-
-          {/* Bottom Banner */}
-          <div className="w-[calc(100%+2.5rem)] -mx-5 mt-6 cursor-pointer" onClick={() => handleSoon("Infos de sécurité")}>
-            <img 
-              src="/images/real_vehicle.png" 
-              alt="SUV" 
-              className="w-full h-auto" 
-            />
-          </div>
-        </main>
-      )}
-
-      {/* ─── STATE 2: MAP BOOKING VIEW (ACTIVE) ─── */}
-      {isMapMode && !isSearchMode && (
-        <div className="absolute inset-0 z-40 bg-white animate-in slide-in-from-right duration-300 flex flex-col">
-          {/* Floating Header (Clean round buttons, matching Screen 2) */}
-          <header className="absolute top-4 left-0 right-0 z-50 flex items-center justify-between px-4 pointer-events-none">
-            <button 
-              onClick={() => setIsMapMode(false)} 
-              className="w-11 h-11 bg-white rounded-full flex items-center justify-center shadow-lg border border-slate-100 pointer-events-auto active:scale-90 transition-transform text-slate-800"
-            >
-              <ChevronLeft className="w-6 h-6" />
-            </button>
-            <Sheet>
-              <SheetTrigger asChild>
-                <button className="w-11 h-11 bg-white rounded-full flex items-center justify-center shadow-lg border border-slate-100 pointer-events-auto active:scale-90 transition-transform text-slate-800">
-                  <Menu className="w-5 h-5" />
-                </button>
-              </SheetTrigger>
-              <SheetContent side="left" className="w-80 pointer-events-auto p-0 z-[200]">
-                <SidebarContent />
-              </SheetContent>
-            </Sheet>
-          </header>
-          
-          {/* Full Screen Map */}
-          <div className="absolute inset-0 z-0 h-[60vh]">
-            <ClientMap className="w-full h-full" />
-          </div>
-
-          {/* Floating Current Location Info */}
-          <div className="absolute top-[42vh] left-0 right-0 z-10 flex justify-center pointer-events-none">
-            <div className="bg-white/95 backdrop-blur-md px-4 py-2 rounded-full shadow-md border border-slate-100 flex items-center gap-2 pointer-events-auto">
-              <Compass className="w-4 h-4 text-[#0066CC]" />
-              <span className="text-xs font-bold text-slate-800">My current location</span>
-            </div>
-          </div>
-
-          {/* Floating GPS Target button */}
-          <div className="absolute top-[48vh] right-4 z-10 pointer-events-auto">
-            <button 
-              onClick={() => {
-                const btn = document.querySelector('[title="Centrer sur ma position"]') as HTMLButtonElement
-                if (btn) btn.click()
-              }}
-              className="w-11 h-11 bg-white rounded-full flex items-center justify-center shadow-lg text-[#0066CC] border border-slate-100 active:scale-90 transition-transform"
-            >
-              <Compass className="w-5 h-5" />
-            </button>
-          </div>
-
-          {/* Sliding Booking Drawer / Sheet */}
-          <div className="mt-auto bg-white rounded-t-[32px] shadow-[0_-8px_30px_rgba(0,0,0,0.06)] border-t border-slate-100 z-40 relative flex flex-col max-h-[58vh] overflow-y-auto pb-safe">
-            <div className="w-12 h-1 bg-slate-200 rounded-full mx-auto mt-3 mb-2 flex-shrink-0" />
-
-            <div className="px-5 pb-6 pt-1 flex-1 flex flex-col">
-              {/* Double Address Input Card */}
-              <div className="bg-white rounded-3xl p-4 border border-slate-100 shadow-sm mb-4 relative">
-                <div className="flex flex-col gap-3 relative">
-                  
-                  {/* Start Point */}
-                  <div className="flex items-center gap-3 justify-between">
-                    <div className="flex items-center gap-3 flex-1">
-                      <div className="w-4 h-4 rounded-full bg-blue-600 flex items-center justify-center flex-shrink-0">
-                        <div className="w-1.5 h-1.5 rounded-full bg-white" />
-                      </div>
-                      <input 
-                        type="text" 
-                        value={pickup}
-                        onChange={(e) => setPickup(e.target.value)}
-                        className="flex-1 bg-transparent border-none outline-none text-slate-800 font-bold text-sm"
-                        placeholder="Pickup location"
-                      />
-                    </div>
-                    <Compass className="w-4 h-4 text-blue-600 flex-shrink-0 cursor-pointer" />
-                  </div>
-
-                  {/* Vertical dotted connector line */}
-                  <div className="absolute left-[7px] top-[18px] bottom-[18px] w-0.5 border-l-2 border-dashed border-slate-300" />
-
-                  {/* Destination */}
-                  <div className="flex items-center gap-3 pt-1">
-                    <div className="w-4 h-4 rounded-full bg-orange-500 flex items-center justify-center flex-shrink-0" />
-                    <input 
-                      type="text" 
-                      value={destination}
-                      onClick={openSearch}
-                      readOnly
-                      className="flex-1 bg-transparent border-none outline-none text-slate-800 font-bold text-sm placeholder:text-slate-400 placeholder:font-normal cursor-pointer"
-                      placeholder="Where to?"
-                    />
-                  </div>
-                </div>
-              </div>
-
-              {/* Service Categories Options */}
-              <div className="flex items-center justify-between mb-2">
-                <span className="text-xs font-black text-slate-900 uppercase tracking-wider">Ride type</span>
-                <button onClick={() => handleSoon("Types")} className="text-[11px] font-black text-[#0066CC] hover:underline">See all</button>
-              </div>
-
-              <div className="flex gap-2.5 mb-4">
-                {/* Standard */}
-                <button 
-                  onClick={() => setSelectedService("standard")}
-                  className={`flex-1 bg-white rounded-2xl p-3 flex flex-col items-center gap-2 border transition-all ${
-                    selectedService === "standard" 
-                      ? "border-[#0066CC] bg-blue-50/10 shadow-sm" 
-                      : "border-slate-100 opacity-60 hover:opacity-100"
-                  }`}
-                >
-                  <StandardCarSVG />
-                  <div className="text-center">
-                    <span className="block font-black text-slate-800 text-[13px]">Standard</span>
-                    <span className="block text-[9px] text-slate-400 font-medium">Fast & affordable</span>
-                  </div>
-                </button>
-
-                {/* Comfort */}
-                <button 
-                  onClick={() => setSelectedService("confort")}
-                  className={`flex-1 bg-white rounded-2xl p-3 flex flex-col items-center gap-2 border transition-all ${
-                    selectedService === "confort" 
-                      ? "border-[#0066CC] bg-blue-50/10 shadow-sm" 
-                      : "border-slate-100 opacity-60 hover:opacity-100"
-                  }`}
-                >
-                  <ComfortCarSVG />
-                  <div className="text-center">
-                    <span className="block font-black text-slate-800 text-[13px]">Comfort</span>
-                    <span className="block text-[9px] text-slate-400 font-medium">More space</span>
-                  </div>
-                </button>
-
-                {/* Intercity */}
-                <button 
-                  onClick={() => setSelectedService("interurbain")}
-                  className={`flex-1 bg-white rounded-2xl p-3 flex flex-col items-center gap-2 border transition-all ${
-                    selectedService === "interurbain" 
-                      ? "border-[#0066CC] bg-blue-50/10 shadow-sm" 
-                      : "border-slate-100 opacity-60 hover:opacity-100"
-                  }`}
-                >
-                  <IntercityVanSVG />
-                  <div className="text-center">
-                    <span className="block font-black text-slate-800 text-[13px]">Intercity</span>
-                    <span className="block text-[9px] text-slate-400 font-medium">Travel far</span>
-                  </div>
-                </button>
-              </div>
-
-              {/* Payment Methods buttons */}
-              <div className="mb-2">
-                <span className="text-xs font-black text-slate-900 uppercase tracking-wider">Payment method</span>
-              </div>
-              <div className="grid grid-cols-3 gap-2 mb-5">
-                {/* Cash */}
-                <button 
-                  onClick={() => setPaymentMethod("cash")}
-                  className={`py-3 rounded-2xl border text-xs font-bold transition-all flex items-center justify-center gap-2 ${
-                    paymentMethod === "cash" 
-                      ? "bg-slate-900 text-white border-slate-900 shadow-sm" 
-                      : "bg-white text-slate-600 border-slate-150 hover:bg-slate-50"
-                  }`}
-                >
-                  <svg viewBox="0 0 24 24" className="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                    <rect x="2" y="5" width="20" height="14" rx="2" />
-                    <line x1="2" y1="10" x2="22" y2="10" />
-                    <circle cx="7" cy="15" r="1" />
-                    <circle cx="17" cy="15" r="1" />
-                  </svg>
-                  Cash
-                </button>
-
-                {/* Wave */}
-                <button 
-                  onClick={() => setPaymentMethod("wave")}
-                  className={`py-3 rounded-2xl border text-xs font-bold transition-all flex items-center justify-center gap-2 ${
-                    paymentMethod === "wave" 
-                      ? "bg-[#1cc6ff] text-white border-[#1cc6ff] shadow-sm" 
-                      : "bg-white text-slate-600 border-slate-150 hover:bg-slate-50"
-                  }`}
-                >
-                  <img src="/images/wave_logo.png" alt="Wave" className="w-6 h-6 flex-shrink-0 object-contain rounded-full" />
-                  Wave
-                </button>
-
-                {/* Orange Money */}
-                <button 
-                  onClick={() => setPaymentMethod("orange_money")}
-                  className={`py-3 rounded-2xl border text-xs font-bold transition-all flex items-center justify-center gap-2 ${
-                    paymentMethod === "orange_money" 
-                      ? "bg-[#ff6600] text-white border-[#ff6600] shadow-sm" 
-                      : "bg-white text-slate-600 border-slate-150 hover:bg-slate-50"
-                  }`}
-                >
-                  <img src="/images/orange_money_logo.png" alt="Orange Money" className="w-5 h-5 flex-shrink-0 object-contain rounded-xl" />
-                  Orange
-                </button>
-              </div>
-
-              {/* Order Seneba trigger button */}
-              <Button 
-                onClick={handleBookRide} 
-                disabled={!destination || isBooking} 
-                className="w-full h-13 text-sm font-bold rounded-2xl bg-[#0066CC] hover:bg-[#0052A3] text-white flex items-center justify-center gap-2 disabled:opacity-50 active:scale-95 transition-transform"
-              >
-                {isBooking ? "Creating ride..." : "Order Seneba"} <ArrowRight className="w-4 h-4" />
-              </Button>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {/* ─── BOTTOM NAVIGATION BAR ─── */}
-      <nav 
-        className="fixed bottom-0 left-0 right-0 z-50 bg-white border-t border-slate-100 safe-area-bottom h-16"
-      >
+      {/* ─── FIXED BOTTOM NAVIGATION BAR ─── */}
+      <nav className="fixed bottom-0 left-0 right-0 z-40 bg-white border-t border-slate-100 safe-area-bottom h-16 shadow-lg">
         <div className="flex items-center justify-around h-full px-2">
-          {/* Tab 1: Book */}
+          {/* Tab 1: Book (Active) */}
           <button 
-            onClick={() => { setIsMapMode(false); setIsSearchMode(false) }}
-            className={`flex flex-col items-center justify-center flex-1 h-full gap-1 transition-all ${
-              !isMapMode && !isSearchMode ? "text-[#0066CC]" : "text-slate-400 hover:text-slate-600"
-            }`}
+            onClick={() => { setDestination(""); setIsSearchMode(false) }}
+            className="flex flex-col items-center justify-center flex-1 h-full gap-1 text-[#0066CC] transition-all"
           >
             <Car className="w-5 h-5" />
             <span className="text-[10px] font-bold">Book</span>
@@ -689,7 +516,7 @@ export default function BookRidePage() {
             href="/client/history"
             className="flex flex-col items-center justify-center flex-1 h-full gap-1 text-slate-400 hover:text-slate-600 transition-all"
           >
-            <Compass className="w-5 h-5" />
+            <Clock className="w-5 h-5" />
             <span className="text-[10px] font-medium">History</span>
           </Link>
 
@@ -698,7 +525,7 @@ export default function BookRidePage() {
             href="/client/profile"
             className="flex flex-col items-center justify-center flex-1 h-full gap-1 text-slate-400 hover:text-slate-600 transition-all"
           >
-            <Compass className="w-5 h-5" />
+            <User className="w-5 h-5" />
             <span className="text-[10px] font-medium">Profile</span>
           </Link>
         </div>
