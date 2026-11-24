@@ -91,7 +91,7 @@ function OTPForm() {
         </h1>
         <p className="text-muted-foreground mb-8 text-base">
           Enter the 4-digit code sent to{" "}
-          <span className="font-bold text-foreground">+221 {phone}</span>
+          <span className="font-bold text-foreground">+220 {phone}</span>
         </p>
 
         {/* DEV MODE: affichage du code OTP */}

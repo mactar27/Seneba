@@ -151,10 +151,10 @@ export default function HomePage() {
             <span className="text-[10px] font-medium">History</span>
           </Link>
 
-          {/* Tab 3: Profilee */}
+          {/* Tab 3: Profile */}
           <Link href="/client/auth/login" className="flex flex-col items-center justify-center flex-1 h-full gap-1 text-slate-400 hover:text-slate-600">
             <User className="w-5 h-5" />
-            <span className="text-[10px] font-medium">Profilee</span>
+            <span className="text-[10px] font-medium">Profile</span>
           </Link>
         </div>
       </nav>

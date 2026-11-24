@@ -5,8 +5,8 @@ async function run() {
   const pool = mysql.createPool({
     host: 'gateway01.eu-central-1.prod.aws.tidbcloud.com',
     port: 4000,
-    user: '2CAFHNy5ELTTnHc.root',
-    password: 'DYRkCECR8zQLihk9',
+    user: '3mVirePaiwi7Zai.root',
+    password: 'ExzBsbG5IZAKeSIg',
     database: 'seneba',
     ssl: { minVersion: 'TLSv1.2', rejectUnauthorized: true },
     multipleStatements: true
