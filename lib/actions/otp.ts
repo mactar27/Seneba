@@ -114,6 +114,7 @@ export async function sendOTP(phone: string): Promise<{
 
 export async function verifyOTP(phone: string, code: string): Promise<{
   success: boolean
+  isNewUser?: boolean
   error?: string
 }> {
   try {
@@ -137,39 +138,55 @@ export async function verifyOTP(phone: string, code: string): Promise<{
     const pool = (await import("@/lib/db")).default
     let userId: string = ""
     let userEmail: string = ""
+    let isNewUser = false
 
     try {
       const [clientRows] = await pool.execute<any[]>(
-        "SELECT user_id, email FROM clients WHERE phone = ? OR phone = ? OR phone = ?",
+        "SELECT user_id, email, full_name FROM clients WHERE phone = ? OR phone = ? OR phone = ?",
         [cleanPhone, formattedPhone, phone]
       )
 
-      if (clientRows && clientRows.length > 0) {
+      if (
+        clientRows && 
+        clientRows.length > 0 && 
+        clientRows[0].full_name && 
+        !clientRows[0].full_name.startsWith("Client ") &&
+        clientRows[0].full_name.trim().length > 0
+      ) {
+        // Existing user with established profile
         userId = clientRows[0].user_id
         userEmail = clientRows[0].email || `${cleanPhone}@seneba.app`
+        isNewUser = false
       } else {
-        // Auto-provision client user if not exists yet
-        const crypto = await import("crypto")
-        userId = crypto.randomUUID()
-        userEmail = `${cleanPhone}@seneba.app`
-        const clientId = crypto.randomUUID()
+        // New user or incomplete profile: needs first name, last name, and birth date
+        isNewUser = true
 
-        await pool.execute(
-          "INSERT INTO users (id, email, password_hash, role) VALUES (?, ?, ?, ?) ON DUPLICATE KEY UPDATE id=id",
-          [userId, userEmail, "otp_authenticated", "client"]
-        )
+        if (clientRows && clientRows.length > 0) {
+          userId = clientRows[0].user_id
+          userEmail = clientRows[0].email || `${cleanPhone}@seneba.app`
+        } else {
+          const crypto = await import("crypto")
+          userId = crypto.randomUUID()
+          userEmail = `${cleanPhone}@seneba.app`
+          const clientId = crypto.randomUUID()
 
-        await pool.execute(
-          "INSERT INTO clients (id, user_id, full_name, phone, email) VALUES (?, ?, ?, ?, ?) ON DUPLICATE KEY UPDATE phone=phone",
-          [clientId, userId, `Client ${cleanPhone}`, cleanPhone, userEmail]
-        )
+          await pool.execute(
+            "INSERT INTO users (id, email, password_hash, role) VALUES (?, ?, ?, ?) ON DUPLICATE KEY UPDATE id=id",
+            [userId, userEmail, "otp_authenticated", "client"]
+          )
+
+          await pool.execute(
+            "INSERT INTO clients (id, user_id, full_name, phone, email) VALUES (?, ?, ?, ?, ?) ON DUPLICATE KEY UPDATE phone=phone",
+            [clientId, userId, `Client ${cleanPhone}`, cleanPhone, userEmail]
+          )
+        }
       }
     } catch (dbErr: any) {
       console.error("Database error during OTP verification:", dbErr)
-      // If DB fails (table not created or credentials issue), generate transient user ID
       const crypto = await import("crypto")
       userId = crypto.randomUUID()
       userEmail = `${cleanPhone}@seneba.app`
+      isNewUser = true
     }
 
     // Create persistent session (1 year until explicit logout)
@@ -186,7 +203,7 @@ export async function verifyOTP(phone: string, code: string): Promise<{
       path: "/",
     })
 
-    return { success: true }
+    return { success: true, isNewUser }
   } catch (err: any) {
     console.error("verifyOTP error:", err)
     return { success: false, error: err?.message || "Erreur de vérification. Réessayez." }

@@ -204,3 +204,60 @@ export async function updateClientProfilee(data: any) {
     return { error: "Erreur lors de la mise à jour du profil" }
   }
 }
+
+export async function completeClientProfile({
+  firstName,
+  lastName,
+  birthDate,
+  phone
+}: {
+  firstName: string
+  lastName: string
+  birthDate: string
+  phone?: string
+}) {
+  const session = await getSession()
+  let userId = session?.user?.id
+
+  const fullName = `${firstName.trim()} ${lastName.trim()}`.trim()
+  if (!fullName) {
+    return { error: "Veuillez renseigner votre prénom et votre nom." }
+  }
+
+  try {
+    // Ensure birth_date column exists if not present
+    try {
+      await pool.execute("ALTER TABLE clients ADD COLUMN birth_date VARCHAR(50)")
+    } catch (_) {
+      // Column may already exist
+    }
+
+    if (userId) {
+      await pool.execute(
+        `UPDATE clients SET full_name = ?, birth_date = ?, updated_at = NOW() WHERE user_id = ?`,
+        [fullName, birthDate, userId]
+      )
+      return { success: true }
+    } else if (phone) {
+      const cleanPhone = phone.replace(/\s/g, "").replace(/^\+220/, "")
+      const formattedPhone = `+220${cleanPhone}`
+      const [rows] = await pool.execute<RowDataPacket[]>(
+        "SELECT user_id FROM clients WHERE phone = ? OR phone = ? OR phone = ?",
+        [cleanPhone, formattedPhone, phone]
+      )
+      if (rows && rows.length > 0) {
+        userId = rows[0].user_id
+        await pool.execute(
+          `UPDATE clients SET full_name = ?, birth_date = ?, updated_at = NOW() WHERE user_id = ?`,
+          [fullName, birthDate, userId]
+        )
+        return { success: true }
+      }
+    }
+
+    return { error: "Session introuvable. Veuillez vous reconnecter." }
+  } catch (error: any) {
+    console.error("completeClientProfile error:", error)
+    return { error: error?.message || "Erreur lors de l'enregistrement." }
+  }
+}

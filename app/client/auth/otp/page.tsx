@@ -58,8 +58,13 @@ function OTPForm() {
       return;
     }
 
-    // Redirect to book page on success
-    router.push("/client/book");
+    // If new user, complete profile with name, surname, and birth date
+    if (result.isNewUser) {
+      router.push(`/client/auth/complete-profile?phone=${encodeURIComponent(phone)}`);
+    } else {
+      // Existing user goes straight to booking
+      router.push("/client/book");
+    }
   };
 
   const handleResend = async () => {

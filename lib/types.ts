@@ -28,6 +28,7 @@ export interface Client {
   user_id: string
   full_name: string
   phone: string
+  birth_date?: string
   email?: string
   profile_image_url?: string
   home_address?: string
