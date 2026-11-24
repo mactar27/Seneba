@@ -1,7 +1,7 @@
 "use server"
 
 import pool from "@/lib/db"
-import { encrypt } from "@/lib/auth"
+import { encrypt, SESSION_DURATION_MS, SESSION_MAX_AGE } from "@/lib/auth"
 import bcrypt from "bcryptjs"
 import { cookies } from "next/headers"
 import { redirect } from "next/navigation"
@@ -27,13 +27,14 @@ export async function login(formData: FormData, redirectTo: string = "/dashboard
       return { error: "Email ou mot de passe incorrect" }
     }
 
-    // Create the session
-    const expires = new Date(Date.now() + 2 * 60 * 60 * 1000) // 2 hours
+    // Create persistent session (1 year)
+    const expires = new Date(Date.now() + SESSION_DURATION_MS)
     const session = await encrypt({ user: { id: user.id, email: user.email, role: user.role }, expires })
 
     // Save the session in a cookie
     ;(await cookies()).set("session", session, {
       expires,
+      maxAge: SESSION_MAX_AGE,
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
       sameSite: "lax",
@@ -118,11 +119,12 @@ export async function signup(formData: FormData, role: 'driver' | 'client' = 'dr
       connection.release()
     }
 
-    // Create session and login
-    const expires = new Date(Date.now() + 2 * 60 * 60 * 1000)
+    // Create persistent session (1 year)
+    const expires = new Date(Date.now() + SESSION_DURATION_MS)
     const session = await encrypt({ user: { id: userId, email, role }, expires })
     ;(await cookies()).set("session", session, {
       expires,
+      maxAge: SESSION_MAX_AGE,
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
       sameSite: "lax",
@@ -140,15 +142,16 @@ export async function signup(formData: FormData, role: 'driver' | 'client' = 'dr
   }
 }
 
-export async function logout() {
+export async function logout(redirectTo: string = "/home") {
   ;(await cookies()).set("session", "", {
     expires: new Date(0),
+    maxAge: 0,
     httpOnly: true,
     secure: process.env.NODE_ENV === "production",
     sameSite: "lax",
     path: "/",
   })
-  redirect("/auth/login")
+  redirect(redirectTo)
 }
 
 export async function getSession() {

@@ -2,6 +2,7 @@
 
 import { getClientProfilee, createRide, getClientRideHistory } from "@/lib/actions/client"
 import { getClientNotifications, markClientNotificationsAsRead, type Notification } from "@/lib/actions/notifications"
+import { logout } from "@/lib/actions/auth"
 import { usePushNotifications } from "@/hooks/use-push-notifications"
 import { useEffect, useState, useCallback } from "react"
 import { useRouter } from "next/navigation"
@@ -12,7 +13,7 @@ import {
   Menu, MapPin, Car, Building2, Utensils, Package, Truck, 
   ChevronRight, ChevronLeft, Plane, Bell, Star, ArrowRight, 
   Compass, X, Search, Mic, Settings, HelpCircle, Heart, Tag, 
-  Clock, User, CheckCircle2, ShieldCheck, Sparkles, CheckCheck
+  Clock, User, CheckCircle2, ShieldCheck, Sparkles, CheckCheck, LogOut
 } from "lucide-react"
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet"
 import Link from "next/link"
@@ -215,6 +216,15 @@ export default function BookRidePage() {
         <Link href="/client/support" className="w-full flex items-center gap-3.5 px-4.5 py-3 rounded-2xl text-slate-700 hover:bg-slate-50 font-semibold text-sm text-left">
           <HelpCircle className="w-5 h-5 text-slate-400" /> Help & Support
         </Link>
+        <hr className="my-2 border-slate-100" />
+        <button 
+          onClick={async () => {
+            await logout("/home")
+          }}
+          className="w-full flex items-center gap-3.5 px-4.5 py-3 rounded-2xl text-red-600 hover:bg-red-50 font-bold text-sm text-left transition-colors"
+        >
+          <LogOut className="w-5 h-5 text-red-500" /> Log out
+        </button>
       </nav>
       <div className="p-6 border-t border-slate-50 bg-white">
         <span className="text-xs text-slate-400 font-semibold">Version 1.0.0</span>

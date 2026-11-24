@@ -172,13 +172,14 @@ export async function verifyOTP(phone: string, code: string): Promise<{
       userEmail = `${cleanPhone}@seneba.app`
     }
 
-    // Create session
-    const { encrypt } = await import("@/lib/auth")
-    const expires = new Date(Date.now() + 2 * 60 * 60 * 1000) // 2 hours
+    // Create persistent session (1 year until explicit logout)
+    const { encrypt, SESSION_DURATION_MS, SESSION_MAX_AGE } = await import("@/lib/auth")
+    const expires = new Date(Date.now() + SESSION_DURATION_MS)
     const session = await encrypt({ user: { id: userId, email: userEmail, role: 'client' }, expires })
 
     cookieStore.set("session", session, {
       expires,
+      maxAge: SESSION_MAX_AGE,
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
       sameSite: "lax",

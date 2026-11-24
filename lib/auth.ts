@@ -15,11 +15,15 @@ if (!process.env.JWT_SECRET) {
 
 const key = new TextEncoder().encode(jwtSecretValue)
 
+// Durée de session persistante : 1 an (l'utilisateur reste connecté tant qu'il ne clique pas sur Déconnexion)
+export const SESSION_MAX_AGE = 365 * 24 * 60 * 60 // 365 jours en secondes
+export const SESSION_DURATION_MS = SESSION_MAX_AGE * 1000
+
 export async function encrypt(payload: any) {
   return await new SignJWT(payload)
     .setProtectedHeader({ alg: "HS256" })
     .setIssuedAt()
-    .setExpirationTime("2h")
+    .setExpirationTime("365d")
     .sign(key)
 }
 
@@ -47,7 +51,9 @@ export async function updateSession(request: NextRequest) {
 
   // Refresh the session so it doesn't expire
   const parsed = await decrypt(session)
-  parsed.expires = new Date(Date.now() + 2 * 60 * 60 * 1000) // 2 hours
+  if (!parsed) return
+
+  parsed.expires = new Date(Date.now() + SESSION_DURATION_MS)
   const res = NextResponse.next()
   res.cookies.set({
     name: "session",
@@ -57,6 +63,7 @@ export async function updateSession(request: NextRequest) {
     sameSite: "lax",
     path: "/",
     expires: parsed.expires,
+    maxAge: SESSION_MAX_AGE,
   })
   return res
 }
