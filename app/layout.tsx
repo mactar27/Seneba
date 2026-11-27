@@ -10,10 +10,16 @@ const _geistMono = Geist_Mono({ subsets: ["latin"] })
 
 export const metadata: Metadata = {
   title: "Seneba",
-  description: "Application SENEBA - Déplacez-vous partout au Sénégal",
+  description: "SENEBA - Taxi & VTC Application in Gambia",
+  manifest: "/manifest.json",
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: "default",
+    title: "Seneba",
+  },
   icons: {
-    icon: "/images/ChatGPT Image 17 janv. 2026, 16_54_53.png",
-    apple: "/images/ChatGPT Image 17 janv. 2026, 16_54_53.png",
+    icon: "/images/seneba.png",
+    apple: "/images/seneba.png",
   },
 }
 
@@ -21,8 +27,9 @@ export const viewport: Viewport = {
   themeColor: "#0066CC",
   width: "device-width",
   initialScale: 1,
-  maximumScale: 5,
-  userScalable: true,
+  maximumScale: 1,
+  userScalable: false,
+  viewportFit: "cover",
 }
 
 export default function RootLayout({
@@ -32,6 +39,14 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="fr" suppressHydrationWarning>
+      <head>
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-touch-fullscreen" content="yes" />
+        <meta name="mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+        <meta name="apple-mobile-web-app-title" content="Seneba" />
+        <link rel="apple-touch-icon" href="/images/seneba.png" />
+      </head>
       <body className="font-sans antialiased bg-muted/30 min-h-screen" suppressHydrationWarning>
         {/* On sm and below: full screen. On md+: centered card with max width */}
         <div className="mx-auto max-w-md md:my-6 md:rounded-2xl md:shadow-2xl md:ring-1 md:ring-border bg-background min-h-screen md:min-h-0 md:overflow-hidden md:relative">
