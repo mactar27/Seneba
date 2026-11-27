@@ -1,7 +1,7 @@
 "use client"
 
 import { getClientProfilee } from "@/lib/actions/client"
-import { logout, restoreSessionFromStorage } from "@/lib/actions/auth"
+import { logout, restoreSessionFromStorage, switchRole } from "@/lib/actions/auth"
 import { useState, useEffect, useCallback } from "react"
 import { useRouter } from "next/navigation"
 import type { Client } from "@/lib/types"
@@ -18,7 +18,8 @@ import {
   Edit2,
   Car,
   Clock,
-  Compass
+  Compass,
+  Loader2
 } from "lucide-react"
 import Link from "next/link"
 
@@ -26,6 +27,27 @@ export default function ClientProfileePage() {
   const router = useRouter()
   const [client, setClient] = useState<Client | null>(null)
   const [loading, setLoading] = useState(true)
+  const [switchingRole, setSwitchingRole] = useState(false)
+
+  const handleSwitchToDriver = async () => {
+    setSwitchingRole(true)
+    try {
+      const res = await switchRole('driver')
+      if (typeof window !== "undefined") {
+        const stored = localStorage.getItem("seneba_session")
+        if (stored) {
+          try {
+            const parsed = JSON.parse(stored)
+            localStorage.setItem("seneba_session", JSON.stringify({ ...parsed, role: 'driver' }))
+          } catch (_) {}
+        }
+      }
+      router.push(res.redirect || '/dashboard')
+    } catch (e) {
+      console.error("Error switching to driver:", e)
+      setSwitchingRole(false)
+    }
+  }
 
   const loadProfilee = useCallback(async () => {
     let data = await getClientProfilee()
@@ -129,6 +151,31 @@ export default function ClientProfileePage() {
           </button>
         </div>
       </header>
+
+      {/* Mode Chauffeur Banner */}
+      <div className="px-5 mb-4">
+        <div className="bg-gradient-to-r from-[#0066CC] to-[#004C99] rounded-3xl p-4.5 text-white shadow-md flex items-center justify-between">
+          <div className="flex items-center gap-3">
+            <div className="w-11 h-11 rounded-2xl bg-white/20 flex items-center justify-center shrink-0">
+              <Car className="w-6 h-6 text-white" />
+            </div>
+            <div>
+              <h3 className="font-bold text-sm leading-tight">Espace Chauffeur Seneba</h3>
+              <p className="text-xs text-blue-100 mt-0.5">Basculez en mode Chauffeur en 1 clic</p>
+            </div>
+          </div>
+          <button
+            onClick={handleSwitchToDriver}
+            disabled={switchingRole}
+            className="px-4 py-2 rounded-2xl bg-white text-[#0066CC] text-xs font-black shadow-sm active:scale-95 transition-transform disabled:opacity-50 shrink-0 flex items-center gap-1.5"
+          >
+            {switchingRole ? (
+              <Loader2 className="w-3.5 h-3.5 animate-spin text-[#0066CC]" />
+            ) : null}
+            <span>Chauffeur →</span>
+          </button>
+        </div>
+      </div>
 
       {/* Menu List */}
       <main className="px-5 flex-1">

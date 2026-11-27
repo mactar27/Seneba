@@ -210,3 +210,64 @@ export async function restoreSessionFromStorage(userId?: string, phone?: string)
     return { success: false }
   }
 }
+
+export async function switchRole(targetRole: 'client' | 'driver'): Promise<{ success: boolean; redirect: string }> {
+  try {
+    const { getSession, encrypt, SESSION_DURATION_MS, SESSION_MAX_AGE } = await import("@/lib/auth")
+    const { cookies } = await import("next/headers")
+    const session = await getSession()
+    const cookieStore = await cookies()
+
+    const userId = session?.user?.id || crypto.randomUUID()
+    const userEmail = session?.user?.email || "user@seneba.app"
+    const userName = session?.user?.name || (targetRole === 'driver' ? "Chauffeur Seneba" : "Client Seneba")
+
+    // Update persistent 1-year session cookie with the new role
+    const expires = new Date(Date.now() + SESSION_DURATION_MS)
+    const sessionToken = await encrypt({
+      user: {
+        id: userId,
+        email: userEmail,
+        role: targetRole,
+        name: userName
+      },
+      expires
+    })
+
+    cookieStore.set("session", sessionToken, {
+      expires,
+      maxAge: SESSION_MAX_AGE,
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "lax",
+      path: "/",
+    })
+
+    // If switching to driver, ensure driver record exists
+    if (targetRole === 'driver') {
+      try {
+        const [existing] = await pool.execute<RowDataPacket[]>(
+          "SELECT id FROM drivers WHERE user_id = ?",
+          [userId]
+        )
+        if (!existing || existing.length === 0) {
+          const driverId = crypto.randomUUID()
+          await pool.execute(
+            `INSERT INTO drivers (id, user_id, full_name, phone, vehicle_type, vehicle_model, vehicle_plate, is_available, is_verified) 
+             VALUES (?, ?, ?, ?, 'standard', 'Toyota Corolla', 'BJL 220 GM', 1, 1)
+             ON DUPLICATE KEY UPDATE is_available = 1`,
+            [driverId, userId, userName, userEmail.replace("@seneba.app", "")]
+          )
+        }
+      } catch (e) {
+        console.warn("DB driver provisioning warning:", e)
+      }
+    }
+
+    const redirectPath = targetRole === 'driver' ? '/dashboard' : '/client/book'
+    return { success: true, redirect: redirectPath }
+  } catch (error) {
+    console.error("switchRole error:", error)
+    return { success: false, redirect: targetRole === 'driver' ? '/dashboard' : '/client/book' }
+  }
+}

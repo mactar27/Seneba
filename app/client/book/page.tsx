@@ -2,7 +2,7 @@
 
 import { getClientProfilee, createRide, getClientRideHistory } from "@/lib/actions/client"
 import { getClientNotifications, markClientNotificationsAsRead, type Notification } from "@/lib/actions/notifications"
-import { logout, restoreSessionFromStorage } from "@/lib/actions/auth"
+import { logout, restoreSessionFromStorage, switchRole } from "@/lib/actions/auth"
 import { usePushNotifications } from "@/hooks/use-push-notifications"
 import { useEffect, useState, useCallback } from "react"
 import { useRouter } from "next/navigation"
@@ -13,7 +13,8 @@ import {
   Menu, MapPin, Car, Building2, Utensils, Package, Truck, 
   ChevronRight, ChevronLeft, Plane, Bell, Star, ArrowRight, 
   Compass, X, Search, Mic, Settings, HelpCircle, Heart, Tag, 
-  Clock, User, CheckCircle2, ShieldCheck, Sparkles, CheckCheck, LogOut
+  Clock, User, CheckCircle2, ShieldCheck, Sparkles, CheckCheck, LogOut,
+  RefreshCw, Loader2
 } from "lucide-react"
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet"
 import Link from "next/link"
@@ -46,6 +47,27 @@ export default function BookRidePage() {
   // UI States
   const [isSearchMode, setIsSearchMode] = useState(false)
   const [isNotifOpen, setIsNotifOpen] = useState(false)
+  const [isSwitchingRole, setIsSwitchingRole] = useState(false)
+
+  const handleSwitchToDriver = async () => {
+    setIsSwitchingRole(true)
+    try {
+      const res = await switchRole('driver')
+      if (typeof window !== "undefined") {
+        const stored = localStorage.getItem("seneba_session")
+        if (stored) {
+          try {
+            const parsed = JSON.parse(stored)
+            localStorage.setItem("seneba_session", JSON.stringify({ ...parsed, role: 'driver' }))
+          } catch (_) {}
+        }
+      }
+      router.push(res.redirect || '/dashboard')
+    } catch (e) {
+      console.error("Error switching role:", e)
+      setIsSwitchingRole(false)
+    }
+  }
   const [pickup, setPickup] = useState("My current location")
   const [destination, setDestination] = useState("")
   const [isBooking, setIsBooking] = useState(false)
@@ -222,7 +244,30 @@ export default function BookRidePage() {
         </div>
         <span className="text-[10px] font-black text-slate-400">Partner</span>
       </div>
-      <nav className="flex-1 px-4 py-4 space-y-1">
+
+      {/* Mode Chauffeur Banner in Sidebar */}
+      <div className="mx-4 my-3 p-3.5 rounded-2xl bg-gradient-to-r from-[#0066CC] to-[#004C99] text-white shadow-md">
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-2.5">
+            <div className="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center">
+              <Car className="w-4 h-4 text-white" />
+            </div>
+            <div>
+              <p className="text-xs font-black">Mode Chauffeur</p>
+              <p className="text-[10px] text-blue-100">Passez côté conducteur</p>
+            </div>
+          </div>
+          <button
+            onClick={handleSwitchToDriver}
+            disabled={isSwitchingRole}
+            className="px-3 py-1.5 rounded-xl bg-white text-[#0066CC] text-xs font-black shadow-sm active:scale-95 transition-transform disabled:opacity-50"
+          >
+            {isSwitchingRole ? "..." : "Activer"}
+          </button>
+        </div>
+      </div>
+
+      <nav className="flex-1 px-4 py-2 space-y-1">
         <button onClick={() => { setDestination(""); setIsSearchMode(false) }} className="w-full flex items-center gap-3.5 px-4.5 py-3 rounded-2xl bg-blue-50/50 text-[#0066CC] font-bold text-sm text-left">
           <Compass className="w-5 h-5 text-[#0066CC]" /> Home
         </button>
@@ -279,12 +324,28 @@ export default function BookRidePage() {
           </SheetContent>
         </Sheet>
 
-        {/* Center: Brand Pill */}
-        <div className="bg-white/95 backdrop-blur-md px-3.5 py-1.5 rounded-full shadow-md border border-slate-100 flex items-center gap-2 pointer-events-auto">
-          <img src="/images/seneba.png" alt="Seneba" className="h-5 object-contain" />
-          <span className="text-xs font-bold text-slate-800">
-            {client?.full_name?.split(" ")[0] || "Client"}
-          </span>
+        {/* Center: Brand Pill & Driver Switch */}
+        <div className="flex items-center gap-1.5 pointer-events-auto">
+          <div className="bg-white/95 backdrop-blur-md px-3.5 py-1.5 rounded-full shadow-md border border-slate-100 flex items-center gap-2">
+            <img src="/images/seneba.png" alt="Seneba" className="h-5 object-contain" />
+            <span className="text-xs font-bold text-slate-800">
+              {client?.full_name?.split(" ")[0] || "Client"}
+            </span>
+          </div>
+
+          <button
+            onClick={handleSwitchToDriver}
+            disabled={isSwitchingRole}
+            className="bg-white/95 backdrop-blur-md px-3 py-1.5 rounded-full shadow-md border border-blue-200/60 flex items-center gap-1.5 active:scale-95 transition-transform text-[#0066CC] text-xs font-black hover:bg-blue-50/50"
+            title="Passer en mode Chauffeur"
+          >
+            {isSwitchingRole ? (
+              <Loader2 className="w-3.5 h-3.5 animate-spin text-[#0066CC]" />
+            ) : (
+              <Car className="w-3.5 h-3.5 text-[#0066CC]" />
+            )}
+            <span>Chauffeur</span>
+          </button>
         </div>
 
         {/* Right: Notifications Bell */}

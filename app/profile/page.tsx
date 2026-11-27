@@ -1,7 +1,7 @@
 "use client"
 
 import { getDriverProfilee, updateDriverProfilee } from "@/lib/actions/driver"
-import { getSession, logout } from "@/lib/actions/auth"
+import { getSession, logout, switchRole } from "@/lib/actions/auth"
 import { useEffect, useState, useCallback, useRef } from "react"
 import { useRouter } from "next/navigation"
 import type { Driver } from "@/lib/types"
@@ -11,7 +11,7 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { BottomNav } from "@/components/dashboard/bottom-nav"
-import { ArrowLeft, Car, Star, Phone, Mail, LogOut, ChevronRight, Shield, HelpCircle, FileText, Edit2, Save, X, Loader2, Camera } from "lucide-react"
+import { ArrowLeft, Car, Star, Phone, Mail, LogOut, ChevronRight, Shield, HelpCircle, FileText, Edit2, Save, X, Loader2, Camera, User } from "lucide-react"
 import Link from "next/link"
 
 export default function ProfileePage() {
@@ -20,6 +20,27 @@ export default function ProfileePage() {
   const [isLoading, setIsLoading] = useState(true)
   const [isEditing, setIsEditing] = useState(false)
   const [isSaving, setIsSaving] = useState(false)
+  const [switchingRole, setSwitchingRole] = useState(false)
+
+  const handleSwitchToPassenger = async () => {
+    setSwitchingRole(true)
+    try {
+      const res = await switchRole('client')
+      if (typeof window !== "undefined") {
+        const stored = localStorage.getItem("seneba_session")
+        if (stored) {
+          try {
+            const parsed = JSON.parse(stored)
+            localStorage.setItem("seneba_session", JSON.stringify({ ...parsed, role: 'client' }))
+          } catch (_) {}
+        }
+      }
+      router.push(res.redirect || '/client/book')
+    } catch (e) {
+      console.error("Error switching to passenger:", e)
+      setSwitchingRole(false)
+    }
+  }
   const [formData, setFormData] = useState({
     fullName: "",
     phone: "",
@@ -145,6 +166,27 @@ export default function ProfileePage() {
       </header>
 
       <main className="flex-1 px-4 py-4 space-y-4">
+        {/* Switch to Passenger Banner */}
+        <div className="bg-gradient-to-r from-slate-900 to-slate-800 rounded-3xl p-4.5 text-white shadow-md flex items-center justify-between">
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 rounded-2xl bg-white/10 flex items-center justify-center shrink-0">
+              <User className="w-5 h-5 text-white" />
+            </div>
+            <div>
+              <h3 className="font-bold text-sm leading-tight">Espace Passager</h3>
+              <p className="text-xs text-slate-300 mt-0.5">Commander une course en 1 clic</p>
+            </div>
+          </div>
+          <button
+            onClick={handleSwitchToPassenger}
+            disabled={switchingRole}
+            className="px-4 py-2 rounded-2xl bg-white text-slate-900 text-xs font-black shadow-sm active:scale-95 transition-transform disabled:opacity-50 shrink-0 flex items-center gap-1.5"
+          >
+            {switchingRole ? <Loader2 className="w-3.5 h-3.5 animate-spin text-slate-900" /> : null}
+            <span>Passager →</span>
+          </button>
+        </div>
+
         {/* Profilee Card */}
         <Card className="p-6">
           <div className="flex items-center gap-4">
