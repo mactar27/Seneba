@@ -171,22 +171,22 @@ export default function HomePage() {
       </div>
 
       {/* ─── Bottom Navigation Bar ─── */}
-      <nav className="fixed bottom-0 left-0 right-0 z-50 bg-white border-t border-slate-100 safe-area-bottom h-16 shadow-lg">
+      <nav className="fixed bottom-0 left-0 right-0 z-[60] bg-white border-t border-slate-100 safe-area-bottom h-16 shadow-lg">
         <div className="flex items-center justify-around h-full px-2">
           {/* Tab 1: Book */}
-          <Link href="/client/auth/login" className="flex flex-col items-center justify-center flex-1 h-full gap-1 text-[#0066CC]">
+          <Link href="/client/book" className="flex flex-col items-center justify-center flex-1 h-full gap-1 text-[#0066CC]">
             <Car className="w-5 h-5" />
             <span className="text-[10px] font-bold">Book</span>
           </Link>
 
           {/* Tab 2: History */}
-          <Link href="/client/auth/login" className="flex flex-col items-center justify-center flex-1 h-full gap-1 text-slate-400 hover:text-slate-600">
+          <Link href="/client/history" className="flex flex-col items-center justify-center flex-1 h-full gap-1 text-slate-400 hover:text-slate-600">
             <Clock className="w-5 h-5" />
             <span className="text-[10px] font-medium">History</span>
           </Link>
 
           {/* Tab 3: Profile */}
-          <Link href="/client/auth/login" className="flex flex-col items-center justify-center flex-1 h-full gap-1 text-slate-400 hover:text-slate-600">
+          <Link href="/client/profile" className="flex flex-col items-center justify-center flex-1 h-full gap-1 text-slate-400 hover:text-slate-600">
             <User className="w-5 h-5" />
             <span className="text-[10px] font-medium">Profile</span>
           </Link>

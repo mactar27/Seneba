@@ -1,7 +1,7 @@
 "use client"
 
 import { getClientProfilee } from "@/lib/actions/client"
-import { logout } from "@/lib/actions/auth"
+import { logout, restoreSessionFromStorage } from "@/lib/actions/auth"
 import { useState, useEffect, useCallback } from "react"
 import { useRouter } from "next/navigation"
 import type { Client } from "@/lib/types"
@@ -17,6 +17,7 @@ import {
   Info,
   Edit2,
   Car,
+  Clock,
   Compass
 } from "lucide-react"
 import Link from "next/link"
@@ -27,11 +28,50 @@ export default function ClientProfileePage() {
   const [loading, setLoading] = useState(true)
 
   const loadProfilee = useCallback(async () => {
-    const data = await getClientProfilee()
+    let data = await getClientProfilee()
+
+    // Si le cookie a été temporairement perdu, restauration automatique
+    if (!data && typeof window !== "undefined") {
+      const stored = localStorage.getItem("seneba_session")
+      if (stored) {
+        try {
+          const { userId, phone } = JSON.parse(stored)
+          if (userId || phone) {
+            const restored = await restoreSessionFromStorage(userId, phone)
+            if (restored.success) {
+              data = await getClientProfilee()
+            }
+          }
+        } catch (e) {
+          console.error("Storage restore error:", e)
+        }
+      }
+    }
+
+    // Si toujours pas de données serveur, utiliser les données en cache local pour ne jamais bloquer
+    if (!data && typeof window !== "undefined") {
+      const stored = localStorage.getItem("seneba_session")
+      if (stored) {
+        try {
+          const parsed = JSON.parse(stored)
+          data = {
+            id: parsed.userId || "local",
+            user_id: parsed.userId || "local",
+            full_name: parsed.fullName || "Client Seneba",
+            phone: parsed.phone ? `+220 ${parsed.phone}` : "+220 77 123 45 67",
+            email: `${parsed.phone || "client"}@seneba.app`,
+            created_at: new Date()
+          } as any
+        } catch (e) {}
+      }
+    }
+
     if (!data) {
+      // Aucune trace de session nulle part -> redirection propre vers login
       router.push("/client/auth/login")
       return
     }
+
     setClient(data as Client)
     setLoading(false)
   }, [router])
@@ -188,18 +228,18 @@ export default function ClientProfileePage() {
       </main>
 
       {/* Bottom Navigation */}
-      <nav className="fixed bottom-0 left-0 right-0 z-50 bg-white border-t border-slate-100 safe-area-bottom h-16">
+      <nav className="fixed bottom-0 left-0 right-0 z-[60] bg-white border-t border-slate-100 safe-area-bottom h-16 shadow-lg">
         <div className="flex items-center justify-around h-full px-2">
           <Link href="/client/book" className="flex flex-col items-center justify-center flex-1 h-full gap-1 text-slate-400 hover:text-slate-600 transition-all">
             <Car className="w-5 h-5" />
             <span className="text-[10px] font-medium">Book</span>
           </Link>
           <Link href="/client/history" className="flex flex-col items-center justify-center flex-1 h-full gap-1 text-slate-400 hover:text-slate-600 transition-all">
-            <Compass className="w-5 h-5" />
+            <Clock className="w-5 h-5" />
             <span className="text-[10px] font-medium">History</span>
           </Link>
           <button className="flex flex-col items-center justify-center flex-1 h-full gap-1 text-[#0066CC] transition-all">
-            <Compass className="w-5 h-5" />
+            <User className="w-5 h-5" />
             <span className="text-[10px] font-bold">Profile</span>
           </button>
         </div>

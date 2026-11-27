@@ -654,7 +654,7 @@ export default function BookRidePage() {
       </AnimatePresence>
 
       {/* ─── FIXED BOTTOM NAVIGATION BAR ─── */}
-      <nav className="fixed bottom-0 left-0 right-0 z-40 bg-white border-t border-slate-100 safe-area-bottom h-16 shadow-lg">
+      <nav className="fixed bottom-0 left-0 right-0 z-[60] bg-white border-t border-slate-100 safe-area-bottom h-16 shadow-lg">
         <div className="flex items-center justify-around h-full px-2">
           {/* Tab 1: Book (Active) */}
           <button 

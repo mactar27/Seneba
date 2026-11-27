@@ -1,6 +1,7 @@
 "use client"
 
 import { getClientRideHistory } from "@/lib/actions/client"
+import { restoreSessionFromStorage } from "@/lib/actions/auth"
 import { useEffect, useState, useCallback } from "react"
 import { useRouter } from "next/navigation"
 import type { Ride } from "@/lib/types"
@@ -14,11 +15,24 @@ export default function ClientHistoryPage() {
   const [activeFilter, setActiveFilter] = useState<"all" | "vehicle" | "delivery" | "food">("all")
 
   const loadData = useCallback(async () => {
-    const historyResult = await getClientRideHistory()
+    let historyResult = await getClientRideHistory()
 
-    if (historyResult.error === "Unauthorized") {
-      router.push("/client/auth/login")
-      return
+    // Si la session cookie n'a pas répondu, tentative de restauration via storage
+    if (historyResult.error === "Unauthorized" && typeof window !== "undefined") {
+      const stored = localStorage.getItem("seneba_session")
+      if (stored) {
+        try {
+          const { userId, phone } = JSON.parse(stored)
+          if (userId || phone) {
+            const restored = await restoreSessionFromStorage(userId, phone)
+            if (restored.success) {
+              historyResult = await getClientRideHistory()
+            }
+          }
+        } catch (e) {
+          console.error("History restore error:", e)
+        }
+      }
     }
 
     if (historyResult.rides) {
@@ -176,7 +190,7 @@ export default function ClientHistoryPage() {
       </main>
 
       {/* Bottom Navigation */}
-      <nav className="fixed bottom-0 left-0 right-0 z-50 bg-white border-t border-slate-100 safe-area-bottom h-16">
+      <nav className="fixed bottom-0 left-0 right-0 z-[60] bg-white border-t border-slate-100 safe-area-bottom h-16 shadow-lg">
         <div className="flex items-center justify-around h-full px-2">
           <Link href="/client/book" className="flex flex-col items-center justify-center flex-1 h-full gap-1 text-slate-400 hover:text-slate-600 transition-all">
             <Car className="w-5 h-5" />
