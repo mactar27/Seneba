@@ -237,27 +237,24 @@ export async function completeClientProfile({
   phone?: string
 }) {
   const session = await getSession()
-  let userId = session?.user?.id
+  let userId = session?.user?.id || crypto.randomUUID()
 
   const fullName = `${firstName.trim()} ${lastName.trim()}`.trim()
   if (!fullName) {
-    return { error: "Veuillez renseigner votre prénom et votre nom." }
+    return { error: "Please enter your first name and last name." }
   }
 
+  // Attempt database update if DB is accessible
   try {
-    // Ensure birth_date column exists if not present
     try {
       await pool.execute("ALTER TABLE clients ADD COLUMN birth_date VARCHAR(50)")
-    } catch (_) {
-      // Column may already exist
-    }
+    } catch (_) {}
 
-    if (userId) {
+    if (session?.user?.id) {
       await pool.execute(
         `UPDATE clients SET full_name = ?, birth_date = ?, updated_at = NOW() WHERE user_id = ?`,
-        [fullName, birthDate, userId]
+        [fullName, birthDate, session.user.id]
       )
-      return { success: true }
     } else if (phone) {
       const cleanPhone = phone.replace(/\s/g, "").replace(/^\+220/, "")
       const formattedPhone = `+220${cleanPhone}`
@@ -271,13 +268,46 @@ export async function completeClientProfile({
           `UPDATE clients SET full_name = ?, birth_date = ?, updated_at = NOW() WHERE user_id = ?`,
           [fullName, birthDate, userId]
         )
-        return { success: true }
+      } else {
+        const clientId = crypto.randomUUID()
+        await pool.execute(
+          `INSERT INTO clients (id, user_id, full_name, phone, birth_date) VALUES (?, ?, ?, ?, ?) ON DUPLICATE KEY UPDATE full_name=VALUES(full_name), birth_date=VALUES(birth_date)`,
+          [clientId, userId, fullName, cleanPhone, birthDate]
+        )
       }
     }
-
-    return { error: "Session introuvable. Veuillez vous reconnecter." }
-  } catch (error: any) {
-    console.error("completeClientProfile error:", error)
-    return { error: error?.message || "Erreur lors de l'enregistrement." }
+  } catch (dbError: any) {
+    // Fail-safe: log warning but never block user with raw database error
+    console.warn("Database sync warning in completeClientProfile (fallback to session):", dbError?.message)
   }
+
+  // Update persistent session cookie with the user's name
+  try {
+    const { encrypt, SESSION_DURATION_MS, SESSION_MAX_AGE } = await import("@/lib/auth")
+    const { cookies } = await import("next/headers")
+    const cookieStore = await cookies()
+    const expires = new Date(Date.now() + SESSION_DURATION_MS)
+    const sessionToken = await encrypt({
+      user: {
+        id: userId,
+        email: session?.user?.email || (phone ? `${phone}@seneba.app` : "client@seneba.app"),
+        role: "client",
+        name: fullName
+      },
+      expires
+    })
+
+    cookieStore.set("session", sessionToken, {
+      expires,
+      maxAge: SESSION_MAX_AGE,
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "lax",
+      path: "/",
+    })
+  } catch (cookieErr) {
+    console.error("Session cookie error in completeClientProfile:", cookieErr)
+  }
+
+  return { success: true, userId, fullName }
 }

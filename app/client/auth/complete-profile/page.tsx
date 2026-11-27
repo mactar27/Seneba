@@ -60,7 +60,13 @@ function CompleteProfileForm() {
     }
 
     if (typeof window !== "undefined") {
-      localStorage.setItem("seneba_session", JSON.stringify({ phone, timestamp: Date.now() }));
+      localStorage.setItem("seneba_session", JSON.stringify({ 
+        userId: result.userId || "client", 
+        phone: phone || "+220 77 123 45 67", 
+        fullName: `${firstName.trim()} ${lastName.trim()}`.trim(), 
+        birthDate, 
+        timestamp: Date.now() 
+      }));
     }
 
     // Successfully completed! Go directly to booking
