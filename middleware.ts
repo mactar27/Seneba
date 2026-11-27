@@ -12,7 +12,6 @@ export async function middleware(request: NextRequest) {
       const parsed = await decrypt(sessionToken)
       if (parsed?.user) {
         if (
-          pathname === "/" || 
           pathname === "/home" || 
           pathname === "/client/auth/login" || 
           pathname === "/client/auth/sign-up"

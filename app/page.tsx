@@ -36,8 +36,8 @@ export default function WelcomePage() {
       }
 
       const elapsedTime = Date.now() - startTime
-      // Durée minimale du Splash Screen : 0.8 seconde
-      const delay = Math.max(0, 800 - elapsedTime)
+      // Durée minimale du Splash Screen : 1,5 seconde (1500ms) pour voir l'animation du logo
+      const delay = Math.max(0, 1500 - elapsedTime)
 
       setTimeout(() => {
         if (session?.user) {
@@ -56,8 +56,14 @@ export default function WelcomePage() {
   }, [router])
 
   return (
-    <div className="flex min-h-svh flex-col items-center justify-center bg-background">
-      <img src="/images/seneba.png" alt="SENEBA" className="h-24 animate-pulse" />
+    <div className="flex min-h-svh flex-col items-center justify-center bg-white select-none">
+      <div className="flex flex-col items-center gap-3 animate-in fade-in zoom-in-95 duration-500">
+        <img src="/images/seneba.png" alt="SENEBA" className="h-20 object-contain animate-pulse" />
+        <div className="flex items-center gap-2 mt-2">
+          <span className="w-2 h-2 rounded-full bg-[#0066CC] animate-ping" />
+          <span className="text-[11px] font-black text-slate-400 tracking-widest uppercase">Seneba Rides</span>
+        </div>
+      </div>
     </div>
   )
 }
