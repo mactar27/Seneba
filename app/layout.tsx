@@ -18,8 +18,13 @@ export const metadata: Metadata = {
     title: "Seneba",
   },
   icons: {
-    icon: "/images/seneba.png",
-    apple: "/images/seneba.png",
+    icon: [
+      { url: "/icon-192.png", sizes: "192x192", type: "image/png" },
+      { url: "/icon-512.png", sizes: "512x512", type: "image/png" },
+    ],
+    apple: [
+      { url: "/apple-touch-icon.png", sizes: "180x180", type: "image/png" },
+    ],
   },
 }
 
@@ -45,7 +50,10 @@ export default function RootLayout({
         <meta name="mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-status-bar-style" content="default" />
         <meta name="apple-mobile-web-app-title" content="Seneba" />
-        <link rel="apple-touch-icon" href="/images/seneba.png" />
+        <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+        <link rel="apple-touch-icon-precomposed" sizes="180x180" href="/apple-touch-icon-precomposed.png" />
+        <link rel="icon" type="image/png" sizes="192x192" href="/icon-192.png" />
+        <link rel="icon" type="image/png" sizes="512x512" href="/icon-512.png" />
       </head>
       <body className="font-sans antialiased bg-muted/30 min-h-screen" suppressHydrationWarning>
         {/* On sm and below: full screen. On md+: centered card with max width */}
